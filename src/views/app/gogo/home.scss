@@ -1,0 +1,73 @@
+.Home {
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .img-container {
+    width: 100%;
+    min-height: 450px;
+    overflow-y: hidden;
+    background-image: url('https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg');
+    // background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 6px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.24);
+  }
+
+  .profile-info {
+    // margin-top: -30px;
+    padding: 0 80px;
+
+    .profile-img {
+      margin-top: -50px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 30px;
+      display: block;
+
+      img {
+        max-height: 100%;
+        //   width: 100%;
+        //   height: 100%;
+        //   height: auto;
+      }
+    }
+
+    .text-header {
+      min-width: 500px;
+    }
+
+    .text {
+      font-size: 23px;
+      margin-top: 10px;
+
+      .badge {
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      div {
+        margin-bottom: 5px;
+      }
+
+      .name {
+        // color:
+        font-weight: bold;
+        font-size: 33px;
+        letter-spacing: 0.2px;
+        margin: 0;
+      }
+
+      p {
+        margin-left: 10px;
+      }
+
+      .time {
+        font-size: 23px;
+      }
+    }
+  }
+}
