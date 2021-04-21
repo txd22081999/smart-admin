@@ -96,7 +96,7 @@ class App extends Component {
                     exact
                     render={(props) => <ViewMain {...props} />}
                   />
-                  <Redirect to='/error' />
+                  {/* <Redirect to='/error' /> */}
                 </Switch>
               </Router>
             </Suspense>

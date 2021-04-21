@@ -1,14 +1,27 @@
 const data = [
+  // {
+  //   id: 'gogo',
+  //   icon: 'iconsminds-home-1',
+  //   label: 'menu.home',
+  //   to: '/app/gogo',
+  //   subs: [
+  //     {
+  //       icon: 'simple-icon-paper-plane',
+  //       label: 'menu.home',
+  //       to: '/app/gogo/home',
+  //     },
+  //   ],
+  // },
   {
-    id: 'gogo',
+    id: 'home',
     icon: 'iconsminds-home-1',
     label: 'menu.home',
-    to: '/app/gogo',
+    to: '/app/home',
     subs: [
       {
         icon: 'simple-icon-paper-plane',
         label: 'menu.home',
-        to: '/app/gogo/home',
+        to: '/app/home/sub-home',
       },
     ],
   },
@@ -39,17 +52,30 @@ const data = [
     // ],
   },
   {
+    id: 'map',
+    icon: 'iconsminds-monitor-analytics',
+    label: 'menu.map',
+    to: '/app/map',
+    // subs: [
+    //   {
+    //     icon: 'simple-icon-paper-plane',
+    //     label: 'menu.second',
+    //     to: '/app/anylitics/anylitics',
+    //   },
+    // ],
+  },
+  {
     id: 'blankpage',
     icon: 'iconsminds-bucket',
     label: 'menu.blank-page',
     to: '/app/blank-page',
   },
-  {
-    id: 'docs',
-    icon: 'iconsminds-library',
-    label: 'menu.docs',
-    to: 'https://gogo-react-docs.coloredstrategies.com/',
-    newWindow: true,
-  },
+  // {
+  //   id: 'docs',
+  //   icon: 'iconsminds-library',
+  //   label: 'menu.docs',
+  //   to: 'https://gogo-react-docs.coloredstrategies.com/',
+  //   newWindow: true,
+  // },
 ]
 export default data

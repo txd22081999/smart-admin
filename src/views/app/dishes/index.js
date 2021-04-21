@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 const Dishes = React.lazy(() =>
   import(/* webpackChunkName: "second" */ './dishes')
 )
+
 const DishesMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>

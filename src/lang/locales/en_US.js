@@ -43,6 +43,10 @@ module.exports = {
   'menu.docs': 'Docs',
   'menu.blank-page': 'Blank Page',
   'menu.analytics': 'Analytics',
+  'menu.map': 'Map',
+  'menu.maps': 'Map',
+  'menu.dishes-menu': 'Món ăn',
+  'menu.edit': 'Edit profile',
 
   /* 04.Error Page */
   'pages.error-title': 'Ooops... looks like an error occurred!',
@@ -60,4 +64,17 @@ module.exports = {
   'pages.cancel': 'Hủy',
   'pages.submit': 'Xác nhận',
   'pages.add-new-modal-title': 'Thêm món mới',
+
+  'dashboards.website-visits': 'Lượt truy cập',
+  'dashboards.conversion-rates': 'Số lần đặt món',
+  'dashboards.product-categories': 'Các loại món ăn',
+  'dashboards.profile-status': 'Profile status',
+  'dashboards.order-stock': 'Order stock',
+  'dashboards.sales': 'Doanh thu',
+  'dashboards.this-week': 'Tuần này',
+  'dashboards.last-week': 'Tuần trước',
+  'dashboards.this-month': 'Tháng này',
+  'dashboards.per-session': '',
+
+  'maps.google': 'Vị trí cửa hàng',
 }

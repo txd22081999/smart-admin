@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { NavLink } from 'react-router-dom'
 import { Row } from 'reactstrap'
 import IntlMessages from '../../../helpers/IntlMessages'
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
@@ -31,7 +32,8 @@ export default class Home extends Component {
                 <div className='profile-info d-flex'>
                   <div className='profile-img'>
                     <img
-                      src='https://lh3.googleusercontent.com/proxy/81uC5i5ElutTe7HhCBfH18vDRI7HmIvy9EyAwGeWZOItoGhbVUwy0UEBMzh-6laQBzwkk4UZXTRG9Tc_wuAnJ3fpgnwucdGKey1ozbMu1nhlm_j3eUqfsSAoJ_SkX8bnUuklxVK05139BdoNQlTB8fuk'
+                      // src='https://lh3.googleusercontent.com/proxy/81uC5i5ElutTe7HhCBfH18vDRI7HmIvy9EyAwGeWZOItoGhbVUwy0UEBMzh-6laQBzwkk4UZXTRG9Tc_wuAnJ3fpgnwucdGKey1ozbMu1nhlm_j3eUqfsSAoJ_SkX8bnUuklxVK05139BdoNQlTB8fuk'
+                      src='http://businesstech.co.za/news/wp-content/uploads/2015/03/Male-ideal-beauty.jpg'
                       alt='avatar'
                     />
                   </div>
@@ -56,11 +58,13 @@ export default class Home extends Component {
                           Hủ tíu
                         </Badge>
 
-                        <box-icon
-                          name='edit-alt'
-                          type='solid'
-                          style={{ marginLeft: 20, cursor: 'pointer' }}
-                        ></box-icon>
+                        <NavLink to={`/app/home/edit`} className='black'>
+                          <box-icon
+                            name='edit-alt'
+                            type='solid'
+                            style={{ marginLeft: 20, cursor: 'pointer' }}
+                          ></box-icon>
+                        </NavLink>
                       </div>
                     </div>
 

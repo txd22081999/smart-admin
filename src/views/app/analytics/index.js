@@ -12,7 +12,7 @@ const AnalyticMenu = ({ match }) => (
         path={`${match.url}/analytics`}
         render={(props) => <Analytics {...props} />}
       />
-      {/* <Analytics /> */}
+      <Analytics />
       <Redirect to='/error' />
     </Switch>
   </Suspense>
