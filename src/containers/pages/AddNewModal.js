@@ -46,7 +46,7 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
         <Label className='mt-4'>
           <IntlMessages id='pages.status' />
         </Label>
-        <CustomInput
+        {/* <CustomInput
           type='radio'
           id='exCustomRadio'
           name='customRadio'
@@ -75,7 +75,7 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
           id='exCustomRadio2'
           name='customRadio'
           label='HOÀN THÀNH'
-        />
+        /> */}
       </ModalBody>
       <ModalFooter>
         <Button color='secondary' outline onClick={toggleModal}>

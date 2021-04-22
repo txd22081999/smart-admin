@@ -39,7 +39,7 @@ export default class Home extends Component {
                   </div>
                   <div className='text'>
                     <div className='text-header d-flex align-items-center justify-content-between'>
-                      <h3 className='name text-orange'>Cơm Aloha</h3>
+                      <h3 className='name text-orange'>Cơm 123</h3>
 
                       <div className=' d-flex align-items-center'>
                         <Badge
