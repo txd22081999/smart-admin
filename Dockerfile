@@ -1,7 +1,6 @@
 FROM node:12-alpine
 
 COPY package.json .
-COPY yarn.lock .
 
 RUN yarn install; \
   yarn global add serve
