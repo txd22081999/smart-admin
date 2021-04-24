@@ -14,17 +14,17 @@ before_install:
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 script:
-  - docker build -t vanhiep778/merchantt -f Dockerfile .
-  - docker tag vanhiep778/merchantt registry.heroku.com/merchantt/web
+  - docker build -t $DOCKER_USERNAME/$HEROKU_APP_NAME -f Dockerfile .
+  - docker tag $DOCKER_USERNAME/$HEROKU_APP_NAME registry.heroku.com/$HEROKU_APP_NAME/web
 
 deploy:
   provider: script
   script:
     # push to dockerhub & heroku
-    docker push vanhiep778/merchantt;
-    docker push registry.heroku.com/merchantt/web;
+    docker push $DOCKER_USERNAME/$HEROKU_APP_NAME;
+    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku config:set API_URL=https://api-serverr.herokuapp.com;
     heroku config:set REACT_APP_API_URL=https://api-serverr.herokuapp.com;
-    heroku container:release web --app merchantt;
+    heroku container:release web --app $HEROKU_APP_NAME;
   on:
     branch: master
