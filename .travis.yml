@@ -27,4 +27,4 @@ deploy:
     heroku config:set REACT_APP_API_URL=https://api-serverr.herokuapp.com;
     heroku container:release web --app $HEROKU_APP_NAME;
   on:
-    branch: master
+    branch: main
