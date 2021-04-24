@@ -1,0 +1,30 @@
+language: generic
+sudo: required
+
+services:
+  - docker
+env:
+  - API_URL=https://api-serverr.herokuapp.com/
+
+before_install:
+  # install heroku CLI
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
+  # login to docker registries (dockerhub + heroku)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
+
+script:
+  - docker build -t vanhiep778/merchantt -f Dockerfile .
+  - docker tag vanhiep778/merchantt registry.heroku.com/merchantt/web
+
+deploy:
+  provider: script
+  script:
+    # push to dockerhub & heroku
+    docker push vanhiep778/merchantt;
+    docker push registry.heroku.com/merchantt/web;
+    heroku config:set API_URL=https://api-serverr.herokuapp.com;
+    heroku config:set REACT_APP_API_URL=https://api-serverr.herokuapp.com;
+    heroku container:release web --app merchantt;
+  on:
+    branch: master
