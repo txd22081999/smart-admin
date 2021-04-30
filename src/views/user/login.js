@@ -13,25 +13,39 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'demo@foa.com',
-      password: 'gogo123456',
+      // email: 'demo@foa.com',
+      username: 'merchant123',
+      password: '123123',
     }
   }
 
   onUserLogin = (values) => {
     if (!this.props.loading) {
-      if (values.email !== '' && values.password !== '') {
+      // if (values.email !== '' && values.password !== '') {
+      //   this.props.loginUser(values, this.props.history)
+      // }
+      if (values.username !== '' && values.password !== '') {
         this.props.loginUser(values, this.props.history)
       }
     }
   }
 
-  validateEmail = (value) => {
+  // validateEmail = (value) => {
+  //   let error
+  //   if (!value) {
+  //     error = 'Please enter your email address'
+  //   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+  //     error = 'Invalid email address'
+  //   }
+  //   return error
+  // }
+
+  validateUsername = (value) => {
     let error
     if (!value) {
-      error = 'Please enter your email address'
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = 'Invalid email address'
+      error = 'Please enter your user name'
+    } else if (value.length < 5) {
+      error = 'Value must be longer than 4 characters'
     }
     return error
   }
@@ -60,8 +74,10 @@ class Login extends Component {
   }
 
   render() {
-    const { password, email } = this.state
-    const initialValues = { email, password }
+    // const { password, email } = this.state
+    // const initialValues = { email, password }
+    const { password, username } = this.state
+    const initialValues = { username, password }
 
     return (
       <Row className='h-100'>
@@ -95,9 +111,9 @@ class Login extends Component {
                   <Form className='av-tooltip tooltip-label-bottom'>
                     <FormGroup className='form-group has-float-label'>
                       <Label>
-                        <IntlMessages id='user.email' />
+                        <IntlMessages id='user.username' />
                       </Label>
-                      <Field
+                      {/* <Field
                         className='form-control'
                         name='email'
                         validate={this.validateEmail}
@@ -105,6 +121,16 @@ class Login extends Component {
                       {errors.email && touched.email && (
                         <div className='invalid-feedback d-block'>
                           {errors.email}
+                        </div>
+                      )} */}
+                      <Field
+                        className='form-control'
+                        name='username'
+                        validate={this.validateUsername}
+                      />
+                      {errors.username && touched.username && (
+                        <div className='invalid-feedback d-block'>
+                          {errors.username}
                         </div>
                       )}
                     </FormGroup>
