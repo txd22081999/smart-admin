@@ -11,14 +11,27 @@ class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: 'demo@foa.com',
-      password: 'gogo123',
+      username: 'hihihaha',
+      email: 'mechant123@foa.com',
+      password: '123123',
       name: 'Sarah Kortney',
+      phone: '0943123456',
+      idNumber: '272699300',
     }
   }
   onUserRegister() {
-    if (this.state.email !== '' && this.state.password !== '') {
-      this.props.history.push('/')
+    const { username, password, email } = this.state
+    if (username !== '' && email !== '' && password !== '') {
+      // this.props.history.push('/')
+      const user = {
+        username: '',
+        password: '',
+        email: '',
+        phone: '',
+        fullName: '',
+        IDNumber: '',
+      }
+      // registerUser()
     }
   }
 
@@ -47,19 +60,31 @@ class Register extends Component {
               </CardTitle>
               <Form>
                 <Label className='form-group has-float-label mb-4'>
-                  <Input type='name' defaultValue={this.state.name} />
-                  <IntlMessages id='user.fullname' />
+                  <Input type='text' defaultValue={this.state.username} />
+                  <IntlMessages id='user.username' />
                 </Label>
                 <Label className='form-group has-float-label mb-4'>
                   <Input type='email' defaultValue={this.state.email} />
                   <IntlMessages id='user.email' />
                 </Label>
                 <Label className='form-group has-float-label mb-4'>
-                  <Input type='password' />
+                  <Input type='password' defaultValue={this.state.password} />
                   <IntlMessages
                     id='user.password'
                     defaultValue={this.state.password}
                   />
+                </Label>
+                <Label className='form-group has-float-label mb-4'>
+                  <Input type='text' defaultValue={this.state.name} />
+                  <IntlMessages id='user.fullname' />
+                </Label>
+                <Label className='form-group has-float-label mb-4'>
+                  <Input type='number' defaultValue={this.state.phone} />
+                  <IntlMessages id='user.phone' />
+                </Label>
+                <Label className='form-group has-float-label mb-4'>
+                  <Input type='text' defaultValue={this.state.idNumber} />
+                  <IntlMessages id='user.id-number' />
                 </Label>
                 <div className='d-flex justify-content-end align-items-center'>
                   <Button
