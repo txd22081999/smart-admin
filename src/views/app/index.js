@@ -7,15 +7,20 @@ import AppLayout from '../../layout/AppLayout'
 const Home = React.lazy(() =>
   import(/* webpackChunkName: "viwes-gogo" */ './home')
 )
+
 const Dishes = React.lazy(() =>
   import(/* webpackChunkName: "viwes-second-menu" */ './dishes')
 )
+
 const Analytics = React.lazy(() => import('./analytics'))
 
 const Map = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './map')
 )
 
+const Cashier = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './cashier')
+)
 const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './blank-page')
 )
@@ -54,7 +59,11 @@ class App extends Component {
                 path={`${match.url}/blank-page`}
                 render={(props) => <BlankPage {...props} />}
               />
-
+              <Route
+                path={`${match.url}/create-cashier`}
+                // render={props => <CreateCashier {...props} />}
+                render={(props) => <Cashier {...props} />}
+              />
               {/* <Redirect to='/error' /> */}
             </Switch>
           </Suspense>

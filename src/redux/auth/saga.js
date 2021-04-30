@@ -19,8 +19,11 @@ import {
   resetPasswordError,
 } from './actions'
 
+import axios from 'axios'
+import { USER_URL } from '../../constants/config'
+
 export function* watchLoginUser() {
-  yield takeEvery(LOGIN_USER, loginWithEmailPassword)
+  yield takeEvery(LOGIN_USER, loginWithUsernamePassword)
 }
 
 const loginWithEmailPasswordAsync = async (email, password) => {
@@ -30,25 +33,54 @@ const loginWithEmailPasswordAsync = async (email, password) => {
     .catch((error) => error)
 }
 
-function* loginWithEmailPassword({ payload }) {
-  const { email, password } = payload.user
+const loginWithUsernamePasswordAsync = async (username, password) => {
+  let response
+  try {
+    response = await axios({
+      method: 'post',
+      url: `${USER_URL}/login`,
+      data: {
+        username,
+        password,
+      },
+    })
+  } catch (err) {
+    console.log(err)
+    console.log(err.message)
+  }
+  console.log(response)
+  return response
+}
+
+function* loginWithUsernamePassword({ payload }) {
+  const { username, password } = payload.user
   const { history } = payload
+  console.log(payload)
   try {
     // const loginUser = yield call(loginWithEmailPasswordAsync, email, password)
-    const loginUser = {
-      user: {
-        uid: 1234,
-      },
+    const response = yield call(
+      loginWithUsernamePasswordAsync,
+      username,
+      password
+    )
+    console.log(response)
+    const { data, status } = response
+    if (status !== 200) {
+      // yield put(loginUserError(loginUser.message))
+      yield put(loginUserError('Usename or password is not correct'))
+      return
     }
-    if (!loginUser.message) {
-      localStorage.setItem('user_id', loginUser.user.uid)
-      yield put(loginUserSuccess(loginUser.user))
-      history.push('/')
-    } else {
-      yield put(loginUserError(loginUser.message))
-    }
+
+    const {
+      data: { user, access_token },
+    } = data
+    localStorage.setItem('user_token', access_token)
+    yield put(loginUserSuccess(user))
+    history.push('/')
   } catch (error) {
-    yield put(loginUserError(error))
+    // yield put(loginUserError(error))
+    // console.log(error)
+    yield put(loginUserError('Login error'))
   }
 }
 
