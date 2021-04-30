@@ -25,6 +25,8 @@ module.exports = {
   'user.reset-password-button': 'RESET',
   'user.buy': 'BUY',
   'user.username': 'Username',
+  'user.phone': 'Phone',
+  'user.id-number': 'ID Number',
 
   /* 03.Menu */
   'menu.app': 'Home',
