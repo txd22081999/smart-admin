@@ -69,7 +69,7 @@ function* loginWithUsernamePassword({ payload }) {
     localStorage.setItem('user_token', access_token)
     yield put(loginUserSuccess(user))
     // history.push('/')
-    history.push('/restaurant/login')
+    history.push('/restaurant')
   } catch (error) {
     // yield put(loginUserError(error))
     console.log(error)
@@ -136,7 +136,7 @@ export function* watchLogoutUser() {
 // }
 
 const logoutAsync = async (history) => {
-  history.push('/merchant/login')
+  history.push('/merchant')
 }
 
 function* logout({ payload }) {

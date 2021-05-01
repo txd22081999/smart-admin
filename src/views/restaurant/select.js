@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
-import { Row, Card, CardTitle, Label, FormGroup, Button } from 'reactstrap'
+import {
+  Row,
+  Card,
+  CardTitle,
+  Label,
+  FormGroup,
+  Button,
+  CardBody,
+} from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -14,6 +22,8 @@ class Login extends Component {
     super(props)
     this.state = {
       // email: 'demo@foa.com',
+      id: 123456,
+
       username: 'merchant123',
       password: '123123',
     }
@@ -76,17 +86,72 @@ class Login extends Component {
   render() {
     // const { password, email } = this.state
     // const initialValues = { email, password }
-    const { password, username } = this.state
+    const { password, username, id: restaurantId } = this.state
     const initialValues = { username, password }
+
+    return (
+      // <div className='restaurant-container d-flex align-items-center'>
+      <div className='restaurant-container'>
+        <Row className='flex-1'>
+          <Colxx xxs='12' md='8' className='mx-auto my-auto'>
+            <Card>
+              <h2 className='text-center mt-3 mb-0 font-weight-semibold'>
+                Choose your restaurant
+              </h2>
+
+              <NavLink to={`/restaurant/${restaurantId}`}>
+                <CardBody>
+                  <Card className='restaurant-card'>
+                    {/* <CardTitle>Hello</CardTitle> */}
+                    <CardBody>
+                      <Row className='d-flex align-items-center'>
+                        <Colxx md='4'>
+                          <div className='avatar'>
+                            <img
+                              src='https://toplist.vn/images/800px/pho-bo-thai-can-347645.jpg'
+                              alt='restanrant-1'
+                            />
+                          </div>
+                        </Colxx>
+                        <Colxx md='8'>
+                          <p className='title mb-3'>Phở Lệ 1970 Chi nhánh 1</p>
+
+                          <p className='address mb-1'>
+                            <span>Địa chỉ: </span>
+                            <span>
+                              303-305 Võ Văn Tần, Phường 5, Quận 3, Thành phố Hồ
+                              Chí Minh
+                            </span>
+                          </p>
+
+                          <div className='status d-flex align-items-center'>
+                            <box-icon
+                              name='door-open'
+                              type='solid'
+                              color='orange'
+                            ></box-icon>
+                            <span className='ml-1'>Đang mở cửa</span>
+                          </div>
+                        </Colxx>
+                      </Row>
+                    </CardBody>
+                  </Card>
+                </CardBody>
+              </NavLink>
+            </Card>
+          </Colxx>
+        </Row>
+      </div>
+    )
 
     return (
       <Row className='h-100'>
         <Colxx xxs='12' md='10' className='mx-auto my-auto'>
           <Card className='auth-card'>
-            <div className='position-relative image-side '>
-              <p className='text-white h2'>Order Now</p>
+            <div className='position-relative image-side restaurant'>
+              <p className='text-white h2'>Manage your restaurant now</p>
               <p className='white mb-0'>
-                Please use your credentials to login.
+                Login your restaurant
                 <br />
                 If you don't have an account, please{' '}
                 <NavLink to={`/register`} className='white'>
@@ -103,7 +168,7 @@ class Login extends Component {
                 </div>
               </NavLink>
               <CardTitle className='mb-4'>
-                <IntlMessages id='user.login-title' />
+                <IntlMessages id='user-merchant.login-title' />
               </CardTitle>
 
               <Formik initialValues={initialValues} onSubmit={this.onUserLogin}>
@@ -113,16 +178,6 @@ class Login extends Component {
                       <Label>
                         <IntlMessages id='user.username' />
                       </Label>
-                      {/* <Field
-                        className='form-control'
-                        name='email'
-                        validate={this.validateEmail}
-                      />
-                      {errors.email && touched.email && (
-                        <div className='invalid-feedback d-block'>
-                          {errors.email}
-                        </div>
-                      )} */}
                       <Field
                         className='form-control'
                         name='username'

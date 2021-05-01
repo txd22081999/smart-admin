@@ -11,7 +11,7 @@ class RestaurantLayout extends Component {
   render() {
     return (
       <>
-        <div className='merchant fixed-background' />
+        <div className='restaurant fixed-background' />
         <main>
           <div className='container'>{this.props.children}</div>
         </main>

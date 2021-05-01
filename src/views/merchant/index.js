@@ -16,20 +16,16 @@ const ResetPassword = React.lazy(() =>
 )
 
 const Merchant = ({ match }) => {
-  console.log('User here')
+  console.log('Merchant here')
   console.log(match)
   return (
     <MerchantLayout>
       <Suspense fallback={<div className='loading' />}>
         <Switch>
-          {/* <Redirect
-            exact
-            from={`${match.url}/`}
-            to={`${match.url}/merchant/login`}
-          /> */}
+          <Redirect exact from={`${match.url}/`} to={`${match.url}/login`} />
           <Route
             // path={`${match.url}/merchant/login`}
-            path={`${match.url}/`}
+            path={`${match.url}/login`}
             render={(props) => <Login {...props} />}
           />
           <Route

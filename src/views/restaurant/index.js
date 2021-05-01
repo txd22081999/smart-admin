@@ -2,8 +2,8 @@ import React, { Suspense } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import RestaurantLayout from '../../layout/RestaurantLayout'
 
-const Login = React.lazy(() =>
-  import(/* webpackChunkName: "user-login" */ './login')
+const Select = React.lazy(() =>
+  import(/* webpackChunkName: "user-login" */ './select')
 )
 const Register = React.lazy(() =>
   import(/* webpackChunkName: "user-register" */ './register')
@@ -22,10 +22,10 @@ const Restaurant = ({ match }) => {
     <RestaurantLayout>
       <Suspense fallback={<div className='loading' />}>
         <Switch>
-          <Redirect exact from={`${match.url}/`} to={`${match.url}/login`} />
+          <Redirect exact from={`${match.url}/`} to={`${match.url}/select`} />
           <Route
-            path={`${match.url}/login`}
-            render={(props) => <Login {...props} />}
+            path={`${match.url}/select`}
+            render={(props) => <Select {...props} />}
           />
           <Route
             path={`${match.url}/register`}

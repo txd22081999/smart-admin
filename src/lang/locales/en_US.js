@@ -27,6 +27,7 @@ module.exports = {
   'user.username': 'Username',
   'user.phone': 'Phone',
   'user.id-number': 'ID Number',
+  'user-merchant.login-title': 'Restaurant Login',
 
   /* 03.Menu */
   'menu.app': 'Home',
