@@ -10,6 +10,7 @@ import {
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
+import clsx from 'clsx'
 
 import { NotificationManager } from '../../components/common/react-notifications'
 import { Formik, Form, Field } from 'formik'
@@ -17,7 +18,58 @@ import { Formik, Form, Field } from 'formik'
 import { loginUser } from '../../redux/actions'
 import { Colxx } from '../../components/common/CustomBootstrap'
 import IntlMessages from '../../helpers/IntlMessages'
-class Login extends Component {
+
+import { restaurantList } from './mockData'
+
+import './restaurant.scss'
+
+const Restaurant = (props) => {
+  const {
+    restaurant: { id, imageUrl, name, address, status },
+  } = props
+
+  const isOpen = status === 'open'
+  const statusText = isOpen ? `Đang mở cửa` : `Đang đóng cửa`
+
+  return (
+    <NavLink to={`/restaurant/${id}`}>
+      <Card className='restaurant-card'>
+        <CardBody>
+          <Row className='d-flex align-items-center'>
+            <Colxx md='4'>
+              <div className='avatar'>
+                <img src={imageUrl} alt='restanrant-1' />
+              </div>
+            </Colxx>
+            <Colxx md='8'>
+              <p className='title mb-3'>{address}</p>
+
+              <p className='address mb-1'>
+                <span>Địa chỉ: </span>
+                <span>{address} </span>
+              </p>
+
+              <div className='status d-flex align-items-center'>
+                <box-icon
+                  name='door-open'
+                  type='solid'
+                  color={isOpen ? 'orange' : 'red'}
+                ></box-icon>
+                <span
+                  className={clsx('ml-1', isOpen ? 'text-orange' : 'text-red')}
+                >
+                  {statusText}
+                </span>
+              </div>
+            </Colxx>
+          </Row>
+        </CardBody>
+      </Card>
+    </NavLink>
+  )
+}
+
+class RestaurantSelection extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -70,18 +122,18 @@ class Login extends Component {
     return error
   }
 
-  componentDidUpdate() {
-    if (this.props.error) {
-      NotificationManager.warning(
-        this.props.error,
-        'Login Error',
-        3000,
-        null,
-        null,
-        ''
-      )
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.props.error) {
+  //     NotificationManager.warning(
+  //       this.props.error,
+  //       'Login Error',
+  //       3000,
+  //       null,
+  //       null,
+  //       ''
+  //     )
+  //   }
+  // }
 
   render() {
     // const { password, email } = this.state
@@ -95,49 +147,32 @@ class Login extends Component {
         <Row className='flex-1'>
           <Colxx xxs='12' md='8' className='mx-auto my-auto'>
             <Card>
-              <h2 className='text-center mt-3 mb-0 font-weight-semibold'>
-                Choose your restaurant
+              <h2 className='text-center mt-3 mb-0 font-weight-bold text-black'>
+                Chọn nhà hàng của bạn
               </h2>
 
-              <NavLink to={`/restaurant/${restaurantId}`}>
-                <CardBody>
-                  <Card className='restaurant-card'>
-                    {/* <CardTitle>Hello</CardTitle> */}
-                    <CardBody>
-                      <Row className='d-flex align-items-center'>
-                        <Colxx md='4'>
-                          <div className='avatar'>
-                            <img
-                              src='https://toplist.vn/images/800px/pho-bo-thai-can-347645.jpg'
-                              alt='restanrant-1'
-                            />
-                          </div>
-                        </Colxx>
-                        <Colxx md='8'>
-                          <p className='title mb-3'>Phở Lệ 1970 Chi nhánh 1</p>
+              <Button
+                color='primary'
+                className={`my-button ml-auto mb-3 mr-4 btn-shadow btn-multiple-state ${
+                  this.props.loading ? 'show-spinner' : ''
+                }`}
+                size='lg'
+              >
+                <span aria-hidden>&#43; Tạo mới</span>
+                {/* Tạo mới */}
+              </Button>
 
-                          <p className='address mb-1'>
-                            <span>Địa chỉ: </span>
-                            <span>
-                              303-305 Võ Văn Tần, Phường 5, Quận 3, Thành phố Hồ
-                              Chí Minh
-                            </span>
-                          </p>
-
-                          <div className='status d-flex align-items-center'>
-                            <box-icon
-                              name='door-open'
-                              type='solid'
-                              color='orange'
-                            ></box-icon>
-                            <span className='ml-1'>Đang mở cửa</span>
-                          </div>
-                        </Colxx>
-                      </Row>
-                    </CardBody>
-                  </Card>
+              <div className='restaurant-wrapper'>
+                {/* <CardBody className='restaurant-card'> */}
+                <CardBody className='pt-0 pb-2'>
+                  {restaurantList.map((restaurant, index) => (
+                    <Restaurant
+                      restaurant={restaurant}
+                      key={`restaurant-${index}`}
+                    />
+                  ))}
                 </CardBody>
-              </NavLink>
+              </div>
             </Card>
           </Colxx>
         </Row>
@@ -250,4 +285,4 @@ const mapStateToProps = ({ authUser }) => {
 
 export default connect(mapStateToProps, {
   loginUser,
-})(Login)
+})(RestaurantSelection)
