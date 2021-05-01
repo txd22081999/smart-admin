@@ -141,14 +141,18 @@ class RestaurantSelection extends Component {
     const { password, username, id: restaurantId } = this.state
     const initialValues = { username, password }
 
+    const itemCount =
+      restaurantList.length < 10
+        ? `0${restaurantList.length}`
+        : `${restaurantList.length}`
+
     return (
-      // <div className='restaurant-container d-flex align-items-center'>
       <div className='restaurant-container'>
         <Row className='flex-1'>
           <Colxx xxs='12' md='8' className='mx-auto my-auto'>
             <Card>
               <h2 className='text-center mt-3 mb-0 font-weight-bold text-black'>
-                Chọn nhà hàng của bạn
+                Chọn nhà hàng của bạn <span>({itemCount})</span>
               </h2>
 
               <Button
@@ -158,8 +162,12 @@ class RestaurantSelection extends Component {
                 }`}
                 size='lg'
               >
-                <span aria-hidden>&#43; Tạo mới</span>
+                {/* <NavLink to={'/restaurant/register'}> */}
+                <a href={`/restaurant/create`}>
+                  <span aria-hidden>&#43; Tạo mới</span>
+                </a>
                 {/* Tạo mới */}
+                {/* </NavLink> */}
               </Button>
 
               <div className='restaurant-wrapper'>

@@ -80,4 +80,17 @@ module.exports = {
   'dashboards.per-session': '',
 
   'maps.google': 'Vị trí cửa hàng',
+
+  'restaurant.create': 'Tạo nhà hàng',
+  'restaurant.name': 'Tên',
+  'restaurant.phone': 'Liên lạc',
+  'restaurant.city': 'Thành phố',
+  'restaurant.coverImg': 'Ảnh đại diện',
+  'restaurant.choose-cover-img': 'Chọn ảnh',
+  'restaurant.create-button': 'Tạo',
+  'restaurant.position': 'Vị trí',
+  'restaurant.click-or-drop': 'Chọn hoặc kéo thả',
+  'restaurant.remove-all': 'Xóa hết',
+  'restaurant.update': 'Cập nhật',
+  'restaurant.remove': 'Xóa',
 }

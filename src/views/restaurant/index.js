@@ -5,8 +5,8 @@ import RestaurantLayout from '../../layout/RestaurantLayout'
 const Select = React.lazy(() =>
   import(/* webpackChunkName: "user-login" */ './select')
 )
-const Register = React.lazy(() =>
-  import(/* webpackChunkName: "user-register" */ './register')
+const Create = React.lazy(() =>
+  import(/* webpackChunkName: "user-register" */ './create')
 )
 // const ForgotPassword = React.lazy(() =>
 //   import(/* webpackChunkName: "user-forgot-password" */ './forgot-password')
@@ -28,8 +28,8 @@ const Restaurant = ({ match }) => {
             render={(props) => <Select {...props} />}
           />
           <Route
-            path={`${match.url}/register`}
-            render={(props) => <Register {...props} />}
+            path={`${match.url}/create`}
+            render={(props) => <Create {...props} />}
           />
           {/* <Redirect to='/error' /> */}
         </Switch>

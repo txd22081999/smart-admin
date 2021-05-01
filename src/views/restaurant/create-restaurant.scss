@@ -1,0 +1,18 @@
+.create-restaurant-container {
+  width: 100%;
+
+  .upload-label {
+    cursor: text;
+    font-size: 90%;
+    opacity: 1;
+    margin-left: 0.75rem;
+    z-index: 3;
+    line-height: 1;
+    padding: 0 1px;
+  }
+
+  .img-upload {
+    margin-bottom: 20px;
+    // padding-left: 20px;
+  }
+}
