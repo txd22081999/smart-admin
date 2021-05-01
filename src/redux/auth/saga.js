@@ -21,21 +21,15 @@ import {
 
 import axios from 'axios'
 import { USER_URL } from '../../constants/config'
+import { getErrorMessage } from '../utils'
 
 export function* watchLoginUser() {
   yield takeEvery(LOGIN_USER, loginWithUsernamePassword)
 }
 
-const loginWithEmailPasswordAsync = async (email, password) => {
-  return await auth
-    .signInWithEmailAndPassword(email, password)
-    .then((authUser) => authUser)
-    .catch((error) => error)
-}
-
 const loginWithUsernamePasswordAsync = async (username, password) => {
-  let response
   try {
+    let response
     response = await axios({
       method: 'post',
       url: `${USER_URL}/login`,
@@ -44,74 +38,88 @@ const loginWithUsernamePasswordAsync = async (username, password) => {
         password,
       },
     })
-  } catch (err) {
-    console.log(err)
-    console.log(err.message)
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
   }
-  console.log(response)
-  return response
 }
 
 function* loginWithUsernamePassword({ payload }) {
+  console.log('LOGIN')
   const { username, password } = payload.user
   const { history } = payload
-  console.log(payload)
+
   try {
-    // const loginUser = yield call(loginWithEmailPasswordAsync, email, password)
     const response = yield call(
       loginWithUsernamePasswordAsync,
       username,
       password
     )
-    console.log(response)
-    const { data, status } = response
+    console.log(response.response)
+    const { data, status, message } = response
     if (status !== 200) {
-      // yield put(loginUserError(loginUser.message))
-      yield put(loginUserError('Usename or password is not correct'))
+      yield put(loginUserError(message))
       return
     }
 
     const {
       data: { user, access_token },
     } = data
+
     localStorage.setItem('user_token', access_token)
     yield put(loginUserSuccess(user))
-    history.push('/')
+    // history.push('/')
+    history.push('/restaurant/login')
   } catch (error) {
     // yield put(loginUserError(error))
-    // console.log(error)
+    console.log(error)
     yield put(loginUserError('Login error'))
   }
 }
 
 export function* watchRegisterUser() {
-  yield takeEvery(REGISTER_USER, registerWithEmailPassword)
+  console.log('Hello')
+  // yield takeEvery(REGISTER_USER, loginWithUsernamePassword)
+  yield takeEvery(REGISTER_USER, registerWithUsernamePassword)
 }
 
-const registerWithEmailPasswordAsync = async (email, password) =>
-  await auth
-    .createUserWithEmailAndPassword(email, password)
-    .then((authUser) => authUser)
-    .catch((error) => error)
+const registerWithUsernamePasswordAsync = async (user) => {
+  try {
+    let response
+    response = await axios({
+      method: 'post',
+      url: `${USER_URL}/register`,
+      data: user,
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
+  // await auth
+  //   .createUserWithEmailAndPassword(email, password)
+  //   .then((authUser) => authUser)
+  //   .catch((error) => error)
+}
 
-function* registerWithEmailPassword({ payload }) {
-  const { email, password } = payload.user
+function* registerWithUsernamePassword({ payload }) {
+  // const { username, email, password } = payload.user
+  console.log('Here')
+  console.log(payload)
   const { history } = payload
   try {
     const registerUser = yield call(
-      registerWithEmailPasswordAsync,
-      email,
-      password
+      registerWithUsernamePasswordAsync,
+      payload.user
     )
     if (!registerUser.message) {
-      localStorage.setItem('user_id', registerUser.user.uid)
-      yield put(registerUserSuccess(registerUser))
-      history.push('/')
+      // localStorage.setItem('user_id', registerUser.user.uid)
+      // yield put(registerUserSuccess(registerUser))
+      // history.push('/')
     } else {
-      yield put(registerUserError(registerUser.message))
+      // yield put(registerUserError(registerUser.message))
     }
   } catch (error) {
-    yield put(registerUserError(error))
+    // yield put(registerUserError(error))
   }
 }
 
@@ -119,19 +127,24 @@ export function* watchLogoutUser() {
   yield takeEvery(LOGOUT_USER, logout)
 }
 
+// const logoutAsync = async (history) => {
+//   await auth
+//     .signOut()
+//     .then((authUser) => authUser)
+//     .catch((error) => error)
+//   history.push('/')
+// }
+
 const logoutAsync = async (history) => {
-  await auth
-    .signOut()
-    .then((authUser) => authUser)
-    .catch((error) => error)
-  history.push('/')
+  history.push('/merchant/login')
 }
 
 function* logout({ payload }) {
   const { history } = payload
   try {
     yield call(logoutAsync, history)
-    localStorage.removeItem('user_id')
+    // localStorage.removeItem('user_id')
+    localStorage.removeItem('acess_token')
   } catch (error) {}
 }
 

@@ -21,8 +21,8 @@ const ViewMain = React.lazy(() =>
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
 )
-const ViewUser = React.lazy(() =>
-  import(/* webpackChunkName: "views-user" */ './views/user')
+const ViewUserMerchant = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/merchant')
 )
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
@@ -38,7 +38,8 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: '/user/login',
+              // pathname: '/user/login',
+              pathname: '/',
               state: { from: props.location },
             }}
           />
@@ -83,14 +84,14 @@ class App extends Component {
                     component={ViewApp}
                   />
                   <Route
-                    path='/user'
-                    render={(props) => <ViewUser {...props} />}
+                    path='/merchant/login'
+                    render={(props) => <ViewUserMerchant {...props} />}
                   />
-                  <Route
+                  {/* <Route
                     path='/error'
                     exact
                     render={(props) => <ViewError {...props} />}
-                  />
+                  /> */}
                   <Route
                     path='/'
                     exact

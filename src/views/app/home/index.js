@@ -18,7 +18,7 @@ const HomeMenu = ({ match }) => (
         path={`${match.url}/edit`}
         render={(props) => <EditProfile {...props} />}
       />
-      <Redirect to='/error' />
+      {/* <Redirect to='/error' /> */}
     </Switch>
   </Suspense>
 )

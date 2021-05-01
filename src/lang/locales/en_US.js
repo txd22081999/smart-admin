@@ -13,7 +13,7 @@ module.exports = {
   'general.copyright': 'Gogo React © 2018 All Rights Reserved.',
 
   /* 02.User Login, Logout, Register */
-  'user.login-title': 'Login',
+  'user.login-title': 'Merchant Login',
   'user.register': 'Register',
   'user.forgot-password': 'Forgot Password',
   'user.email': 'E-mail',

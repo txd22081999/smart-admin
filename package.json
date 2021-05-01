@@ -67,7 +67,6 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "sass": "^1.32.8",
-        "dotenv": "^8.2.0"
+        "sass": "^1.32.8"
     }
 }

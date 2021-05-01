@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import UserLayout from '../../layout/UserLayout'
+import MerchantLayout from '../../layout/MerchantLayout'
 
 const Login = React.lazy(() =>
   import(/* webpackChunkName: "user-login" */ './login')
@@ -15,16 +15,21 @@ const ResetPassword = React.lazy(() =>
   import(/* webpackChunkName: "user-reset-password" */ './reset-password')
 )
 
-const User = ({ match }) => {
+const Merchant = ({ match }) => {
   console.log('User here')
   console.log(match)
   return (
-    <UserLayout>
+    <MerchantLayout>
       <Suspense fallback={<div className='loading' />}>
         <Switch>
-          <Redirect exact from={`${match.url}/`} to={`${match.url}/login`} />
+          {/* <Redirect
+            exact
+            from={`${match.url}/`}
+            to={`${match.url}/merchant/login`}
+          /> */}
           <Route
-            path={`${match.url}/login`}
+            // path={`${match.url}/merchant/login`}
+            path={`${match.url}/`}
             render={(props) => <Login {...props} />}
           />
           <Route
@@ -40,11 +45,11 @@ const User = ({ match }) => {
             render={(props) => <ResetPassword {...props} />}
           />
 
-          <Redirect to='/error' />
+          {/* <Redirect to='/error' /> */}
         </Switch>
       </Suspense>
-    </UserLayout>
+    </MerchantLayout>
   )
 }
 
-export default User
+export default Merchant

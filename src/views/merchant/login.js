@@ -151,9 +151,16 @@ class Login extends Component {
                       )}
                     </FormGroup>
                     <div className='d-flex justify-content-between align-items-center'>
-                      <NavLink to={`/user/forgot-password`}>
-                        <IntlMessages id='user.forgot-password-question' />
-                      </NavLink>
+                      <div className='d-flex'>
+                        <NavLink to={`/user/register`} className='mr-3'>
+                          <IntlMessages id='user.register' />
+                        </NavLink>
+
+                        <NavLink to={`/user/forgot-password`}>
+                          <IntlMessages id='user.forgot-password-question' />
+                        </NavLink>
+                      </div>
+
                       <Button
                         color='primary'
                         className={`btn-shadow btn-multiple-state ${

@@ -60,10 +60,14 @@ export const resetPasswordError = (message) => ({
   payload: { message },
 })
 
-export const registerUser = (user, history) => ({
-  type: REGISTER_USER,
-  payload: { user, history },
-})
+export const registerUser = (user, history) => {
+  console.log(user)
+  console.log(history)
+  return {
+    type: REGISTER_USER,
+    payload: { user, history },
+  }
+}
 export const registerUserSuccess = (user) => ({
   type: REGISTER_USER_SUCCESS,
   payload: user,
