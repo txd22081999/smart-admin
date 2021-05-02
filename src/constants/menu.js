@@ -39,6 +39,19 @@ const data = [
     ],
   },
   {
+    id: 'staffs',
+    icon: 'iconsminds-user',
+    label: 'menu.staffs',
+    to: '/app/staffs',
+    // subs: [
+    //   {
+    //     icon: 'simple-icon-paper-plane',
+    //     label: 'menu.second',
+    //     to: '/app/dishes/dishes',
+    //   },
+    // ],
+  },
+  {
     id: 'anylytics',
     icon: 'iconsminds-monitor-analytics',
     label: 'menu.analytics',

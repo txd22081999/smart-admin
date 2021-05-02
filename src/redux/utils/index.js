@@ -4,6 +4,5 @@ export const getErrorMessage = (err) => {
       data: { message },
     },
   } = err
-  console.log(message)
   return { message }
 }

@@ -21,7 +21,7 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { Colxx } from '../../components/common/CustomBootstrap'
 
 import './create-restaurant.scss'
-import { Upload } from './upload'
+import Upload from '../../components/common/UploadImage'
 
 const cityOptions = ['Ho Chi Minh', 'Ha Noi', 'Da Nang']
 

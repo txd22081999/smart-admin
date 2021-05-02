@@ -21,6 +21,11 @@ const Map = React.lazy(() =>
 const Cashier = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './cashier')
 )
+
+const Staff = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './staffs')
+)
+
 const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './blank-page')
 )
@@ -57,14 +62,19 @@ class App extends Component {
                 render={(props) => <Map {...props} />}
               />
               <Route
+                path={`${match.url}/staffs`}
+                // render={props => <CreateCashier {...props} />}
+                render={(props) => <Staff {...props} />}
+              />
+              <Route
                 path={`${match.url}/blank-page`}
                 render={(props) => <BlankPage {...props} />}
               />
-              <Route
+              {/* <Route
                 path={`${match.url}/create-cashier`}
                 // render={props => <CreateCashier {...props} />}
                 render={(props) => <Cashier {...props} />}
-              />
+              /> */}
               {/* <Redirect to='/error' /> */}
             </Switch>
           </Suspense>

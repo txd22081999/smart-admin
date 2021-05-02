@@ -50,6 +50,7 @@ module.exports = {
   'menu.maps': 'Map',
   'menu.dishes-menu': 'Món ăn',
   'menu.edit': 'Edit profile',
+  'menu.staffs': 'Staff',
 
   /* 04.Error Page */
   'pages.error-title': 'Ooops... looks like an error occurred!',
@@ -93,4 +94,16 @@ module.exports = {
   'restaurant.remove-all': 'Xóa hết',
   'restaurant.update': 'Cập nhật',
   'restaurant.remove': 'Xóa',
+
+  'staff.create': 'Tạo tài khoản nhân viên',
+  'staff.create-button': 'Tạo',
+  'staff.first-name': 'Tên',
+  'staff.last-name': 'Họ',
+  'staff.phone': 'Số điện thoại',
+  'staff.id-number': 'Số ID',
+  'staff.city': 'Thành phố',
+  'staff.dob': 'Ngày sinh',
+  'staff.password': 'Mật khẩu',
+  'staff.position': 'Vị trí',
+  'staff.username': 'Tên tài khoản',
 }

@@ -113,16 +113,6 @@ class Login extends Component {
                       <Label>
                         <IntlMessages id='user.username' />
                       </Label>
-                      {/* <Field
-                        className='form-control'
-                        name='email'
-                        validate={this.validateEmail}
-                      />
-                      {errors.email && touched.email && (
-                        <div className='invalid-feedback d-block'>
-                          {errors.email}
-                        </div>
-                      )} */}
                       <Field
                         className='form-control'
                         name='username'

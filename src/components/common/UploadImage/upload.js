@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import ImageUploading from 'react-images-uploading'
-import IntlMessages from '../../helpers/IntlMessages'
+import IntlMessages from '../../../helpers/IntlMessages'
 
 import './upload.scss'
 
-export const Upload = (props) => {
+const UploadImage = (props) => {
   const [images, setImages] = useState([])
   const [controlVisible, setControlVisible] = useState(false)
   const maxNumber = 1
@@ -94,3 +94,5 @@ export const Upload = (props) => {
     </div>
   )
 }
+
+export default UploadImage
