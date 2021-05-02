@@ -32,7 +32,8 @@ const Restaurant = (props) => {
   const statusText = isOpen ? `Đang mở cửa` : `Đang đóng cửa`
 
   return (
-    <NavLink to={`/restaurant/${id}`}>
+    // <NavLink to={`/restaurant/${id}`}>
+    <NavLink to={`/`}>
       <Card className='restaurant-card'>
         <CardBody>
           <Row className='d-flex align-items-center'>
@@ -163,7 +164,7 @@ class RestaurantSelection extends Component {
                 size='lg'
               >
                 {/* <NavLink to={'/restaurant/register'}> */}
-                <a href={`/restaurant/create`}>
+                <a href={`/restaurant/create`} className='text-white'>
                   <span aria-hidden>&#43; Tạo mới</span>
                 </a>
                 {/* Tạo mới */}
@@ -172,7 +173,7 @@ class RestaurantSelection extends Component {
 
               <div className='restaurant-wrapper'>
                 {/* <CardBody className='restaurant-card'> */}
-                <CardBody className='pt-0 pb-2'>
+                <CardBody className='pt-1 pb-2'>
                   {restaurantList.map((restaurant, index) => (
                     <Restaurant
                       restaurant={restaurant}
@@ -185,104 +186,6 @@ class RestaurantSelection extends Component {
           </Colxx>
         </Row>
       </div>
-    )
-
-    return (
-      <Row className='h-100'>
-        <Colxx xxs='12' md='10' className='mx-auto my-auto'>
-          <Card className='auth-card'>
-            <div className='position-relative image-side restaurant'>
-              <p className='text-white h2'>Manage your restaurant now</p>
-              <p className='white mb-0'>
-                Login your restaurant
-                <br />
-                If you don't have an account, please{' '}
-                <NavLink to={`/register`} className='white'>
-                  register
-                </NavLink>
-                .
-              </p>
-            </div>
-            <div className='form-side'>
-              <NavLink to={`/`} className='black'>
-                {/* <span className="logo-single" /> */}
-                <div className='site-logo font-weight-bold'>
-                  Smart<span className='text-orange'>Merchant</span>
-                </div>
-              </NavLink>
-              <CardTitle className='mb-4'>
-                <IntlMessages id='user-merchant.login-title' />
-              </CardTitle>
-
-              <Formik initialValues={initialValues} onSubmit={this.onUserLogin}>
-                {({ errors, touched }) => (
-                  <Form className='av-tooltip tooltip-label-bottom'>
-                    <FormGroup className='form-group has-float-label'>
-                      <Label>
-                        <IntlMessages id='user.username' />
-                      </Label>
-                      <Field
-                        className='form-control'
-                        name='username'
-                        validate={this.validateUsername}
-                      />
-                      {errors.username && touched.username && (
-                        <div className='invalid-feedback d-block'>
-                          {errors.username}
-                        </div>
-                      )}
-                    </FormGroup>
-                    <FormGroup className='form-group has-float-label'>
-                      <Label>
-                        <IntlMessages id='user.password' />
-                      </Label>
-                      <Field
-                        className='form-control'
-                        type='password'
-                        name='password'
-                        validate={this.validatePassword}
-                      />
-                      {errors.password && touched.password && (
-                        <div className='invalid-feedback d-block'>
-                          {errors.password}
-                        </div>
-                      )}
-                    </FormGroup>
-                    <div className='d-flex justify-content-between align-items-center'>
-                      <div className='d-flex'>
-                        <NavLink to={`/user/register`} className='mr-3'>
-                          <IntlMessages id='user.register' />
-                        </NavLink>
-
-                        <NavLink to={`/user/forgot-password`}>
-                          <IntlMessages id='user.forgot-password-question' />
-                        </NavLink>
-                      </div>
-
-                      <Button
-                        color='primary'
-                        className={`btn-shadow btn-multiple-state ${
-                          this.props.loading ? 'show-spinner' : ''
-                        }`}
-                        size='lg'
-                      >
-                        <span className='spinner d-inline-block'>
-                          <span className='bounce1' />
-                          <span className='bounce2' />
-                          <span className='bounce3' />
-                        </span>
-                        <span className='label'>
-                          <IntlMessages id='user.login-button' />
-                        </span>
-                      </Button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-          </Card>
-        </Colxx>
-      </Row>
     )
   }
 }

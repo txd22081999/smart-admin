@@ -30,23 +30,24 @@ class App extends Component {
     const { match } = this.props
 
     console.log(match.url)
+
     return (
       <AppLayout>
         <div className='dashboard-wrapper'>
           <Suspense fallback={<div className='loading' />}>
             <Switch>
-              <Redirect exact from={`${match.url}/`} to={`${match.url}/gogo`} />
+              <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
               <Route
                 path={`${match.url}/home`}
                 render={(props) => <Home {...props} />}
               />
 
               <Route
-                path={`${match.url}/dishes-menu`}
+                path={`${match.url}/dishes`}
                 render={(props) => <Dishes {...props} />}
               />
               <Route
-                path={`${match.url}/analytic-menu`}
+                path={`${match.url}/analytics`}
                 // render={(props) => <span>HI</span>}
                 render={(props) => <Analytics {...props} />}
               />

@@ -12,8 +12,6 @@ import {
   DropdownToggle,
   Dropdown,
 } from 'reactstrap'
-import ImageUploader from 'react-images-upload'
-import ImageUploading from 'react-images-uploading'
 
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'

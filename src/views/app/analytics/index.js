@@ -7,9 +7,9 @@ const Analytics = React.lazy(() =>
 const AnalyticMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/analytics`} />
+      {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/analytics`} /> */}
       <Route
-        path={`${match.url}/analytics`}
+        path={`${match.url}/`}
         render={(props) => <Analytics {...props} />}
       />
       <Analytics />

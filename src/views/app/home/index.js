@@ -9,11 +9,8 @@ const EditProfile = React.lazy(() =>
 const HomeMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
-      <Route
-        path={`${match.url}/home`}
-        render={(props) => <Home {...props} />}
-      />
+      {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} /> */}
+      <Route path={`${match.url}/`} render={(props) => <Home {...props} />} />
       <Route
         path={`${match.url}/edit`}
         render={(props) => <EditProfile {...props} />}

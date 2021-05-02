@@ -29,7 +29,7 @@ const data = [
     id: 'dishes',
     icon: 'iconsminds-chef-hat',
     label: 'menu.dishes',
-    to: '/app/dishes-menu',
+    to: '/app/dishes',
     subs: [
       {
         icon: 'simple-icon-paper-plane',
@@ -42,7 +42,7 @@ const data = [
     id: 'anylytics',
     icon: 'iconsminds-monitor-analytics',
     label: 'menu.analytics',
-    to: '/app/analytic-menu',
+    to: '/app/analytics',
     // subs: [
     //   {
     //     icon: 'simple-icon-paper-plane',

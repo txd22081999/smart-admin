@@ -37,6 +37,7 @@
   // max-width: 80%;
   margin: 0 auto;
   margin-bottom: 14px;
+  box-shadow: 0 1px 15px rgb(0 0 0 / 10%), 0 1px 6px rgb(0 0 0 / 10%);
   // cursor: pointer;
   span {
     font-size: 0.9rem;
@@ -44,6 +45,10 @@
 
   p {
     margin: 0;
+  }
+
+  .card-body {
+    // display: none;
   }
 
   .avatar img {

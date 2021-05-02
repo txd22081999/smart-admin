@@ -8,12 +8,9 @@ const Dishes = React.lazy(() =>
 const DishesMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/dishes`} />
-      <Route
-        path={`${match.url}/dishes`}
-        render={(props) => <Dishes {...props} />}
-      />
-      <Redirect to='/error' />
+      {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/dishes`} /> */}
+      <Route path={`${match.url}/`} render={(props) => <Dishes {...props} />} />
+      {/* <Redirect to='/error' /> */}
     </Switch>
   </Suspense>
 )

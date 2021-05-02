@@ -7,11 +7,8 @@ const MapsUi = React.lazy(() =>
 const DishesMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/map`} />
-      <Route
-        path={`${match.url}/map`}
-        render={(props) => <MapsUi {...props} />}
-      />
+      {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/map`} /> */}
+      <Route path={`${match.url}/`} render={(props) => <MapsUi {...props} />} />
       <Redirect to='/error' />
     </Switch>
   </Suspense>

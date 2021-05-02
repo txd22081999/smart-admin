@@ -69,6 +69,7 @@ class App extends Component {
     const { locale, loginUser } = this.props
     const currentAppLocale = AppLocale[locale]
 
+    // return null
     return (
       <div className='h-100'>
         <IntlProvider
@@ -116,7 +117,8 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ authUser, settings }) => {
-  const { user: loginUser } = authUser
+  // const { user: loginUser } = authUser
+  const loginUser = true
   const { locale } = settings
   return { loginUser, locale }
 }
