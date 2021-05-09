@@ -14,6 +14,25 @@
       color: initial;
     }
   }
+
+  .check-icon {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    border: 8px solid #b7cdfa;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+
+    i {
+      font-size: 40px;
+      color: #4982f3;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
 
 .restaurant.fixed-background {
@@ -66,7 +85,8 @@
     font-weight: 700;
   }
 
-  .address {
+  .address,
+  .phone {
     span:first-child {
       font-weight: 700;
     }

@@ -11,6 +11,7 @@ import {
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import clsx from 'clsx'
+import axios from 'axios'
 
 import { NotificationManager } from '../../components/common/react-notifications'
 import { Formik, Form, Field } from 'formik'
@@ -25,39 +26,64 @@ import './restaurant.scss'
 
 const Restaurant = (props) => {
   const {
-    restaurant: { id, imageUrl, name, address, status },
+    restaurant: {
+      area,
+      city,
+      address,
+      contractId,
+      id,
+      isActive,
+      isVerified,
+      name,
+      phone,
+      posAppKey,
+      coverImageUrl = `https://toplist.vn/images/800px/pho-bo-thai-can-347645.jpg`,
+    },
   } = props
 
-  const isOpen = status === 'open'
-  const statusText = isOpen ? `Đang mở cửa` : `Đang đóng cửa`
+  const statusText = isActive ? `Đang mở cửa` : `Đang đóng cửa`
 
+  console.log(area, name)
   return (
-    // <NavLink to={`/restaurant/${id}`}>
     <NavLink to={`/`}>
       <Card className='restaurant-card'>
         <CardBody>
           <Row className='d-flex align-items-center'>
+            {true && (
+              <span className='check-icon'>
+                <i class='bx bxs-check-circle'></i>
+              </span>
+            )}
+
             <Colxx md='4'>
               <div className='avatar'>
-                <img src={imageUrl} alt='restanrant-1' />
+                <img src={coverImageUrl} alt='restanrant-1' />
               </div>
             </Colxx>
             <Colxx md='8'>
-              <p className='title mb-3'>{address}</p>
+              <p className='title mb-3'>{name}</p>
 
               <p className='address mb-1'>
                 <span>Địa chỉ: </span>
                 <span>{address} </span>
               </p>
 
+              <p className='phone mb-1'>
+                <span>Số điện thoại: </span>
+                <span>{phone} </span>
+              </p>
+
               <div className='status d-flex align-items-center'>
                 <box-icon
                   name='door-open'
                   type='solid'
-                  color={isOpen ? 'orange' : 'red'}
+                  color={isActive ? 'orange' : 'red'}
                 ></box-icon>
                 <span
-                  className={clsx('ml-1', isOpen ? 'text-orange' : 'text-red')}
+                  className={clsx(
+                    'ml-1',
+                    isActive ? 'text-orange' : 'text-red'
+                  )}
                 >
                   {statusText}
                 </span>
@@ -74,12 +100,74 @@ class RestaurantSelection extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // email: 'demo@foa.com',
-      id: 123456,
-
-      username: 'merchant123',
-      password: '123123',
+      restaurantList: [],
     }
+  }
+
+  componentDidMount() {
+    const fetchRestaurants = async () => {
+      const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
+      const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
+      const res = await axios({
+        url: `http://localhost:8000/user/merchant/${merchant_id}/restaurant`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+
+      const { status } = res
+
+      if (status !== 200) {
+        console.log('Error in fetching restaurants')
+        return
+      }
+
+      const {
+        data: { data },
+      } = res
+
+      if (!data) return
+      console.log(data)
+      const { results = [] } = data
+      const newRestaurantList = results.map((item) => {
+        const {
+          address,
+          area,
+          city,
+          contractId,
+          isActive,
+          isVerified,
+          name,
+          phone,
+          posAppKey,
+          restaurantId,
+        } = item
+
+        const restaurantItem = {
+          id: restaurantId,
+          name,
+          area,
+          address,
+          city,
+          contractId,
+          isActive,
+          isVerified,
+          phone,
+          posAppKey,
+        }
+
+        return restaurantItem
+      })
+
+      console.log(newRestaurantList)
+
+      this.setState({
+        restaurantList: newRestaurantList,
+      })
+    }
+
+    fetchRestaurants()
   }
 
   onUserLogin = (values) => {
@@ -142,6 +230,7 @@ class RestaurantSelection extends Component {
     const { password, username, id: restaurantId } = this.state
     const initialValues = { username, password }
 
+    const { restaurantList = [] } = this.state
     const itemCount =
       restaurantList.length < 10
         ? `0${restaurantList.length}`
@@ -175,10 +264,7 @@ class RestaurantSelection extends Component {
                 {/* <CardBody className='restaurant-card'> */}
                 <CardBody className='pt-1 pb-2'>
                   {restaurantList.map((restaurant, index) => (
-                    <Restaurant
-                      restaurant={restaurant}
-                      key={`restaurant-${index}`}
-                    />
+                    <Restaurant restaurant={restaurant} key={restaurant.id} />
                   ))}
                 </CardBody>
               </div>
