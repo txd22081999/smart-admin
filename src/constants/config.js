@@ -1,6 +1,8 @@
-const PORT = 8000
-const HOST = 'http://localhost'
-export const BASE_URL = `${HOST}:${PORT}`
+// const PORT = 8000
+// const HOST = 'http://localhost'
+const HOST = 'https://api-gateway-pos.herokuapp.com'
+// export const BASE_URL = `${HOST}:${PORT}`
+export const BASE_URL = `${HOST}`
 export const USER_URL = `${BASE_URL}/user/merchant`
 
 const merchantId = 'a8148703-2a9b-44bc-9ba0-85d497712ac5'

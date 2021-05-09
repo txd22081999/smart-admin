@@ -59,7 +59,7 @@ module.exports = {
   // 05.Data list Page
 
   'pages.go-back-home': 'GO BACK HOME',
-  'pages.add-new': 'Add new',
+  'pages.add-new': 'Tạo món',
   'pages.orderby': 'Order by ',
   'pages.product-name': 'Tên món',
   'pages.category': 'Loại món',

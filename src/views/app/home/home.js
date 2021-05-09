@@ -23,6 +23,7 @@ class Home extends Component {
         user: { id: merchantId },
       },
     } = this.props
+    console.log('EDIT')
     // getMerchant(merchantId)
   }
 
@@ -41,7 +42,7 @@ class Home extends Component {
           isVerified,
           phone,
           posAppKey,
-          coverImageUrl = 'http://businesstech.co.za/news/wp-content/uploads/2015/03/Male-ideal-beauty.jpg',
+          coverImageUrl = 'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg',
         },
       },
     } = this.props
