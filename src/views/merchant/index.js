@@ -16,8 +16,6 @@ const ResetPassword = React.lazy(() =>
 )
 
 const Merchant = ({ match }) => {
-  console.log('Merchant here')
-  console.log(match)
   return (
     <MerchantLayout>
       <Suspense fallback={<div className='loading' />}>

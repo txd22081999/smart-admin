@@ -45,7 +45,6 @@ const loginWithUsernamePasswordAsync = async (username, password) => {
 }
 
 function* loginWithUsernamePassword({ payload }) {
-  console.log('LOGIN')
   const { username, password } = payload.user
   const { history } = payload
 
@@ -55,7 +54,6 @@ function* loginWithUsernamePassword({ payload }) {
       username,
       password
     )
-    console.log(response.response)
     const { data, status, message } = response
     if (status !== 200) {
       yield put(loginUserError(message))
@@ -78,7 +76,6 @@ function* loginWithUsernamePassword({ payload }) {
 }
 
 export function* watchRegisterUser() {
-  console.log('Hello')
   // yield takeEvery(REGISTER_USER, loginWithUsernamePassword)
   yield takeEvery(REGISTER_USER, registerWithUsernamePassword)
 }
@@ -103,8 +100,6 @@ const registerWithUsernamePasswordAsync = async (user) => {
 
 function* registerWithUsernamePassword({ payload }) {
   // const { username, email, password } = payload.user
-  console.log('Here')
-  console.log(payload)
   const { history } = payload
   try {
     const registerUser = yield call(
@@ -144,7 +139,7 @@ function* logout({ payload }) {
   try {
     yield call(logoutAsync, history)
     // localStorage.removeItem('user_id')
-    localStorage.removeItem('acess_token')
+    localStorage.removeItem('access_token')
   } catch (error) {}
 }
 

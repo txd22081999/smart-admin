@@ -44,7 +44,6 @@ const Restaurant = (props) => {
 
   const statusText = isActive ? `Đang mở cửa` : `Đang đóng cửa`
 
-  console.log(area, name)
   return (
     <NavLink to={`/`}>
       <Card className='restaurant-card'>
@@ -108,7 +107,6 @@ class RestaurantSelection extends Component {
   componentDidMount() {
     const fetchRestaurants = async () => {
       const { merchantUser } = this.props
-      console.log(merchantUser)
       // const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
       // const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
       const merchantId = merchantUser.id
@@ -133,7 +131,7 @@ class RestaurantSelection extends Component {
       } = res
 
       if (!data) return
-      console.log(data)
+
       const { results = [] } = data
       const newRestaurantList = results.map((item) => {
         const {
@@ -164,8 +162,6 @@ class RestaurantSelection extends Component {
 
         return restaurantItem
       })
-
-      console.log(newRestaurantList)
 
       this.setState({
         restaurantList: newRestaurantList,

@@ -36,13 +36,13 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        authUser || isDemo ? (
+        authUser && authUser.id !== '' ? (
           <Component {...props} />
         ) : (
           <Redirect
             to={{
-              // pathname: '/user/login',
-              pathname: '/',
+              pathname: '/merchant',
+              // pathname: '/',
               state: { from: props.location },
             }}
           />
@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   render() {
-    const { locale, loginUser } = this.props
+    const { locale, loginUser, authUser } = this.props
     const currentAppLocale = AppLocale[locale]
 
     // return null
@@ -84,7 +84,7 @@ class App extends Component {
                 <Switch>
                   <AuthRoute
                     path='/app'
-                    authUser={loginUser}
+                    authUser={authUser}
                     component={ViewApp}
                   />
                   <Route
@@ -120,7 +120,7 @@ const mapStateToProps = ({ authUser, settings }) => {
   // const { user: loginUser } = authUser
   const loginUser = true
   const { locale } = settings
-  return { loginUser, locale }
+  return { loginUser, locale, authUser }
 }
 const mapActionsToProps = {}
 

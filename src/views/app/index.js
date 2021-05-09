@@ -32,16 +32,24 @@ const BlankPage = React.lazy(() =>
 
 class App extends Component {
   render() {
-    const { match } = this.props
-
-    console.log(match.url)
+    const { match, authUser } = this.props
 
     return (
       <AppLayout>
         <div className='dashboard-wrapper'>
           <Suspense fallback={<div className='loading' />}>
             <Switch>
-              <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+              {/* <Redirect exact from={`${match.url}/`} to={`/merchant`} /> */}
+              {!authUser.user ? (
+                <Redirect from={`${match.url}/`} to={`/merchant`} />
+              ) : (
+                <Redirect
+                  exact
+                  from={`${match.url}/`}
+                  to={`${match.url}/home`}
+                />
+              )}
+
               <Route
                 path={`${match.url}/home`}
                 render={(props) => <Home {...props} />}
@@ -83,9 +91,9 @@ class App extends Component {
     )
   }
 }
-const mapStateToProps = ({ menu }) => {
+const mapStateToProps = ({ menu, authUser }) => {
   const { containerClassnames } = menu
-  return { containerClassnames }
+  return { containerClassnames, authUser }
 }
 
 export default withRouter(connect(mapStateToProps, {})(App))
