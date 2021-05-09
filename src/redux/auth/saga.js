@@ -66,9 +66,9 @@ function* loginWithUsernamePassword({ payload }) {
       data: { user, access_token },
     } = data
 
-    localStorage.setItem('user_token', access_token)
+    localStorage.setItem('access_token', access_token)
+
     yield put(loginUserSuccess(user))
-    // history.push('/')
     history.push('/restaurant')
   } catch (error) {
     // yield put(loginUserError(error))

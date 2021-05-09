@@ -20,6 +20,7 @@ import { loginUser } from '../../redux/actions'
 import { Colxx } from '../../components/common/CustomBootstrap'
 import IntlMessages from '../../helpers/IntlMessages'
 
+import { USER_URL } from '../../constants/config'
 import { restaurantList } from './mockData'
 
 import './restaurant.scss'
@@ -106,13 +107,17 @@ class RestaurantSelection extends Component {
 
   componentDidMount() {
     const fetchRestaurants = async () => {
-      const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
-      const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
+      const { merchantUser } = this.props
+      console.log(merchantUser)
+      // const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
+      // const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
+      const merchantId = merchantUser.id
+      const accessToken = localStorage.getItem('access_token')
       const res = await axios({
-        url: `http://localhost:8000/user/merchant/${merchant_id}/restaurant`,
+        url: `${USER_URL}/${merchantId}/restaurant`,
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${access_token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
 
@@ -277,7 +282,7 @@ class RestaurantSelection extends Component {
 }
 const mapStateToProps = ({ authUser }) => {
   const { user, loading, error } = authUser
-  return { user, loading, error }
+  return { merchantUser: user, loading, error }
 }
 
 export default connect(mapStateToProps, {
