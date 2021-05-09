@@ -35,19 +35,20 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        authUser && authUser.id !== '' ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/merchant',
-              // pathname: '/',
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
+      // render={(props) =>
+      //   authUser && authUser.id !== '' ? (
+      //     <Component {...props} />
+      //   ) : (
+      //     <Redirect
+      //       to={{
+      //         pathname: '/merchant',
+      //         // pathname: '/',
+      //         state: { from: props.location },
+      //       }}
+      //     />
+      //   )
+      // }
+      render={(props) => <Component {...props} />}
     />
   )
 }

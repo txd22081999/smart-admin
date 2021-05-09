@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import settings from './settings/reducer'
-import menu from './menu/reducer'
+import menu from './menu2/reducer'
+import restaurantMenu from './menu/reducer'
 import authUser from './auth/reducer'
 import staffUser from './staff/reducer'
 import merchantUser from './merchant/reducer'
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   staffUser,
   merchantUser,
   restaurantInfo,
+  restaurantMenu,
 })
 
 export default reducers

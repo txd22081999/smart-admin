@@ -76,9 +76,11 @@ class DataListPages extends Component {
   }
 
   toggleModal = () => {
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-    })
+    const { history } = this.props
+    history.push(`/app/dishes/create`)
+    // this.setState({
+    //   modalOpen: !this.state.modalOpen,
+    // })
   }
 
   changeOrderBy = (column) => {

@@ -1,53 +1,115 @@
 import {
-
-	MENU_SET_CLASSNAMES,
-	MENU_CONTAINER_ADD_CLASSNAME,
-	MENU_CLICK_MOBILE_MENU,
-	MENU_CHANGE_DEFAULT_CLASSES,
-	MENU_CHANGE_HAS_SUB_ITEM_STATUS
-} from '../actions';
-
-import {defaultMenuType,  subHiddenBreakpoint, menuHiddenBreakpoint } from '../../constants/defaultValues'
-
+  GET_MENUS,
+  SET_MENU,
+  GET_MENUS_SUCCESS,
+  GET_MENU_GROUP_SUCCESS,
+  GET_MENU_GROUP_ERROR,
+  GET_MENU_GROUP,
+  GET_MENU_ITEM,
+  GET_MENU_ITEM_SUCCESS,
+  GET_MENU_ITEM_ERROR,
+} from '../actions'
 
 const INIT_STATE = {
-	containerClassnames: defaultMenuType,
-	subHiddenBreakpoint,
-	menuHiddenBreakpoint,
-	menuClickCount: 0,
-	selectedMenuHasSubItems: defaultMenuType==="menu-default" //if you use menu-sub-hidden as default menu type, set value of this variable to false
-};
+  menu: {},
+  menuGroup: [],
+  menus: [],
+  menuItems: [],
+  loading: false,
+  loadingMenuItems: false,
+  error: '',
+}
 
 export default (state = INIT_STATE, action) => {
-	switch (action.type) {
+  const { payload, type } = action
+  switch (type) {
+    case GET_MENUS: {
+      return { ...state, loading: true, error: '' }
+    }
+    case GET_MENUS_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        menus: payload.menus,
+      }
+    }
+    case GET_MENU_GROUP: {
+      return { ...state, loading: true, error: '' }
+    }
+    case GET_MENU_GROUP_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        menuGroup: payload.menuGroup,
+      }
+    }
+    case GET_MENU_GROUP_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loading: false,
+        menuGroup: [],
+        error: payload.message,
+      }
+    }
+    case SET_MENU: {
+      const selectedMenu = state.menus.find(
+        (menu) => menu.id === payload.menuId
+      )
+      return {
+        ...state,
+        menu: selectedMenu,
+      }
+    }
+    case GET_MENU_ITEM: {
+      console.log(payload)
+      return { ...state, loadingMenuItems: true, error: '' }
+    }
+    case GET_MENU_ITEM_SUCCESS: {
+      // console.log(payload.menuItems)
+      // console.log(state.menuGroup)
 
-		case MENU_CHANGE_HAS_SUB_ITEM_STATUS:
-		return Object.assign({}, state, {
-			selectedMenuHasSubItems: action.payload
-		})
+      return {
+        ...state,
+        loadingMenuItems: false,
+        error: '',
+        menuItems: payload.menuItems,
+      }
+    }
+    case GET_MENU_ITEM_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingMenuItems: false,
+        menuItems: [],
+        error: payload.message,
+      }
+    }
 
-		case MENU_SET_CLASSNAMES:
-		return Object.assign({}, state, {
-			containerClassnames: action.payload.containerClassnames,
-			menuClickCount:action.payload.menuClickCount
-		})
-
-		case MENU_CLICK_MOBILE_MENU:
-		return Object.assign({}, state, {
-			containerClassnames: action.payload.containerClassnames,
-			menuClickCount:action.payload.menuClickCount
-		})
-
-		case MENU_CONTAINER_ADD_CLASSNAME:
-		return Object.assign({}, state, {
-			containerClassnames: action.payload
-		})
-
-		case MENU_CHANGE_DEFAULT_CLASSES:
-			return Object.assign({}, state, {
-				containerClassnames: action.payload
-			})
-			
-		default: return { ...state };
-	}
+    // case SET_RESTAURANT: {
+    //   return { ...state, restaurant: action.payload.restaurant }
+    // }
+    // case GET_MERCHANT:
+    //   return { ...state, loading: true, error: '' }
+    // case GET_MERCHANT_SUCCESS: {
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     merchant: action.payload.merchant,
+    //     error: '',
+    //   }
+    // }
+    // case GET_MERCHANT_ERROR:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     user: '',
+    //     error: action.payload.message,
+    //   }
+    default:
+      return { ...state }
+  }
 }

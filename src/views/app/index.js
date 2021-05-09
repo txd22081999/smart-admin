@@ -40,7 +40,9 @@ class App extends Component {
           <Suspense fallback={<div className='loading' />}>
             <Switch>
               {/* <Redirect exact from={`${match.url}/`} to={`/merchant`} /> */}
-              {!authUser.user ? (
+
+              <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+              {/* {!authUser.user ? (
                 <Redirect from={`${match.url}/`} to={`/merchant`} />
               ) : (
                 <Redirect
@@ -48,7 +50,7 @@ class App extends Component {
                   from={`${match.url}/`}
                   to={`${match.url}/home`}
                 />
-              )}
+              )} */}
 
               <Route
                 path={`${match.url}/home`}

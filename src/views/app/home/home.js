@@ -15,17 +15,17 @@ import { getMerchant } from '../../../redux/actions'
 import './home.scss'
 
 class Home extends Component {
-  componentDidMount() {
-    // getMerchantInfo()
-    const {
-      getMerchant,
-      authUser: {
-        user: { id: merchantId },
-      },
-    } = this.props
-    console.log('EDIT')
-    // getMerchant(merchantId)
-  }
+  // componentDidMount() {
+  //   // getMerchantInfo()
+  //   const {
+  //     getMerchant,
+  //     authUser: {
+  //       user: { id: merchantId } =,
+  //     },
+  //   } = this.props
+  //   console.log('EDIT')
+  //   // getMerchant(merchantId)
+  // }
 
   render() {
     // console.log(Banner)

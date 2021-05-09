@@ -1,122 +1,80 @@
 import {
-    MENU_SET_CLASSNAMES,
-    MENU_CONTAINER_ADD_CLASSNAME,
-    MENU_CLICK_MOBILE_MENU,
-    MENU_CHANGE_DEFAULT_CLASSES,
-    MENU_CHANGE_HAS_SUB_ITEM_STATUS
-} from '../actions';
+  GET_MENUS,
+  GET_MENUS_SUCCESS,
+  GET_MENUS_ERROR,
+  GET_MENU,
+  GET_MENU_SUCCESS,
+  GET_MENU_ERROR,
+  GET_MENU_GROUP,
+  GET_MENU_GROUP_SUCCESS,
+  GET_MENU_GROUP_ERROR,
+  SET_MENU,
+  GET_MENU_ITEM,
+  GET_MENU_ITEM_SUCCESS,
+  GET_MENU_ITEM_ERROR,
+} from '../actions'
 
-export const changeSelectedMenuHasSubItems = (payload) => {
-    return (
-        {
-            type: MENU_CHANGE_HAS_SUB_ITEM_STATUS,
-            payload: payload
-        }
-    )
-}
+export const getMenus = (merchantId, restaurantId) => ({
+  type: GET_MENUS,
+  payload: { merchantId, restaurantId },
+})
 
-export const changeDefaultClassnames = (strCurrentClasses) => {
-    return (
-        {
-            type: MENU_CHANGE_DEFAULT_CLASSES,
-            payload: strCurrentClasses
-        }
-    )
-}
+export const getMenusSuccess = (menus) => ({
+  type: GET_MENUS_SUCCESS,
+  payload: { menus },
+})
 
-export const addContainerClassname = (classname, strCurrentClasses) => {
-    const newClasses = !strCurrentClasses.indexOf(classname) > -1 ? strCurrentClasses + ' ' + classname : strCurrentClasses;
-    return (
-        {
-            type: MENU_CONTAINER_ADD_CLASSNAME,
-            payload: newClasses
-        }
-    )
-}
+export const getMenusError = (error) => ({
+  type: GET_MENUS_ERROR,
+  payload: { message: error },
+})
 
-export const clickOnMobileMenu = (strCurrentClasses) => {
-    const currentClasses = strCurrentClasses ? strCurrentClasses.split(' ').filter(x => x !== '' && x !== 'sub-show-temporary') : '';
-    let nextClasses = '';
-    if (currentClasses.includes('main-show-temporary')) {
-        nextClasses = (currentClasses.filter(x => x !== 'main-show-temporary')).join(' ');
-    } else {
-        nextClasses = currentClasses.join(' ') + ' main-show-temporary';
-    }
-    return (
-        {
-            type: MENU_CLICK_MOBILE_MENU,
-            payload: { containerClassnames: nextClasses, menuClickCount: 0 }
-        }
-    )
-}
+export const setMenu = (menuId) => ({
+  type: SET_MENU,
+  payload: { menuId },
+})
 
-export const setContainerClassnames = (clickIndex, strCurrentClasses,selectedMenuHasSubItems) => {
-    const currentClasses = strCurrentClasses ? strCurrentClasses.split(' ').filter(x => x !== '') : '';
-    let nextClasses = '';
-    if (!selectedMenuHasSubItems) {
-        if (currentClasses.includes("menu-default") && (clickIndex % 4 === 0 || clickIndex % 4 === 3)) {
-          clickIndex=1;
-        }
-        if (currentClasses.includes("menu-sub-hidden") && (clickIndex % 4 === 2)) {
-          clickIndex=0;
-        }
-        if (currentClasses.includes("menu-hidden") && (clickIndex % 4 === 2 || clickIndex % 4 === 3 )) {
-            clickIndex=0;
-          }
+export const getMenu = (merchantId, restaurantId) => ({
+  type: GET_MENU,
+  payload: { merchantId, restaurantId },
+})
 
-      }
+export const getMenuSuccess = (menu) => ({
+  type: GET_MENU_SUCCESS,
+  payload: { menu },
+})
 
+export const getMenuError = (error) => ({
+  type: GET_MENU_ERROR,
+  payload: { message: error },
+})
 
+export const getMenuGroup = ({ merchantId, restaurantId, menuId }) => ({
+  type: GET_MENU_GROUP,
+  payload: { merchantId, restaurantId, menuId },
+})
 
-    if (clickIndex % 4 === 0) {
-        if (currentClasses.includes('menu-default') && currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-default menu-sub-hidden';
-        } else if (currentClasses.includes('menu-default')) {
-            nextClasses = 'menu-default';
-        } else if (currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-sub-hidden';
-        } else if (currentClasses.includes('menu-hidden')) {
-            nextClasses = 'menu-hidden';
-        }
-        clickIndex = 0;
-    } else if (clickIndex % 4 === 1) {
-        if (currentClasses.includes('menu-default') && currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-default menu-sub-hidden main-hidden sub-hidden';
-        } else if (currentClasses.includes('menu-default')) {
-            nextClasses = 'menu-default sub-hidden';
-        } else if (currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-sub-hidden main-hidden sub-hidden';
-        } else if (currentClasses.includes('menu-hidden')) {
-            nextClasses = 'menu-hidden main-show-temporary';
-        }
-    } else if (clickIndex % 4 === 2) {
-        if (currentClasses.includes('menu-default') && currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-default menu-sub-hidden sub-hidden';
-        } else if (currentClasses.includes('menu-default')) {
-            nextClasses = 'menu-default main-hidden sub-hidden';
-        } else if (currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-sub-hidden sub-hidden';
-        } else if (currentClasses.includes('menu-hidden')) {
-            nextClasses = 'menu-hidden main-show-temporary sub-show-temporary';
-        }
-    } else if (clickIndex % 4 === 3) {
-        if (currentClasses.includes('menu-default') && currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-default menu-sub-hidden sub-show-temporary';
-        } else if (currentClasses.includes('menu-default')) {
-            nextClasses = 'menu-default sub-hidden';
-        } else if (currentClasses.includes('menu-sub-hidden')) {
-            nextClasses = 'menu-sub-hidden sub-show-temporary';
-        } else if (currentClasses.includes('menu-hidden')) {
-            nextClasses = 'menu-hidden main-show-temporary';
-        }
-    }
-    if (currentClasses.includes('menu-mobile')) {
-        nextClasses += ' menu-mobile';
-    }
-    return (
-        {
-            type: MENU_SET_CLASSNAMES,
-            payload: { containerClassnames: nextClasses, menuClickCount: clickIndex }
-        }
-    )
-}
+export const getMenuGroupSuccess = (menuGroup) => ({
+  type: GET_MENU_GROUP_SUCCESS,
+  payload: { menuGroup },
+})
+
+export const getMenuGroupError = (error) => ({
+  type: GET_MENU_GROUP_ERROR,
+  payload: { message: error },
+})
+
+export const getMenuItems = ({ merchantId, restaurantId, menuId }) => ({
+  type: GET_MENU_ITEM,
+  payload: { merchantId, restaurantId, menuId },
+})
+
+export const getMenuItemsSuccess = (menuItems) => ({
+  type: GET_MENU_ITEM_SUCCESS,
+  payload: { menuItems },
+})
+
+export const getMenuItemsError = (error) => ({
+  type: GET_MENU_ITEM_ERROR,
+  payload: { message: error },
+})
