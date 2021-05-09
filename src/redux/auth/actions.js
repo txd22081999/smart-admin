@@ -23,7 +23,6 @@ export const loginUser = (user, history) => ({
 //   payload: user
 // });
 export const loginUserSuccess = (user) => {
-  console.log(user)
   return {
     type: LOGIN_USER_SUCCESS,
     payload: user,
@@ -61,8 +60,6 @@ export const resetPasswordError = (message) => ({
 })
 
 export const registerUser = (user, history) => {
-  console.log(user)
-  console.log(history)
   return {
     type: REGISTER_USER,
     payload: { user, history },

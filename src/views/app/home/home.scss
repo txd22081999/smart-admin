@@ -2,6 +2,7 @@
   p {
     margin: 0;
     padding: 0;
+    font-size: 0.9rem;
   }
 
   .img-container {
@@ -41,7 +42,6 @@
     }
 
     .text {
-      font-size: 23px;
       margin-top: 10px;
 
       .badge {
@@ -66,7 +66,6 @@
       }
 
       .time {
-        font-size: 23px;
       }
     }
   }

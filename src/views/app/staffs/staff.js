@@ -1,21 +1,7 @@
 import React, { Component } from 'react'
-import {
-  Row,
-  Card,
-  CardTitle,
-  Form,
-  Label,
-  Input,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  Dropdown,
-  FormGroup,
-  FormText,
-} from 'reactstrap'
+import { Row, Card, CardTitle, Form, Label, Input, Button } from 'reactstrap'
 
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { registerStaff } from '../../../redux/actions'
 
@@ -24,7 +10,7 @@ import { Colxx } from '../../../components/common/CustomBootstrap'
 import DatePicker from '../../../components/common/DatePicker'
 
 import './create.scss'
-import UploadImage from '../../../components/common/UploadImage'
+// import UploadImage from '../../../components/common/UploadImage'
 import { isEmpty } from '../../utils'
 import { NotificationManager } from 'src/components/common/react-notifications'
 

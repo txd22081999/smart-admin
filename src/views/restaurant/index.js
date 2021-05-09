@@ -16,8 +16,6 @@ const Create = React.lazy(() =>
 // )
 
 const Restaurant = ({ match }) => {
-  console.log('Restaurant here')
-  console.log(match)
   return (
     <RestaurantLayout>
       <Suspense fallback={<div className='loading' />}>

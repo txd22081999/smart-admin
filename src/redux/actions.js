@@ -27,7 +27,18 @@ export const REGISTER_STAFF = 'REGISTER_STAFF'
 export const REGISTER_STAFF_SUCCESS = 'REGISTER_STAFF_SUCCESS'
 export const REGISTER_STAFF_ERROR = 'REGISTER_STAFF_ERROR'
 
+export const GET_MERCHANT = 'GET_MERCHANT'
+export const GET_MERCHANT_SUCCESS = 'GET_MERCHANT_SUCCESS'
+export const GET_MERCHANT_ERROR = 'GET_MERCHANT_ERROR'
+
+export const SET_RESTAURANT = 'SET_RESTAURANT'
+export const GET_RESTAURANT = 'GET_RESTAURANT'
+export const GET_RESTAURANT_SUCCESS = 'GET_RESTAURANT_SUCCESS'
+export const GET_RESTAURANT_ERROR = 'GET_RESTAURANT_ERROR'
+
 export * from './menu/actions'
 export * from './settings/actions'
 export * from './auth/actions'
 export * from './staff/actions'
+export * from './merchant/actions'
+export * from './restaurant/actions'

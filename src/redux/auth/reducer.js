@@ -29,7 +29,6 @@ export default (state = INIT_STATE, action) => {
     case LOGIN_USER:
       return { ...state, loading: true, error: '' }
     case LOGIN_USER_SUCCESS: {
-      console.log(action)
       return { ...state, loading: false, user: action.payload, error: '' }
       //   return { ...state, loading: false, user: action.payload.uid, error: '' }
     }

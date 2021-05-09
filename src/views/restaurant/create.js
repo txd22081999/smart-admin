@@ -1,19 +1,7 @@
 import React, { Component } from 'react'
-import {
-  Row,
-  Card,
-  CardTitle,
-  Form,
-  Label,
-  Input,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  Dropdown,
-} from 'reactstrap'
+import { Row, Card, CardTitle, Form, Label, Input, Button } from 'reactstrap'
 
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { registerUser } from '../../redux/actions'
 

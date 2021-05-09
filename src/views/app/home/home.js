@@ -2,17 +2,54 @@ import React, { Component, Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Row } from 'reactstrap'
 import IntlMessages from '../../../helpers/IntlMessages'
+import { Badge } from 'reactstrap'
+import { connect } from 'react-redux'
+
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
-import { Badge } from 'reactstrap'
 // import Banner from '../../../assets/images/banner.jpg'
 // import Banner from './banner.jpg'
 // import Banner from './banner.jpg'
+import { getMerchant } from '../../../redux/actions'
+
 import './home.scss'
 
-export default class Home extends Component {
+class Home extends Component {
+  componentDidMount() {
+    // getMerchantInfo()
+    const {
+      getMerchant,
+      authUser: {
+        user: { id: merchantId },
+      },
+    } = this.props
+    // getMerchant(merchantId)
+  }
+
   render() {
     // console.log(Banner)
+    const {
+      merchantUser: { error, loading, merchant },
+      restaurantInfo: {
+        restaurant: {
+          name,
+          area,
+          address,
+          city,
+          contractId,
+          isActive,
+          isVerified,
+          phone,
+          posAppKey,
+          coverImageUrl = 'http://businesstech.co.za/news/wp-content/uploads/2015/03/Male-ideal-beauty.jpg',
+        },
+      },
+    } = this.props
+
+    if (loading) {
+      return <p>Loading</p>
+    }
+
     return (
       <Fragment>
         <Row>
@@ -33,13 +70,13 @@ export default class Home extends Component {
                   <div className='profile-img'>
                     <img
                       // src='https://lh3.googleusercontent.com/proxy/81uC5i5ElutTe7HhCBfH18vDRI7HmIvy9EyAwGeWZOItoGhbVUwy0UEBMzh-6laQBzwkk4UZXTRG9Tc_wuAnJ3fpgnwucdGKey1ozbMu1nhlm_j3eUqfsSAoJ_SkX8bnUuklxVK05139BdoNQlTB8fuk'
-                      src='http://businesstech.co.za/news/wp-content/uploads/2015/03/Male-ideal-beauty.jpg'
+                      src={coverImageUrl}
                       alt='avatar'
                     />
                   </div>
                   <div className='text'>
                     <div className='text-header d-flex align-items-center justify-content-between'>
-                      <h3 className='name text-orange'>Cơm 123</h3>
+                      <h3 className='name text-orange'>{name}</h3>
 
                       <div className=' d-flex align-items-center'>
                         <Badge
@@ -71,7 +108,8 @@ export default class Home extends Component {
                     <div className='d-flex align-items-center'>
                       <box-icon name='current-location'></box-icon>
                       <p className='location'>
-                        670 Trường Chinh, Q.Tân Bình, Tp. Hồ Chí Minh
+                        {/* 670 Trường Chinh, Q.Tân Bình, Tp. Hồ Chí Minh */}
+                        {address}
                       </p>
                     </div>
 
@@ -91,7 +129,7 @@ export default class Home extends Component {
 
                     <div className='d-flex align-items-center'>
                       <box-icon name='phone' type='solid'></box-icon>
-                      <p className='contact'>0943.123.456</p>
+                      <p className='contact'>{phone}</p>
                     </div>
                   </div>
                 </div>
@@ -103,3 +141,9 @@ export default class Home extends Component {
     )
   }
 }
+
+// export default Home
+const mapStateToProps = ({ authUser, merchantUser, restaurantInfo }) => {
+  return { merchantUser, authUser, restaurantInfo }
+}
+export default connect(mapStateToProps, { getMerchant })(Home)
