@@ -92,14 +92,11 @@ const registerWithUsernamePasswordAsync = async (user) => {
   } catch (error) {
     return getErrorMessage(error)
   }
-  // await auth
-  //   .createUserWithEmailAndPassword(email, password)
-  //   .then((authUser) => authUser)
-  //   .catch((error) => error)
 }
 
 function* registerWithUsernamePassword({ payload }) {
   // const { username, email, password } = payload.user
+  console.log(payload)
   const { history } = payload
   try {
     const registerUser = yield call(
@@ -108,13 +105,13 @@ function* registerWithUsernamePassword({ payload }) {
     )
     if (!registerUser.message) {
       // localStorage.setItem('user_id', registerUser.user.uid)
-      // yield put(registerUserSuccess(registerUser))
-      // history.push('/')
+      yield put(registerUserSuccess(registerUser))
+      history.push('/merchant/login')
     } else {
-      // yield put(registerUserError(registerUser.message))
+      yield put(registerUserError(registerUser.message))
     }
   } catch (error) {
-    // yield put(registerUserError(error))
+    yield put(registerUserError(error))
   }
 }
 

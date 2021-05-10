@@ -42,7 +42,9 @@ class App extends Component {
               {/* <Redirect exact from={`${match.url}/`} to={`/merchant`} /> */}
 
               <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
-              {/* {!authUser.user ? (
+
+              {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+              {!authUser.user ? (
                 <Redirect from={`${match.url}/`} to={`/merchant`} />
               ) : (
                 <Redirect

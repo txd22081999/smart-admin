@@ -142,11 +142,11 @@ class Login extends Component {
                     </FormGroup>
                     <div className='d-flex justify-content-between align-items-center'>
                       <div className='d-flex'>
-                        <NavLink to={`/user/register`} className='mr-3'>
+                        <NavLink to={`/merchant/register`} className='mr-3'>
                           <IntlMessages id='user.register' />
                         </NavLink>
 
-                        <NavLink to={`/user/forgot-password`}>
+                        <NavLink to={`/merchant/forgot-password`}>
                           <IntlMessages id='user.forgot-password-question' />
                         </NavLink>
                       </div>

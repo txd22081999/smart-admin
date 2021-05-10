@@ -20,6 +20,7 @@ class Register extends Component {
     }
   }
   onUserRegister() {
+    const { registerUser } = this.props
     const { username, name, password, email, phone, idNumber } = this.state
     if (username !== '' && email !== '' && password !== '') {
       // this.props.history.push('/')
