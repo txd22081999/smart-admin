@@ -106,4 +106,8 @@ module.exports = {
   'staff.password': 'Mật khẩu',
   'staff.position': 'Vị trí',
   'staff.username': 'Tên tài khoản',
+
+  'menu.group-name': 'Tên nhóm',
+  'menu.group-index': 'Index',
+  'menu.menu-group-create-btn': 'Tạo nhóm món',
 }

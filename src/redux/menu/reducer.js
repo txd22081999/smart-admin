@@ -8,6 +8,10 @@ import {
   GET_MENU_ITEM,
   GET_MENU_ITEM_SUCCESS,
   GET_MENU_ITEM_ERROR,
+  SET_MENU_GROUP,
+  CREATE_MENU_GROUP,
+  CREATE_MENU_GROUP_SUCCESS,
+  CREATE_MENU_GROUP_ERROR,
 } from '../actions'
 
 const INIT_STATE = {
@@ -35,6 +39,7 @@ export default (state = INIT_STATE, action) => {
         menus: payload.menus,
       }
     }
+    // GET MENU GROUP
     case GET_MENU_GROUP: {
       return { ...state, loading: true, error: '' }
     }
@@ -55,6 +60,7 @@ export default (state = INIT_STATE, action) => {
         error: payload.message,
       }
     }
+    // MENU ITEM
     case SET_MENU: {
       const selectedMenu = state.menus.find(
         (menu) => menu.id === payload.menuId
@@ -64,6 +70,7 @@ export default (state = INIT_STATE, action) => {
         menu: selectedMenu,
       }
     }
+
     case GET_MENU_ITEM: {
       console.log(payload)
       return { ...state, loadingMenuItems: true, error: '' }
@@ -85,6 +92,39 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loadingMenuItems: false,
         menuItems: [],
+        error: payload.message,
+      }
+    }
+
+    // MENU GROUP
+    case SET_MENU_GROUP: {
+      return {
+        ...state,
+        menuGroup: [...state.menuGroup, payload.menuGroup],
+      }
+    }
+
+    case CREATE_MENU_GROUP: {
+      console.log(payload)
+      return { ...state, loadingMenuGroups: true, error: '' }
+    }
+    case CREATE_MENU_GROUP_SUCCESS: {
+      // console.log(payload.menuItems)
+      // console.log(state.menuGroup)
+
+      return {
+        ...state,
+        menuGroup: [...state.menuGroup, payload.menuGroup],
+        loadingMenuGroups: false,
+        error: '',
+      }
+    }
+    case CREATE_MENU_GROUP_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingMenuGroups: false,
+        menuGroup: [],
         error: payload.message,
       }
     }

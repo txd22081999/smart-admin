@@ -1,5 +1,11 @@
 import { all, call, fork, put, takeEvery } from '@redux-saga/core/effects'
-import { GET_MENUS, GET_MENU, GET_MENU_GROUP, GET_MENU_ITEM } from '../actions'
+import {
+  GET_MENUS,
+  GET_MENU,
+  GET_MENU_GROUP,
+  GET_MENU_ITEM,
+  CREATE_MENU_GROUP,
+} from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
 import { USER_URL } from 'src/constants/config'
@@ -10,6 +16,8 @@ import {
   getMenuGroupError,
   getMenuItemsSuccess,
   getMenuItemsError,
+  createMenuGroupSuccess,
+  createMenuGroupError,
 } from './actions'
 
 const getMenuAsync = async (merchantId, restaurantId) => {
@@ -156,7 +164,56 @@ function* getMenuItems({ payload }) {
     }
   } catch (error) {
     console.log('ERR', error.response)
-    // yield put(getMenuGroupError('Something went wrong in getMenus Saga!'))
+    yield put(getMenuItemsError('Something went wrong in getMenus Saga!'))
+  }
+}
+
+const createMenuGroupAsync = async (merchantId, restaurantId, menuId, data) => {
+  const accessToken = localStorage.getItem('access_token')
+  try {
+    let response
+    response = await axios({
+      method: 'POST',
+      url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-group`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data,
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
+}
+
+function* createMenuGroup({ payload }) {
+  console.log(payload)
+  const { merchantId, restaurantId, menuId, data } = payload
+  try {
+    const response = yield call(
+      createMenuGroupAsync,
+      merchantId,
+      restaurantId,
+      menuId,
+      data
+    )
+    console.log(response)
+    if (!response.message) {
+      const {
+        data: {
+          data: { menuGroup = [] },
+        },
+      } = response
+      yield put(createMenuGroupSuccess(menuGroup))
+    } else {
+      console.log(response.message)
+      yield put(createMenuGroupError(response.message))
+    }
+  } catch (error) {
+    console.log('ERR', error.response)
+    yield put(
+      createMenuGroupError('Something went wrong in createMenuGroup Saga!')
+    )
   }
 }
 
@@ -164,9 +221,9 @@ export function* watchGetMenuList() {
   yield takeEvery(GET_MENUS, getMenus)
 }
 
-export function* watchGetMenu() {
-  yield takeEvery(GET_MENU, getMenus)
-}
+// export function* watchGetMenu() {
+//   yield takeEvery(GET_MENU, getMenus)
+// }
 
 export function* watchGetMenuGroup() {
   yield takeEvery(GET_MENU_GROUP, getMenuGroup)
@@ -176,11 +233,27 @@ export function* watchGetMenuItems() {
   yield takeEvery(GET_MENU_ITEM, getMenuItems)
 }
 
+// Get Menu All
+export function* watchGetMenu() {
+  yield takeEvery(GET_MENUS, getMenus)
+  yield takeEvery(GET_MENU, getMenus)
+  yield takeEvery(GET_MENU_GROUP, getMenuGroup)
+  yield takeEvery(GET_MENU_ITEM, getMenuItems)
+}
+
+export function* watchCreateMenu() {
+  yield takeEvery(CREATE_MENU_GROUP, createMenuGroup)
+}
+
 export default function* rootSaga() {
   yield all([
-    fork(watchGetMenuList),
     fork(watchGetMenu),
-    fork(watchGetMenuGroup),
-    fork(watchGetMenuItems),
+    fork(watchCreateMenu),
+
+    // fork(watchGetMenuList),
+    // fork(watchGetMenu),
+    // fork(watchGetMenuGroup),
+    // fork(watchGetMenuItems),
+    // fork(watchCreateMenuGroup),
   ])
 }

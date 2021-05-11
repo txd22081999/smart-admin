@@ -60,6 +60,12 @@ export const GET_MENU_ITEM = 'GET_MENU_ITEM'
 export const GET_MENU_ITEM_SUCCESS = 'GET_MENU_ITEM_SUCCESS'
 export const GET_MENU_ITEM_ERROR = 'GET_MENU_ITEM_ERROR'
 
+// MENU GROUP
+export const SET_MENU_GROUP = 'SET_MENU_GROUP'
+export const CREATE_MENU_GROUP = 'CREATE_MENU_GROUP'
+export const CREATE_MENU_GROUP_SUCCESS = 'CREATE_MENU_GROUP_SUCCESS'
+export const CREATE_MENU_GROUP_ERROR = 'CREATE_MENU_GROUP_ERROR'
+
 export * from './menu2/actions'
 export * from './settings/actions'
 export * from './auth/actions'

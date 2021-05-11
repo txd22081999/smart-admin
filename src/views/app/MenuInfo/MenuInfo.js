@@ -3,9 +3,16 @@ import { connect } from 'react-redux'
 import { Card, CardBody } from 'reactstrap'
 
 import MenuItem from '../MenuItem'
-import { getMenuGroup, getMenuItems, setMenu } from 'src/redux/actions'
+import {
+  getMenuGroup,
+  getMenuItems,
+  setMenu,
+  createMenuGroup,
+} from 'src/redux/actions'
 
 import './MenuInfo.scss'
+import MenuGroupCreate from '../MenuGroupCreate'
+import clsx from 'clsx'
 
 const MenuGroup = (props) => {
   const {
@@ -18,7 +25,7 @@ const MenuGroup = (props) => {
   } = props
 
   useEffect(() => {
-    getMenuItems({ merchantId, restaurantId, menuId })
+    // getMenuItems({ merchantId, restaurantId, menuId })
   }, [])
 
   const onGroupClick = () => {
@@ -56,38 +63,97 @@ const MenuGroup = (props) => {
 
 const MenuInfo = (props) => {
   console.log(props)
+
+  const [showCreateGroup, setShowCreateGroup] = useState(false)
+  const [showCreateItem, setShowCreateItem] = useState(false)
+
   const {
     location: { pathname },
     setMenu,
     getMenuGroup,
     getMenuItems,
+    createMenuGroup,
     // authUser: {user: {id: merchantId}},
     // restaurantInfo: {restaurant: {id: restaurantId}},
-    restaurantMenu: { menus, menu, menuGroup, loading, error, menuItems },
+    restaurantMenu: {
+      menus,
+      menu,
+      menuGroup,
+      loading,
+      error,
+      menuItems,
+      loadingMenuGroups,
+    },
   } = props
 
   const menuId = pathname.split(`/app/dishes/create/`)[1]
   const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
-  const restaurantId = `0053dc1a-5473-4000-9e99-6ec2f9f2e14d`
+  const restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`
 
   useEffect(() => {
-    setMenu(menuId)
-    getMenuGroup({ merchantId, restaurantId, menuId })
+    // setMenu(menuId)
+    // getMenuGroup({ merchantId, restaurantId, menuId })
     console.log('HIHI')
   }, [])
+
+  useEffect(() => {
+    setShowCreateGroup(false)
+    setShowCreateItem(false)
+  }, [menuGroup])
+
+  const onMenuGroupCreateClick = () => {
+    console.log(props)
+    setShowCreateGroup(true)
+  }
+
+  const onMenuItemCreate = () => {
+    console.log('Creat item')
+  }
+
+  const onMenuGroupCreate = (values) => {
+    console.log('Creat group')
+    console.log({ merchantId, restaurantId, menuId, data: values })
+    createMenuGroup({ merchantId, restaurantId, menuId, data: values })
+  }
 
   if (loading) {
     // return <p>Loading</p>
     return <div className='loading'></div>
   }
 
-  if (menuGroup.length === 0) {
-    return <p>There's no menu group yet. Create one!</p>
-  }
+  // if (menuGroup.length === 0) {
+  //   return <p>There's no menu group yet. Create one!</p>
+  // }
 
   return (
     <div>
-      <h2>Thực đơn (theo nhóm)</h2>
+      <div className='d-flex align-items-center justify-content-space-between mb-2'>
+        <h2>Thực đơn (theo nhóm)</h2>
+        {/* <span className='button'>Hello</span> */}
+        <div>
+          <button
+            type='button'
+            class='btn-shadow btn btn-primary btn-md mr-4'
+            onClick={onMenuGroupCreateClick}
+          >
+            <span>Tạo nhóm món</span>
+          </button>
+          <button
+            type='button'
+            class='btn-shadow btn btn-primary'
+            onClick={onMenuItemCreate}
+          >
+            <span>Tạo món</span>
+          </button>
+        </div>
+      </div>
+
+      {showCreateGroup && (
+        <div className={clsx(loadingMenuGroups ? 'opacity-05' : 'opacity-1')}>
+          <MenuGroupCreate onSubmit={onMenuGroupCreate} />{' '}
+        </div>
+      )}
+
       {menuGroup.map((group) => {
         return (
           <MenuGroup
@@ -113,4 +179,5 @@ export default connect(mapStateToProps, {
   getMenuGroup,
   setMenu,
   getMenuItems,
+  createMenuGroup,
 })(MenuInfo)

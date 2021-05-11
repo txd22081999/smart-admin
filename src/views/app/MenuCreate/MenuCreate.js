@@ -43,9 +43,10 @@ const MenuCreate = (props) => {
   const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
 
   useEffect(() => {
+    console.log(props)
     console.log(merchantId)
     console.log(restaurantId)
-    getMenu(merchantId, restaurantId)
+    // getMenu(merchantId, restaurantId)
   }, [])
 
   if (loading) {

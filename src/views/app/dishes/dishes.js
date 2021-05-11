@@ -47,7 +47,6 @@ class Dishes extends Component {
 
     const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
     const menuId = menus[0]?.id || `93e90bca-09f6-4cf2-9915-883fccb14276`
-    console.log(menuItems)
 
     getMenu(merchantId, restaurantId)
     getMenuGroup({ merchantId, restaurantId, menuId })
@@ -71,7 +70,6 @@ class Dishes extends Component {
   }
 
   componentDidUpdate() {
-    console.log('Update', this.props)
     const {
       restaurantMenu: {
         menus,
@@ -88,13 +86,10 @@ class Dishes extends Component {
       this.state.tableData.data.length === 0 &&
       menuGroup.length > 0
     ) {
-      console.log('Have data')
-      console.log(menuItems)
-
       const newMenuItems = menuItems.map(
         ({ id, name, imageUrl, description, menuGroupId }) => {
           const group = findMenuGroupById(menuGroupId, menuGroup)
-          console.log(group)
+
           return {
             id,
             title: name,
@@ -145,8 +140,6 @@ class Dishes extends Component {
   }
 
   render() {
-    console.log(this.state)
-    // console.log(this.props)
     const { history, getMenu } = this.props
     const { tableData = {} } = this.state
 
