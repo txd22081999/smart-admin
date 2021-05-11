@@ -33,7 +33,7 @@ const MenuCreate = (props) => {
     //   user: { id: merchantId }
     // },
     restaurantInfo: {
-      restaurant: { id: restaurantId = `0053dc1a-5473-4000-9e99-6ec2f9f2e14d` },
+      restaurant: { id: restaurantId = `02573012-af6f-4e29-9c6a-55e616c1e7e8` },
     },
     restaurantMenu: { menus, loading, error, menu },
     getMenu,

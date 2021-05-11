@@ -43,7 +43,7 @@ class App extends Component {
 
               {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} /> */}
 
-              <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+              {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
               {!authUser.user ? (
                 <Redirect from={`${match.url}/`} to={`/merchant`} />
               ) : (
@@ -52,7 +52,7 @@ class App extends Component {
                   from={`${match.url}/`}
                   to={`${match.url}/home`}
                 />
-              )}
+              )} */}
 
               <Route
                 path={`${match.url}/home`}

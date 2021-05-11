@@ -20,6 +20,28 @@ function collect(props) {
 }
 const apiUrl = servicePath + '/cakes/paging'
 
+const temp = {
+  status: true,
+  totalItem: 20,
+  totalPage: 2,
+  pageSize: '10',
+  currentPage: '1',
+  data: [
+    {
+      id: 18,
+      title: 'Cơm chiên',
+      img: '/assets/img/bebinca-thumb.jpg',
+      category: 'Món chính',
+      status: 'Đang chuẩn bị',
+      statusColor: 'secondary',
+      description: 'Homemade cheesecake with fresh berries and mint',
+      sales: 574,
+      stock: 16,
+      date: '01.04.2021',
+    },
+  ],
+}
+
 class DataListPages extends Component {
   constructor(props) {
     super(props)
@@ -194,29 +216,35 @@ class DataListPages extends Component {
   }
 
   dataListRender() {
-    const {
-      selectedPageSize,
-      currentPage,
-      selectedOrderOption,
-      search,
-    } = this.state
+    const { selectedPageSize, currentPage, selectedOrderOption, search } =
+      this.state
+
+    const { data = {} } = this.props
+    console.log(data)
+    this.setState({
+      totalPage: data.totalPage,
+      items: data.data,
+      selectedItems: [],
+      totalItemCount: data.totalItem,
+      isLoading: true,
+    })
 
     //Fetch dishes data
-    setTimeout(() => {
-      //   fs.readFile('./mockData.json', { encoding: 'utf-8' }, (data, err) => {
-      //     console.log(data)
-      //     console.log(err)
-      //   })
-      const data = mockData
-      console.log(data)
-      this.setState({
-        totalPage: data.totalPage,
-        items: data.data,
-        selectedItems: [],
-        totalItemCount: data.totalItem,
-        isLoading: true,
-      })
-    }, 1000)
+    // setTimeout(() => {
+    //   //   fs.readFile('./mockData.json', { encoding: 'utf-8' }, (data, err) => {
+    //   //     console.log(data)
+    //   //     console.log(err)
+    //   //   })
+    //   const data = mockData
+    //   // console.log(data)
+    //   this.setState({
+    //     totalPage: data.totalPage,
+    //     items: data.data,
+    //     selectedItems: [],
+    //     totalItemCount: data.totalItem,
+    //     isLoading: true,
+    //   })
+    // }, 1000)
 
     // axios
     //   .get(

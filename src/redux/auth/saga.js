@@ -85,7 +85,7 @@ const registerWithUsernamePasswordAsync = async (user) => {
     let response
     response = await axios({
       method: 'post',
-      url: `${USER_URL}/register`,
+      url: `${USER_URL}`,
       data: user,
     })
     return response
