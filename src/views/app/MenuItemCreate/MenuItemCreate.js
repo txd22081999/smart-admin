@@ -6,12 +6,16 @@ import { Field, Formik } from 'formik'
 import IntlMessages from 'src/helpers/IntlMessages'
 import { FormikReactSelect } from '../../../containers/form-validations/FormikFields'
 
+import { createMenuItem } from '../../../redux/actions'
+
 const MenuItemCreate = (props) => {
   const {
-    restaurantMenu: { menuGroup = [] },
-    createMenuGroup,
+    createMenuItem,
     loading,
     history,
+    authUser,
+    restaurantMenu: { menuGroup = [], menus = [] },
+    restaurantInfo,
   } = props
 
   const [menuGroupOption, setMenuGroupOption] = useState([])
@@ -28,6 +32,14 @@ const MenuItemCreate = (props) => {
   }, [menuGroup])
 
   const initialValues = {
+    // menuGroup: '',
+    // name: 'Hủ tiếu nam vang',
+    // description: 'Mô tả hủ tiếu ...',
+    // price: '45000',
+    // imageUrl:
+    //   'https://vcdn-dulich.vnecdn.net/2019/01/08/500-HutieuThanhDat-VnExpress-S-9075-3252-1546913049.jpg',
+    // isActive: true,
+    // index: 65537,
     menuGroup: '',
     name: '',
     description: '',
@@ -43,17 +55,39 @@ const MenuItemCreate = (props) => {
     if (loading) {
       return
     }
-    if (values.name !== '' && values.index !== '') {
-      if (props.onSubmit) props.onSubmit(values)
+    // if (values.name !== '' && values.index !== '') {
+    //   if (props.onSubmit) props.onSubmit(values)
 
-      // createMenuGroup(values, history)
-    }
+    //   // createMenuGroup(values, history)
+    // }
+    const {
+      restaurant: { id: restaurantId },
+    } = restaurantInfo
+    const {
+      user: { id: merchantId },
+    } = authUser
+    const menuGroupId = values.menuGroup || menuGroupOption[0].value
+    const menuId = menus[0].id || ''
+    console.log(menuId)
+    createMenuItem({
+      merchantId,
+      restaurantId,
+      menuId,
+      menuGroupId,
+      data: values,
+      history,
+    })
+
+    // console.log(createSuccess)
+    // if (createSuccess) {
+    //   history.push('/app/dishes/create/menu-item')
+    // }
   }
 
   const validateName = (value) => {
     let error
     if (!value) {
-      error = `Please enter menu group's name`
+      error = `Please enter menu's name`
     } else if (value.length < 2) {
       error = 'Value must be longer than 2 characters'
     }
@@ -63,7 +97,7 @@ const MenuItemCreate = (props) => {
   const validateDescription = (value) => {
     let error
     if (!value) {
-      error = `Please enter menu group's name`
+      error = `Please enter menu's description`
     } else if (value.length < 2) {
       error = 'Value must be longer than 2 characters'
     }
@@ -73,7 +107,7 @@ const MenuItemCreate = (props) => {
   const validatePrice = (value) => {
     let error
     if (!value) {
-      error = `Please enter menu group's name`
+      error = `Please enter menu group menu's price`
     } else if (value.length < 2) {
       error = 'Value must be longer than 2 characters'
     }
@@ -83,7 +117,7 @@ const MenuItemCreate = (props) => {
   const validateImage = (value) => {
     let error
     if (!value) {
-      error = `Please enter menu group's name`
+      error = `Please enter menu's image url`
     } else if (value.length < 2) {
       error = 'Value must be longer than 2 characters'
     }
@@ -93,7 +127,7 @@ const MenuItemCreate = (props) => {
   const validateIndex = (value) => {
     let error
     if (!value) {
-      error = `Please enter menu group's index`
+      error = `Please enter menu's index`
     } else if (isNaN(value)) {
       error = 'Value must be a number'
     }
@@ -183,6 +217,7 @@ const MenuItemCreate = (props) => {
               <Field
                 className='form-control'
                 name='price'
+                type='number'
                 validate={validatePrice}
               />
               {errors.price && touched.price && (
@@ -196,11 +231,13 @@ const MenuItemCreate = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='image'
+                name='imageUrl'
                 validate={validateImage}
               />
-              {errors.image && touched.image && (
-                <div className='invalid-feedback d-block'>{errors.image}</div>
+              {errors.imageUrl && touched.imageUrl && (
+                <div className='invalid-feedback d-block'>
+                  {errors.imageUrl}
+                </div>
               )}
             </FormGroup>
 
@@ -211,6 +248,7 @@ const MenuItemCreate = (props) => {
               <Field
                 className='form-control'
                 name='index'
+                type='number'
                 validate={validateIndex}
               />
               {errors.index && touched.index && (
@@ -258,8 +296,18 @@ const MenuItemCreate = (props) => {
 
 // export default MenuItemCreate
 
-const mapStateToProps = ({ restaurantMenu }) => ({
+const mapStateToProps = ({
   restaurantMenu,
+  merchantUser,
+  authUser,
+  restaurantInfo,
+}) => ({
+  restaurantMenu,
+  merchantUser,
+  authUser,
+  restaurantInfo,
 })
 
-export default connect(mapStateToProps, {})(MenuItemCreate)
+export default connect(mapStateToProps, {
+  createMenuItem,
+})(MenuItemCreate)

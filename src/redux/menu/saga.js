@@ -5,6 +5,8 @@ import {
   GET_MENU_GROUP,
   GET_MENU_ITEM,
   CREATE_MENU_GROUP,
+  CREATE_MENU_ITEM_SUCCESS,
+  CREATE_MENU_ITEM,
 } from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
@@ -18,6 +20,8 @@ import {
   getMenuItemsError,
   createMenuGroupSuccess,
   createMenuGroupError,
+  createMenuItemSuccess,
+  createMenuItemError,
 } from './actions'
 
 const getMenuAsync = async (merchantId, restaurantId) => {
@@ -217,6 +221,69 @@ function* createMenuGroup({ payload }) {
   }
 }
 
+const createMenuItemAsync = async (
+  merchantId,
+  restaurantId,
+  menuId,
+  menuGroupId,
+  data
+) => {
+  const accessToken = localStorage.getItem('access_token')
+  try {
+    let response
+    response = await axios({
+      method: 'POST',
+      url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        ...data,
+        price: +data.price,
+        menuGroupId,
+      },
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
+}
+
+function* createMenuItem({ payload }) {
+  console.log(payload)
+  const { merchantId, restaurantId, menuId, menuGroupId, data, history } =
+    payload
+  try {
+    const response = yield call(
+      createMenuItemAsync,
+      merchantId,
+      restaurantId,
+      menuId,
+      menuGroupId,
+      data
+    )
+    console.log(response)
+    if (!response.message) {
+      const {
+        data: {
+          data: { menuItem = {} },
+        },
+      } = response
+      yield put(createMenuItemSuccess(menuItem))
+      history.push('/app/dishes/create/menu-item')
+      // history.push('/')
+    } else {
+      console.log(response.message)
+      yield put(createMenuItemError(response.message))
+    }
+  } catch (error) {
+    console.log('ERR', error.response)
+    yield put(
+      createMenuGroupError('Something went wrong in createMenuGroup Saga!')
+    )
+  }
+}
+
 export function* watchGetMenuList() {
   yield takeEvery(GET_MENUS, getMenus)
 }
@@ -243,6 +310,7 @@ export function* watchGetMenu() {
 
 export function* watchCreateMenu() {
   yield takeEvery(CREATE_MENU_GROUP, createMenuGroup)
+  yield takeEvery(CREATE_MENU_ITEM, createMenuItem)
 }
 
 export default function* rootSaga() {

@@ -25,7 +25,7 @@ import { restaurantList } from './mockData'
 
 import './restaurant.scss'
 
-const Restaurant = (props) => {
+const RestaurantSelect = (props) => {
   const {
     restaurant: {
       area,
@@ -42,9 +42,11 @@ const Restaurant = (props) => {
     },
   } = props
 
+  console.log(props)
+
   const onRestaurantSelect = () => {
     const { restaurant, setRestaurant } = props
-    console.log(setRestaurant)
+    console.log(restaurant)
     setRestaurant(restaurant)
   }
 
@@ -140,6 +142,8 @@ class RestaurantSelection extends Component {
 
       if (!data) return
 
+      console.log(data)
+
       const { results = [] } = data
       const newRestaurantList = results.map((item) => {
         const {
@@ -152,11 +156,11 @@ class RestaurantSelection extends Component {
           name,
           phone,
           posAppKey,
-          restaurantId,
+          id,
         } = item
 
         const restaurantItem = {
-          id: restaurantId,
+          id,
           name,
           area,
           address,
@@ -220,7 +224,7 @@ class RestaurantSelection extends Component {
                 {/* <CardBody className='restaurant-card'> */}
                 <CardBody className='pt-1 pb-2'>
                   {restaurantList.map((restaurant, index) => (
-                    <Restaurant
+                    <RestaurantSelect
                       restaurant={restaurant}
                       key={restaurant.id}
                       setRestaurant={setRestaurant}

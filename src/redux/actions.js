@@ -66,6 +66,12 @@ export const CREATE_MENU_GROUP = 'CREATE_MENU_GROUP'
 export const CREATE_MENU_GROUP_SUCCESS = 'CREATE_MENU_GROUP_SUCCESS'
 export const CREATE_MENU_GROUP_ERROR = 'CREATE_MENU_GROUP_ERROR'
 
+// CREATE MENU ITEM
+export const SET_MENU_ITEM = 'SET_MENU_ITEM'
+export const CREATE_MENU_ITEM = 'CREATE_MENU_ITEM'
+export const CREATE_MENU_ITEM_SUCCESS = 'CREATE_MENU_ITEM_SUCCESS'
+export const CREATE_MENU_ITEM_ERROR = 'CREATE_MENU_ITEM_ERROR'
+
 export * from './menu2/actions'
 export * from './settings/actions'
 export * from './auth/actions'

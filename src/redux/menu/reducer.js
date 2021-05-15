@@ -12,6 +12,9 @@ import {
   CREATE_MENU_GROUP,
   CREATE_MENU_GROUP_SUCCESS,
   CREATE_MENU_GROUP_ERROR,
+  CREATE_MENU_ITEM,
+  CREATE_MENU_ITEM_SUCCESS,
+  CREATE_MENU_ITEM_ERROR,
 } from '../actions'
 
 const INIT_STATE = {
@@ -21,6 +24,7 @@ const INIT_STATE = {
   menuItems: [],
   loading: false,
   loadingMenuItems: false,
+  loadingMenuItem: false,
   error: '',
 }
 
@@ -125,6 +129,29 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loadingMenuGroups: false,
         menuGroup: [],
+        error: payload.message,
+      }
+    }
+
+    case CREATE_MENU_ITEM: {
+      console.log(payload)
+      return { ...state, loadingMenuItem: true, error: '' }
+    }
+
+    case CREATE_MENU_ITEM_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        menuItems: [...state.menuItems, payload.menuItem],
+        loadingMenuItem: false,
+        error: '',
+      }
+    }
+    case CREATE_MENU_ITEM_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingMenuItem: false,
         error: payload.message,
       }
     }

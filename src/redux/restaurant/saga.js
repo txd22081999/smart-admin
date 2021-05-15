@@ -3,7 +3,12 @@ import { GET_RESTAURANT } from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
 import { USER_URL } from 'src/constants/config'
-import { getMerchantSuccess, getMerchantError } from './actions'
+import {
+  getMerchantSuccess,
+  getMerchantError,
+  getRestaurantSuccess,
+  getRestaurantError,
+} from './actions'
 
 const getRestaurantAsync = async (id) => {
   const accessToken = localStorage.getItem('access_token')
@@ -27,16 +32,17 @@ function* getRestaurant({ payload }) {
   const { id } = payload
   try {
     const response = yield call(getRestaurantAsync, id)
+    console.log(response)
     if (!response.message) {
       const {
         data: {
           data: { user },
         },
       } = response
-      yield put(getMerchantSuccess(user))
+      yield put(getRestaurantSuccess(user))
     } else {
       console.log(response.message)
-      yield put(getMerchantError(response.message))
+      yield put(getRestaurantError(response.message))
     }
   } catch (error) {
     // console.log('ERR', error.response)

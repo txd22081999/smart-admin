@@ -15,6 +15,9 @@ import {
   CREATE_MENU_GROUP,
   CREATE_MENU_GROUP_SUCCESS,
   CREATE_MENU_GROUP_ERROR,
+  CREATE_MENU_ITEM,
+  CREATE_MENU_ITEM_SUCCESS,
+  CREATE_MENU_ITEM_ERROR,
 } from '../actions'
 
 export const getMenus = (merchantId, restaurantId) => ({
@@ -99,5 +102,27 @@ export const createMenuGroupSuccess = (menuGroup) => ({
 
 export const createMenuGroupError = (error) => ({
   type: CREATE_MENU_GROUP_ERROR,
+  payload: { message: error },
+})
+
+export const createMenuItem = ({
+  merchantId,
+  restaurantId,
+  menuId,
+  menuGroupId,
+  data,
+  history,
+}) => ({
+  type: CREATE_MENU_ITEM,
+  payload: { merchantId, restaurantId, menuId, menuGroupId, data, history },
+})
+
+export const createMenuItemSuccess = (menuItem, history) => ({
+  type: CREATE_MENU_ITEM_SUCCESS,
+  payload: { menuItem, history },
+})
+
+export const createMenuItemError = (error) => ({
+  type: CREATE_MENU_ITEM_ERROR,
   payload: { message: error },
 })
