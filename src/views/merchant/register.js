@@ -14,7 +14,7 @@ class Register extends Component {
       username: 'hihihaha',
       email: 'mechant123@foa.com',
       password: '123123',
-      name: 'Sarah Kortney',
+      name: 'Quán Ăn Maika 3',
       phone: '0943123456',
       idNumber: '272699300',
     }

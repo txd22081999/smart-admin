@@ -20,26 +20,19 @@ class CreateStaff extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: 'Staff1',
+      username: 'hue-nguyen-001',
       password: '123123',
       phone: '0943123456',
-      firstName: 'Nguyen',
-      lastName: 'Hue',
+      firstName: 'Huệ',
+      lastName: 'Nguyễn',
       idNumber: '272699300',
       dob: '1999-01-01',
     }
   }
 
   onUserRegister = () => {
-    const {
-      username,
-      password,
-      phone,
-      firstName,
-      lastName,
-      idNumber,
-      dob,
-    } = this.state
+    const { username, password, phone, firstName, lastName, idNumber, dob } =
+      this.state
 
     const { history } = this.props
     if (

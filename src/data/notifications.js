@@ -1,6 +1,7 @@
 const data = [
   {
-    img: '/assets/img/profile-pic-l-2.jpg',
+    // img: '/assets/img/profile-pic-l-2.jpg',
+    img: 'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg',
     title: 'Joisse Kaycee just sent a new comment!',
     date: '09.04.2018 - 12:45',
     id: 1,
