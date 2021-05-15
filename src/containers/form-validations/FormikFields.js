@@ -12,10 +12,14 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 export class FormikReactSelect extends React.Component {
   handleChange = (value) => {
-    this.props.onChange(this.props.name, value)
+    const { onChange } = this.props
+    if (!onChange) return
+    onChange(this.props.name, value)
   }
   handleBlur = () => {
-    this.props.onBlur(this.props.name, true)
+    const { onBlur } = this.props
+    if (!onBlur) return
+    onBlur(this.props.name, true)
   }
   render() {
     return (

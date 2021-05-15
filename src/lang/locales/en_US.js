@@ -110,4 +110,13 @@ module.exports = {
   'menu.group-name': 'Tên nhóm',
   'menu.group-index': 'Index',
   'menu.menu-group-create-btn': 'Tạo nhóm món',
+  'menu.menu-item-create-btn': 'Tạo món',
+  'menu.menu-group': 'Nhóm món',
+  'menu.menu-item': 'Tên món',
+  'menu.select-menu-group': 'Nhóm món',
+  'menu.menu-item-name': 'Tên món',
+  'menu.menu-item-description': 'Mô tả',
+  'menu.menu-item-price': 'Giá',
+  'menu.menu-item-image': 'Hình ảnh',
+  'menu.menu-item-index': 'Chỉ số',
 }

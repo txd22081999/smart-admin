@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, CardBody } from 'reactstrap'
+import { Card, CardBody, Row } from 'reactstrap'
+import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 
 import './MenuItem.scss'
 
@@ -30,16 +31,22 @@ const MenuItem = (props) => {
       onClick={onGroupClick}
     >
       <CardBody>
-        <h2>{name}</h2>
-        <p>{description}</p>
-        <p>{price}</p>
-        <img
-          style={{ maxWidth: '200px', maxHeight: '200px' }}
-          src={imageUrl}
-          alt=''
-        />
-        <p>Index: {index}</p>
-        <p>{isActive ? 'Active' : 'Inactive'} </p>
+        <Row>
+          <Colxx md='3'>
+            <img
+              style={{ maxWidth: '200px', maxHeight: '200px' }}
+              src={imageUrl}
+              alt=''
+            />
+          </Colxx>
+          <Colxx md='9'>
+            <h2>{name}</h2>
+            <p>{description}</p>
+            <p>{price}</p>
+            <p>Index: {index}</p>
+            <p>{isActive ? 'Active' : 'Inactive'} </p>
+          </Colxx>
+        </Row>
       </CardBody>
     </Card>
   )

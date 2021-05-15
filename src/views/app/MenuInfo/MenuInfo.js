@@ -73,6 +73,7 @@ const MenuInfo = (props) => {
     getMenuGroup,
     getMenuItems,
     createMenuGroup,
+    history,
     // authUser: {user: {id: merchantId}},
     // restaurantInfo: {restaurant: {id: restaurantId}},
     restaurantMenu: {
@@ -108,6 +109,7 @@ const MenuInfo = (props) => {
 
   const onMenuItemCreate = () => {
     console.log('Creat item')
+    history.push('/app/dishes/create/menu-item')
   }
 
   const onMenuGroupCreate = (values) => {
@@ -133,14 +135,14 @@ const MenuInfo = (props) => {
         <div>
           <button
             type='button'
-            class='btn-shadow btn btn-primary btn-md mr-4'
+            className='btn-shadow btn btn-primary btn-md mr-4'
             onClick={onMenuGroupCreateClick}
           >
             <span>Tạo nhóm món</span>
           </button>
           <button
             type='button'
-            class='btn-shadow btn btn-primary'
+            className='btn-shadow btn btn-primary'
             onClick={onMenuItemCreate}
           >
             <span>Tạo món</span>
