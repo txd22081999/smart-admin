@@ -7,6 +7,7 @@ import {
   CREATE_MENU_GROUP,
   CREATE_MENU_ITEM_SUCCESS,
   CREATE_MENU_ITEM,
+  CREATE_TOPPING_GROUP,
 } from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
@@ -22,7 +23,10 @@ import {
   createMenuGroupError,
   createMenuItemSuccess,
   createMenuItemError,
+  createToppingGroupSuccess,
+  createToppingGroupError,
 } from './actions'
+import { NotificationManager } from 'src/components/common/react-notifications'
 
 const getMenuAsync = async (merchantId, restaurantId) => {
   const accessToken = localStorage.getItem('access_token')
@@ -270,7 +274,8 @@ function* createMenuItem({ payload }) {
         },
       } = response
       yield put(createMenuItemSuccess(menuItem))
-      history.push('/app/dishes/create/menu-item')
+      NotificationManager.success('Menu item created', 'Success', 3000)
+      // history.push('/app/dishes/create/menu-item')
       // history.push('/')
     } else {
       console.log(response.message)
@@ -284,21 +289,76 @@ function* createMenuItem({ payload }) {
   }
 }
 
-export function* watchGetMenuList() {
-  yield takeEvery(GET_MENUS, getMenus)
+const createToppingGroupAsync = async (
+  merchantId,
+  restaurantId,
+  menuId,
+  data
+) => {
+  const accessToken = localStorage.getItem('access_token')
+  try {
+    let response
+    response = await axios({
+      method: 'POST',
+      url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-group`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data,
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
 }
 
-// export function* watchGetMenu() {
-//   yield takeEvery(GET_MENU, getMenus)
+function* createToppingGroup({ payload }) {
+  console.log(payload)
+  const { merchantId, restaurantId, menuId, data } = payload
+  try {
+    const response = yield call(
+      createToppingGroupAsync,
+      merchantId,
+      restaurantId,
+      menuId,
+      data
+    )
+    console.log(response)
+    if (!response.message) {
+      const {
+        data: {
+          data: { toppingGroup = {} },
+        },
+      } = response
+      yield put(createToppingGroupSuccess(toppingGroup))
+      NotificationManager.success('New topping group created', 'Success', 3000)
+    } else {
+      console.log(response.message)
+      NotificationManager.error(response.message, 'Error', 3000)
+      yield put(createToppingGroupError(response.message))
+    }
+  } catch (error) {
+    console.log('ERR', error.response)
+    NotificationManager.error(error.message, 'Error', 3000)
+    yield put(
+      createToppingGroupError(
+        'Something went wrong in createToppingGroup Saga!'
+      )
+    )
+  }
+}
+
+// export function* watchGetMenuList() {
+//   yield takeEvery(GET_MENUS, getMenus)
 // }
 
-export function* watchGetMenuGroup() {
-  yield takeEvery(GET_MENU_GROUP, getMenuGroup)
-}
+// export function* watchGetMenuGroup() {
+//   yield takeEvery(GET_MENU_GROUP, getMenuGroup)
+// }
 
-export function* watchGetMenuItems() {
-  yield takeEvery(GET_MENU_ITEM, getMenuItems)
-}
+// export function* watchGetMenuItems() {
+//   yield takeEvery(GET_MENU_ITEM, getMenuItems)
+// }
 
 // Get Menu All
 export function* watchGetMenu() {
@@ -311,17 +371,9 @@ export function* watchGetMenu() {
 export function* watchCreateMenu() {
   yield takeEvery(CREATE_MENU_GROUP, createMenuGroup)
   yield takeEvery(CREATE_MENU_ITEM, createMenuItem)
+  yield takeEvery(CREATE_TOPPING_GROUP, createToppingGroup)
 }
 
 export default function* rootSaga() {
-  yield all([
-    fork(watchGetMenu),
-    fork(watchCreateMenu),
-
-    // fork(watchGetMenuList),
-    // fork(watchGetMenu),
-    // fork(watchGetMenuGroup),
-    // fork(watchGetMenuItems),
-    // fork(watchCreateMenuGroup),
-  ])
+  yield all([fork(watchGetMenu), fork(watchCreateMenu)])
 }

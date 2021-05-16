@@ -13,6 +13,7 @@ import {
 import './MenuInfo.scss'
 import MenuGroupCreate from '../MenuGroupCreate'
 import clsx from 'clsx'
+import IntlMessages from 'src/helpers/IntlMessages'
 
 const MenuGroup = (props) => {
   const {
@@ -107,9 +108,19 @@ const MenuInfo = (props) => {
     setShowCreateGroup(true)
   }
 
-  const onMenuItemCreate = () => {
+  const onMenuItemCreateClick = () => {
     console.log('Creat item')
     history.push('/app/dishes/create/menu-item')
+  }
+
+  const onToppingGroupCreateClick = () => {
+    console.log('Creat topping group')
+    history.push('/app/dishes/create/topping-group')
+  }
+
+  const onToppingItemCreateClick = () => {
+    console.log('Creat topping item')
+    history.push('/app/dishes/create/topping-item')
   }
 
   const onMenuGroupCreate = (values) => {
@@ -135,17 +146,42 @@ const MenuInfo = (props) => {
         <div>
           <button
             type='button'
-            className='btn-shadow btn btn-primary btn-md mr-4'
+            className='btn-shadow btn btn-primary btn-md mr-3 font-weight-600'
             onClick={onMenuGroupCreateClick}
           >
-            <span>Tạo nhóm món</span>
+            <span>
+              <IntlMessages id='menu.menu-group-create' />
+            </span>
           </button>
+
           <button
             type='button'
-            className='btn-shadow btn btn-primary'
-            onClick={onMenuItemCreate}
+            className='btn-shadow btn btn-primary mr-3 font-weight-600'
+            onClick={onMenuItemCreateClick}
           >
-            <span>Tạo món</span>
+            <span>
+              <IntlMessages id='menu.menu-create-btn' />
+            </span>
+          </button>
+
+          <button
+            type='button'
+            className='btn-shadow btn btn-primary mr-3 font-weight-600'
+            onClick={onToppingGroupCreateClick}
+          >
+            <span>
+              <IntlMessages id='menu.topping-group-create' />
+            </span>
+          </button>
+
+          <button
+            type='button'
+            className='btn-shadow btn btn-primary font-weight-600'
+            onClick={onToppingItemCreateClick}
+          >
+            <span>
+              <IntlMessages id='menu.topping-item-create' />
+            </span>
           </button>
         </div>
       </div>

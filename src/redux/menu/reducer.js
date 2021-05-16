@@ -15,6 +15,10 @@ import {
   CREATE_MENU_ITEM,
   CREATE_MENU_ITEM_SUCCESS,
   CREATE_MENU_ITEM_ERROR,
+  SET_TOPPING_GROUP,
+  CREATE_TOPPING_GROUP,
+  CREATE_TOPPING_GROUP_SUCCESS,
+  CREATE_TOPPING_GROUP_ERROR,
 } from '../actions'
 
 const INIT_STATE = {
@@ -22,9 +26,11 @@ const INIT_STATE = {
   menuGroup: [],
   menus: [],
   menuItems: [],
+  toppingGroups: [],
   loading: false,
   loadingMenuItems: false,
   loadingMenuItem: false,
+  loadingToppingGroups: false,
   error: '',
 }
 
@@ -112,10 +118,8 @@ export default (state = INIT_STATE, action) => {
       console.log(payload)
       return { ...state, loadingMenuGroups: true, error: '' }
     }
-    case CREATE_MENU_GROUP_SUCCESS: {
-      // console.log(payload.menuItems)
-      // console.log(state.menuGroup)
 
+    case CREATE_MENU_GROUP_SUCCESS: {
       return {
         ...state,
         menuGroup: [...state.menuGroup, payload.menuGroup],
@@ -123,6 +127,7 @@ export default (state = INIT_STATE, action) => {
         error: '',
       }
     }
+
     case CREATE_MENU_GROUP_ERROR: {
       console.log(payload)
       return {
@@ -152,6 +157,31 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loadingMenuItem: false,
+        error: payload.message,
+      }
+    }
+
+    case CREATE_TOPPING_GROUP: {
+      console.log(payload)
+      return { ...state, loadingToppingGroups: true, error: '' }
+    }
+
+    case CREATE_TOPPING_GROUP_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        toppingGroups: [...state.toppingGroups, payload.toppingGroup],
+        loadingToppingGroups: false,
+        error: '',
+      }
+    }
+
+    case CREATE_TOPPING_GROUP_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingToppingGroups: false,
+        toppingGroups: [],
         error: payload.message,
       }
     }

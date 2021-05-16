@@ -72,6 +72,12 @@ export const CREATE_MENU_ITEM = 'CREATE_MENU_ITEM'
 export const CREATE_MENU_ITEM_SUCCESS = 'CREATE_MENU_ITEM_SUCCESS'
 export const CREATE_MENU_ITEM_ERROR = 'CREATE_MENU_ITEM_ERROR'
 
+// MENU GROUP
+export const SET_TOPPING_GROUP = 'SET_TOPPING_GROUP'
+export const CREATE_TOPPING_GROUP = 'CREATE_TOPPING_GROUP'
+export const CREATE_TOPPING_GROUP_SUCCESS = 'CREATE_TOPPING_GROUP_SUCCESS'
+export const CREATE_TOPPING_GROUP_ERROR = 'CREATE_TOPPING_GROUP_ERROR'
+
 export * from './menu2/actions'
 export * from './settings/actions'
 export * from './auth/actions'

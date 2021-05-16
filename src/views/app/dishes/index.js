@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import MenuItemCreate from '../MenuItemCreate'
+import ToppingGroupCreate from '../ToppingGroupCreate'
 
 const Dishes = React.lazy(() =>
   import(/* webpackChunkName: "second" */ './dishes')
@@ -18,6 +19,11 @@ const DishesMenu = ({ match }) => (
         exact
         path={`${match.url}/`}
         render={(props) => <Dishes {...props} />}
+      />
+      <Route
+        exact
+        path={`${match.url}/create/topping-group`}
+        render={(props) => <ToppingGroupCreate {...props} />}
       />
       <Route
         exact

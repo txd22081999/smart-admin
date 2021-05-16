@@ -18,6 +18,10 @@ import {
   CREATE_MENU_ITEM,
   CREATE_MENU_ITEM_SUCCESS,
   CREATE_MENU_ITEM_ERROR,
+  SET_TOPPING_GROUP,
+  CREATE_TOPPING_GROUP,
+  CREATE_TOPPING_GROUP_SUCCESS,
+  CREATE_TOPPING_GROUP_ERROR,
 } from '../actions'
 
 export const getMenus = (merchantId, restaurantId) => ({
@@ -124,5 +128,25 @@ export const createMenuItemSuccess = (menuItem, history) => ({
 
 export const createMenuItemError = (error) => ({
   type: CREATE_MENU_ITEM_ERROR,
+  payload: { message: error },
+})
+
+export const createToppingGroup = ({
+  merchantId,
+  restaurantId,
+  menuId,
+  data,
+}) => ({
+  type: CREATE_TOPPING_GROUP,
+  payload: { merchantId, restaurantId, menuId, data },
+})
+
+export const createToppingGroupSuccess = (toppingGroup) => ({
+  type: CREATE_TOPPING_GROUP_SUCCESS,
+  payload: { toppingGroup },
+})
+
+export const createToppingGroupError = (error) => ({
+  type: CREATE_TOPPING_GROUP_ERROR,
   payload: { message: error },
 })
