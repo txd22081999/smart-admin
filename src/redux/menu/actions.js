@@ -22,6 +22,12 @@ import {
   CREATE_TOPPING_GROUP,
   CREATE_TOPPING_GROUP_SUCCESS,
   CREATE_TOPPING_GROUP_ERROR,
+  CREATE_TOPPING_ITEM,
+  CREATE_TOPPING_ITEM_SUCCESS,
+  CREATE_TOPPING_ITEM_ERROR,
+  GET_TOPPING_GROUP,
+  GET_TOPPING_GROUP_SUCCESS,
+  GET_TOPPING_GROUP_ERROR,
 } from '../actions'
 
 export const getMenus = (merchantId, restaurantId) => ({
@@ -148,5 +154,41 @@ export const createToppingGroupSuccess = (toppingGroup) => ({
 
 export const createToppingGroupError = (error) => ({
   type: CREATE_TOPPING_GROUP_ERROR,
+  payload: { message: error },
+})
+
+export const createToppingItem = ({
+  merchantId,
+  restaurantId,
+  menuId,
+  toppingGroupId,
+  data,
+}) => ({
+  type: CREATE_TOPPING_ITEM,
+  payload: { merchantId, restaurantId, menuId, toppingGroupId, data },
+})
+
+export const createToppingItemSuccess = (toppingItem, history) => ({
+  type: CREATE_TOPPING_ITEM_SUCCESS,
+  payload: { toppingItem, history },
+})
+
+export const createToppingItemError = (error) => ({
+  type: CREATE_TOPPING_ITEM_ERROR,
+  payload: { message: error },
+})
+
+export const getToppingGroup = ({ merchantId, restaurantId, menuId }) => ({
+  type: GET_TOPPING_GROUP,
+  payload: { merchantId, restaurantId, menuId },
+})
+
+export const getToppingGroupSuccess = (toppingGroups) => ({
+  type: GET_TOPPING_GROUP_SUCCESS,
+  payload: { toppingGroups },
+})
+
+export const getToppingGroupError = (error) => ({
+  type: GET_TOPPING_GROUP_ERROR,
   payload: { message: error },
 })

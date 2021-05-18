@@ -19,6 +19,12 @@ import {
   CREATE_TOPPING_GROUP,
   CREATE_TOPPING_GROUP_SUCCESS,
   CREATE_TOPPING_GROUP_ERROR,
+  GET_TOPPING_GROUP,
+  GET_TOPPING_GROUP_SUCCESS,
+  GET_TOPPING_GROUP_ERROR,
+  CREATE_TOPPING_ITEM,
+  CREATE_TOPPING_ITEM_SUCCESS,
+  CREATE_TOPPING_ITEM_ERROR,
 } from '../actions'
 
 const INIT_STATE = {
@@ -31,6 +37,7 @@ const INIT_STATE = {
   loadingMenuItems: false,
   loadingMenuItem: false,
   loadingToppingGroups: false,
+  loadingCreateToppingItem: false,
   error: '',
 }
 
@@ -182,6 +189,56 @@ export default (state = INIT_STATE, action) => {
         ...state,
         loadingToppingGroups: false,
         toppingGroups: [],
+        error: payload.message,
+      }
+    }
+
+    case GET_TOPPING_GROUP: {
+      console.log(payload)
+      return { ...state, loadingGetToppingGroups: true, error: '' }
+    }
+
+    case GET_TOPPING_GROUP_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingGetToppingGroups: false,
+        error: '',
+        toppingGroups: payload.toppingGroups,
+      }
+    }
+
+    case GET_TOPPING_GROUP_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingGetToppingGroups: false,
+        toppingGroups: [],
+        error: payload.message,
+      }
+    }
+
+    case CREATE_TOPPING_ITEM: {
+      console.log(payload)
+      return { ...state, loadingCreateToppingItem: true, error: '' }
+    }
+
+    case CREATE_TOPPING_ITEM_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        // toppingGroups: [...state.toppingGroups, payload.toppingGroup],
+        loadingCreateToppingItem: false,
+        error: '',
+      }
+    }
+
+    case CREATE_TOPPING_ITEM_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingCreateToppingItem: false,
+        // toppingGroups: [],
         error: payload.message,
       }
     }

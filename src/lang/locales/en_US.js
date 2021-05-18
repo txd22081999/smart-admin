@@ -59,7 +59,7 @@ module.exports = {
   // 05.Data list Page
 
   'pages.go-back-home': 'GO BACK HOME',
-  'pages.add-new': 'Tạo món',
+  'pages.add-new': 'Tạo mới',
   'pages.orderby': 'Order by ',
   'pages.product-name': 'Tên món',
   'pages.category': 'Loại món',
@@ -119,7 +119,7 @@ module.exports = {
   'menu.topping-group-name': 'Tên nhóm topping',
   'menu.topping-item-name': 'Tên topping',
   'menu.menu-item-create-btn': 'Tạo món',
-  'menu.menu-create-btn': 'Tạo mới',
+  'menu.menu-create-btn': 'Tạo món',
   'menu.menu-group': 'Nhóm món',
   'menu.menu-item': 'Tên món',
   'menu.select-menu-group': 'Nhóm món',
@@ -128,4 +128,8 @@ module.exports = {
   'menu.menu-item-price': 'Giá',
   'menu.menu-item-image': 'Hình ảnh',
   'menu.menu-item-index': 'Chỉ số',
+  'menu.topping-item-description': 'Mô tả',
+  'menu.topping-item-price': 'Giá',
+  'menu.topping-item-image': 'Hình ảnh',
+  'menu.topping-item-index': 'Chỉ số',
 }

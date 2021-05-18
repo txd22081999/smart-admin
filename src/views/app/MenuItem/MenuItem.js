@@ -21,8 +21,6 @@ const MenuItem = (props) => {
     restaurantId,
   } = props
 
-  console.log(props)
-
   const onGroupClick = () => {}
 
   return (
