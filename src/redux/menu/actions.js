@@ -28,6 +28,11 @@ import {
   GET_TOPPING_GROUP,
   GET_TOPPING_GROUP_SUCCESS,
   GET_TOPPING_GROUP_ERROR,
+  GET_TOPPING_ITEMS,
+  GET_TOPPING_ITEMS_SUCCESS,
+  GET_TOPPING_ITEMS_ERROR,
+  SET_MENU_ITEMS_BY_TOPPING,
+  UPDATE_TOPPING_BY_MENU_ITEMS,
 } from '../actions'
 
 export const getMenus = (merchantId, restaurantId) => ({
@@ -191,4 +196,29 @@ export const getToppingGroupSuccess = (toppingGroups) => ({
 export const getToppingGroupError = (error) => ({
   type: GET_TOPPING_GROUP_ERROR,
   payload: { message: error },
+})
+
+export const getToppingItems = ({ merchantId, restaurantId, menuId }) => ({
+  type: GET_TOPPING_ITEMS,
+  payload: { merchantId, restaurantId, menuId },
+})
+
+export const getToppingItemsSuccess = (toppingItems) => ({
+  type: GET_TOPPING_ITEMS_SUCCESS,
+  payload: { toppingItems },
+})
+
+export const getToppingItemsError = (error) => ({
+  type: GET_TOPPING_ITEMS_ERROR,
+  payload: { message: error },
+})
+
+export const setMenuItemsByTopping = (data) => ({
+  type: SET_MENU_ITEMS_BY_TOPPING,
+  payload: { data },
+})
+
+export const updateToppingByMenuItems = (data) => ({
+  type: UPDATE_TOPPING_BY_MENU_ITEMS,
+  payload: {},
 })

@@ -132,4 +132,9 @@ module.exports = {
   'menu.topping-item-price': 'Giá',
   'menu.topping-item-image': 'Hình ảnh',
   'menu.topping-item-index': 'Chỉ số',
+  'menu.select-topping': 'Chọn topping theo món',
+  'menu.menu-topping-select': 'Chọn topping',
+  'menu.menu-item-select': 'Chọn món',
+  'menu.save-btn': 'Lưu',
+  'menu.complete-btn': 'Hoàn tất',
 }

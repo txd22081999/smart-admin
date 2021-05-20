@@ -42,3 +42,8 @@
 .font-weight-600 {
   font-weight: 600;
 }
+
+.select__menu {
+  // display: none;
+  z-index: 100 !important;
+}

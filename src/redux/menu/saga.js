@@ -10,6 +10,7 @@ import {
   CREATE_TOPPING_GROUP,
   CREATE_TOPPING_ITEM,
   GET_TOPPING_GROUP,
+  GET_TOPPING_ITEMS,
 } from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
@@ -31,6 +32,8 @@ import {
   createToppingItemError,
   getToppingGroupSuccess,
   getToppingGroupError,
+  getToppingItemsSuccess,
+  getToppingItemsError,
 } from './actions'
 import { NotificationManager } from 'src/components/common/react-notifications'
 
@@ -462,6 +465,53 @@ function* getToppingGroups({ payload }) {
   }
 }
 
+const getToppingItemsAsync = async (merchantId, restaurantId, menuId) => {
+  const accessToken = localStorage.getItem('access_token')
+  try {
+    let response
+    response = await axios({
+      method: 'GET',
+      url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-item`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
+}
+
+function* getToppingItems({ payload }) {
+  console.log(payload)
+  const { merchantId, restaurantId, menuId } = payload
+  try {
+    const response = yield call(
+      getToppingItemsAsync,
+      merchantId,
+      restaurantId,
+      menuId
+    )
+    console.log(response)
+    if (!response.message) {
+      const {
+        data: {
+          data: { results = [] },
+        },
+      } = response
+      yield put(getToppingItemsSuccess(results))
+    } else {
+      console.log(response.message)
+      yield put(getToppingItemsError(response.message))
+    }
+  } catch (error) {
+    console.log('ERR', error.response)
+    yield put(
+      getToppingItemsError('Something went wrong in getToppingGroup Saga!')
+    )
+  }
+}
+
 // export function* watchGetMenuList() {
 //   yield takeEvery(GET_MENUS, getMenus)
 // }
@@ -481,6 +531,7 @@ export function* watchGetMenu() {
   yield takeEvery(GET_MENU_GROUP, getMenuGroup)
   yield takeEvery(GET_MENU_ITEM, getMenuItems)
   yield takeEvery(GET_TOPPING_GROUP, getToppingGroups)
+  yield takeEvery(GET_TOPPING_ITEMS, getToppingItems)
 }
 
 export function* watchCreateMenu() {

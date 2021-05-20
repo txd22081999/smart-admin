@@ -25,6 +25,11 @@ import {
   CREATE_TOPPING_ITEM,
   CREATE_TOPPING_ITEM_SUCCESS,
   CREATE_TOPPING_ITEM_ERROR,
+  GET_TOPPING_ITEMS,
+  GET_TOPPING_ITEMS_SUCCESS,
+  GET_TOPPING_ITEMS_ERROR,
+  SET_MENU_ITEMS_BY_TOPPING,
+  UPDATE_TOPPING_BY_MENU_ITEMS,
 } from '../actions'
 
 const INIT_STATE = {
@@ -33,11 +38,14 @@ const INIT_STATE = {
   menus: [],
   menuItems: [],
   toppingGroups: [],
+  toppingItems: [],
   loading: false,
   loadingMenuItems: false,
   loadingMenuItem: false,
   loadingToppingGroups: false,
   loadingCreateToppingItem: false,
+  loadingToppingItems: false,
+  menuItemsByTopping: [],
   error: '',
 }
 
@@ -145,6 +153,7 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
+    // CREATE MENU ITEM
     case CREATE_MENU_ITEM: {
       console.log(payload)
       return { ...state, loadingMenuItem: true, error: '' }
@@ -168,6 +177,7 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
+    // CREATE TOPPING GROUP
     case CREATE_TOPPING_GROUP: {
       console.log(payload)
       return { ...state, loadingToppingGroups: true, error: '' }
@@ -193,6 +203,7 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
+    // GET TOPPING GROUP
     case GET_TOPPING_GROUP: {
       console.log(payload)
       return { ...state, loadingGetToppingGroups: true, error: '' }
@@ -218,6 +229,7 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
+    // CREATE TOPPING ITEM
     case CREATE_TOPPING_ITEM: {
       console.log(payload)
       return { ...state, loadingCreateToppingItem: true, error: '' }
@@ -240,6 +252,61 @@ export default (state = INIT_STATE, action) => {
         loadingCreateToppingItem: false,
         // toppingGroups: [],
         error: payload.message,
+      }
+    }
+
+    // GET TOPPING ITEM LIST
+    case GET_TOPPING_ITEMS: {
+      console.log(payload)
+      return { ...state, loadingToppingItems: true, error: '' }
+    }
+    case GET_TOPPING_ITEMS_SUCCESS: {
+      // console.log(payload.menuItems)
+      // console.log(state.menuGroup)
+
+      return {
+        ...state,
+        loadingToppingItems: false,
+        error: '',
+        toppingItems: payload.toppingItems,
+      }
+    }
+    case GET_TOPPING_ITEMS_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingToppingItems: false,
+        toppingItems: [],
+        error: payload.message,
+      }
+    }
+    case SET_MENU_ITEMS_BY_TOPPING: {
+      console.log(payload)
+      const { data } = payload
+      const existedItemIndex = state.menuItemsByTopping.findIndex(
+        (item) => item.menuItem.id === data.menuItem.id
+      )
+
+      if (existedItemIndex !== -1) {
+        const newItem = data
+        let newItemsByTopping = [...state.menuItemsByTopping]
+        newItemsByTopping[existedItemIndex] = newItem
+        return {
+          ...state,
+          menuItemsByTopping: newItemsByTopping,
+        }
+      }
+      return {
+        ...state,
+        menuItemsByTopping: [...state.menuItemsByTopping, payload.data],
+      }
+    }
+
+    case UPDATE_TOPPING_BY_MENU_ITEMS: {
+      console.log(state.menuItemsByTopping)
+
+      return {
+        ...state,
       }
     }
 

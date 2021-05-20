@@ -123,6 +123,10 @@ const MenuInfo = (props) => {
     history.push('/app/dishes/create/topping-item')
   }
 
+  const onSetupToppingClick = () => {
+    history.push('/app/dishes/select-topping')
+  }
+
   const onMenuGroupCreate = (values) => {
     console.log('Creat group')
     console.log({ merchantId, restaurantId, menuId, data: values })
@@ -176,11 +180,21 @@ const MenuInfo = (props) => {
 
           <button
             type='button'
-            className='btn-shadow btn btn-primary font-weight-600'
+            className='btn-shadow btn btn-primary mr-3 font-weight-600'
             onClick={onToppingItemCreateClick}
           >
             <span>
               <IntlMessages id='menu.topping-item-create' />
+            </span>
+          </button>
+
+          <button
+            type='button'
+            className='btn-shadow btn btn-primary font-weight-600'
+            onClick={onSetupToppingClick}
+          >
+            <span>
+              <IntlMessages id='menu.select-topping' />
             </span>
           </button>
         </div>

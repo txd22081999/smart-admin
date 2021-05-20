@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import MenuItemCreate from '../MenuItemCreate'
 import ToppingGroupCreate from '../ToppingGroupCreate'
 import ToppingItemCreate from '../ToppingItemCreate'
+import SelectTopping from '../SelectTopping'
 
 const Dishes = React.lazy(() =>
   import(/* webpackChunkName: "second" */ './dishes')
@@ -40,6 +41,11 @@ const DishesMenu = ({ match }) => (
         exact
         path={`${match.url}/create`}
         render={(props) => <MenuCreate {...props} />}
+      />
+      <Route
+        exact
+        path={`${match.url}/select-topping`}
+        render={(props) => <SelectTopping {...props} />}
       />
       <Route
         path={`${match.url}/:id`}
