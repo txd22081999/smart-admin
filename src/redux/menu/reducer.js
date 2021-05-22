@@ -28,7 +28,7 @@ import {
   GET_TOPPING_ITEMS,
   GET_TOPPING_ITEMS_SUCCESS,
   GET_TOPPING_ITEMS_ERROR,
-  SET_MENU_ITEMS_BY_TOPPING,
+  SET_TOPPING_BY_MENU_ITEMS,
   UPDATE_TOPPING_BY_MENU_ITEMS,
 } from '../actions'
 
@@ -45,7 +45,7 @@ const INIT_STATE = {
   loadingToppingGroups: false,
   loadingCreateToppingItem: false,
   loadingToppingItems: false,
-  menuItemsByTopping: [],
+  toppingByMenuItems: [],
   error: '',
 }
 
@@ -280,30 +280,56 @@ export default (state = INIT_STATE, action) => {
         error: payload.message,
       }
     }
-    case SET_MENU_ITEMS_BY_TOPPING: {
+    case SET_TOPPING_BY_MENU_ITEMS: {
       console.log(payload)
       const { data } = payload
-      const existedItemIndex = state.menuItemsByTopping.findIndex(
-        (item) => item.menuItem.id === data.menuItem.id
-      )
 
-      if (existedItemIndex !== -1) {
-        const newItem = data
-        let newItemsByTopping = [...state.menuItemsByTopping]
-        newItemsByTopping[existedItemIndex] = newItem
+      if (data.length === 0) return { ...state }
+      let isDuplicateItem = false
+      let prevState = { ...state }
+
+      data.forEach((dataItem) => {
+        const existedItemIndex = prevState.toppingByMenuItems.findIndex(
+          (item) => item.toppingItem.id === dataItem.toppingItem.id
+        )
+
+        if (existedItemIndex !== -1) {
+          isDuplicateItem = true
+          const newItem = dataItem
+          let originalToppingItems = [...prevState.toppingByMenuItems]
+          let existedToppingItem = originalToppingItems[existedItemIndex]
+          existedToppingItem = {
+            toppingItem: {
+              ...existedToppingItem.toppingItem,
+              menuItem: [
+                ...existedToppingItem.toppingItem.menuItem,
+                ...dataItem.toppingItem.menuItem,
+              ],
+            },
+          }
+          originalToppingItems[existedItemIndex] = existedToppingItem
+
+          prevState = {
+            ...prevState,
+            toppingByMenuItems: [...originalToppingItems],
+          }
+        }
+      })
+
+      if (isDuplicateItem) {
+        return {
+          ...prevState,
+        }
+      } else {
         return {
           ...state,
-          menuItemsByTopping: newItemsByTopping,
+          toppingByMenuItems: [...state.toppingByMenuItems, ...data],
         }
-      }
-      return {
-        ...state,
-        menuItemsByTopping: [...state.menuItemsByTopping, payload.data],
       }
     }
 
     case UPDATE_TOPPING_BY_MENU_ITEMS: {
-      console.log(state.menuItemsByTopping)
+      console.log(state.toppingByMenuItems)
 
       return {
         ...state,

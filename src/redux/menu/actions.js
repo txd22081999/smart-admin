@@ -31,7 +31,7 @@ import {
   GET_TOPPING_ITEMS,
   GET_TOPPING_ITEMS_SUCCESS,
   GET_TOPPING_ITEMS_ERROR,
-  SET_MENU_ITEMS_BY_TOPPING,
+  SET_TOPPING_BY_MENU_ITEMS,
   UPDATE_TOPPING_BY_MENU_ITEMS,
 } from '../actions'
 
@@ -213,8 +213,8 @@ export const getToppingItemsError = (error) => ({
   payload: { message: error },
 })
 
-export const setMenuItemsByTopping = (data) => ({
-  type: SET_MENU_ITEMS_BY_TOPPING,
+export const setToppingByMenuItems = (data) => ({
+  type: SET_TOPPING_BY_MENU_ITEMS,
   payload: { data },
 })
 

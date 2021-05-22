@@ -10,7 +10,7 @@ import ReactSelect from 'react-select'
 import {
   getMenuItems,
   getToppingItems,
-  setMenuItemsByTopping,
+  setToppingByMenuItems,
   updateToppingByMenuItems,
 } from '../../../redux/actions'
 
@@ -19,7 +19,7 @@ const SelectTopping = (props) => {
     getToppingGroup,
     getToppingItems,
     getMenuItems,
-    setMenuItemsByTopping,
+    setToppingByMenuItems,
     loading,
     authUser,
     restaurantMenu: {
@@ -87,10 +87,8 @@ const SelectTopping = (props) => {
   }
 
   const handleSave = (values) => {
-    console.log('SUBMIT create group')
     console.log(values)
     const { createMenuGroup, loading, history } = props
-    console.log(formInfo)
 
     if (
       Object.keys(formInfo.menuItem).length === 0 ||
@@ -100,14 +98,20 @@ const SelectTopping = (props) => {
       return
     }
 
-    const menuItemsByTopping = {
-      menuItem: {
-        ...formInfo.menuItem,
-        toppingItems: [...formInfo.toppingItems],
-      },
-    }
+    const data = formInfo.toppingItems.map((topppingItem, i) => {
+      return {
+        toppingItem: {
+          ...formInfo.toppingItems[i],
+          menuItem: [
+            {
+              ...formInfo.menuItem,
+            },
+          ],
+        },
+      }
+    })
 
-    setMenuItemsByTopping(menuItemsByTopping)
+    setToppingByMenuItems(data)
   }
 
   const handleComplete = () => {
@@ -138,7 +142,6 @@ const SelectTopping = (props) => {
   }
 
   const handleMenuItemChange = ({ value, label }) => {
-    console.log({ value, label })
     setFormInfo({
       ...formInfo,
       menuItem: {
@@ -149,7 +152,6 @@ const SelectTopping = (props) => {
   }
 
   const handleToppingChange = (e) => {
-    console.log(e)
     const newToppingItems = e.map((item) => ({
       id: item.value,
       name: item.label,
@@ -310,6 +312,6 @@ const mapStateToProps = ({ authUser, restaurantInfo, restaurantMenu }) => {
 export default connect(mapStateToProps, {
   getToppingItems,
   getMenuItems,
-  setMenuItemsByTopping,
+  setToppingByMenuItems,
   updateToppingByMenuItems,
 })(SelectTopping)
