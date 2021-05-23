@@ -114,6 +114,25 @@ class Dishes extends Component {
         data: newMenuItems,
       }
 
+      // {
+      //   "status": true,
+      //   "totalItem": 20,
+      //   "totalPage": 2,
+      //   "pageSize": "10",
+      //   "currentPage": "1",
+      //   "data": [
+      //       {
+      //           "id": 18,
+      //           "title": "Cơm chiên",
+      //           "img": "/assets/img/bebinca-thumb.jpg",
+      //           "category": "Món chính",
+      //           "status": "Đang chuẩn bị",
+      //           "statusColor": "secondary",
+      //           "description": "Homemade cheesecake with fresh berries and mint",
+      //           "sales": 574,
+      //           "stock": 16,
+      //           "date": "01.04.2021"
+      //       },
       this.setState({
         tableData: newTableData,
       })
@@ -121,13 +140,8 @@ class Dishes extends Component {
   }
 
   render() {
-    const { history, getMenu, restaurantMenu } = this.props
-    const { loadingMenuItems = false } = restaurantMenu
+    const { history, getMenu } = this.props
     const { tableData = {} } = this.state
-
-    if (loadingMenuItems) {
-      return <div className='loading' />
-    }
 
     return (
       <Fragment>
@@ -139,6 +153,9 @@ class Dishes extends Component {
         </Row>
         <Row>
           <Colxx xxs='12' className='mb-4'>
+            <p>
+              <IntlMessages id='menu.dishes' />
+            </p>
             {tableData.data.length > 0 && (
               <DataList history={history} data={tableData} />
             )}

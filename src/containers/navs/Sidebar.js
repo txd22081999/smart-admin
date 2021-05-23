@@ -196,9 +196,10 @@ class Sidebar extends Component {
       selectedlink.parentElement.classList.add('active')
       this.setState(
         {
-          selectedParentMenu: selectedlink.parentElement.parentElement.getAttribute(
-            'data-parent'
-          ),
+          selectedParentMenu:
+            selectedlink.parentElement.parentElement.getAttribute(
+              'data-parent'
+            ),
         },
         callback
       )
@@ -209,9 +210,8 @@ class Sidebar extends Component {
       if (selectedParentNoSubItem != null) {
         this.setState(
           {
-            selectedParentMenu: selectedParentNoSubItem.getAttribute(
-              'data-flag'
-            ),
+            selectedParentMenu:
+              selectedParentNoSubItem.getAttribute('data-flag'),
           },
           callback
         )
@@ -341,6 +341,8 @@ class Sidebar extends Component {
               <Nav vertical className='list-unstyled'>
                 {menuItems &&
                   menuItems.map((item) => {
+                    // const isBoxIcon = !item.icon.includes('iconsminds')
+
                     return (
                       <NavItem
                         key={item.id}
@@ -357,7 +359,7 @@ class Sidebar extends Component {
                             rel='noopener noreferrer'
                             target='_blank'
                           >
-                            <i className={item.icon} />{' '}
+                            <i className={item.icon} />
                             <IntlMessages id={item.label} />
                           </a>
                         ) : (

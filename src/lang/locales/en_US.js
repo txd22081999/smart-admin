@@ -128,6 +128,7 @@ module.exports = {
   'menu.menu-item-price': 'Giá',
   'menu.menu-item-image': 'Hình ảnh',
   'menu.menu-item-index': 'Chỉ số',
+  'menu.topping': 'Topping',
   'menu.topping-item-description': 'Mô tả',
   'menu.topping-item-price': 'Giá',
   'menu.topping-item-image': 'Hình ảnh',
@@ -137,4 +138,7 @@ module.exports = {
   'menu.menu-item-select': 'Chọn món',
   'menu.save-btn': 'Lưu',
   'menu.complete-btn': 'Hoàn tất',
+
+  'menu.toppings': 'Toppings',
+  'menu.topping-data-list': 'Danh sách topping',
 }

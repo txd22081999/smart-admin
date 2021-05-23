@@ -271,7 +271,7 @@ class TopNav extends Component {
             </a>
           </div>
         </div>
-        <a className='navbar-logo' href='/'>
+        <a className='navbar-logo' href='/app'>
           <span className='site-logo'>
             Smart<span className='text-orange'>Merchant</span>
           </span>

@@ -82,7 +82,7 @@ class ListPageHeading extends Component {
               >
                 <IntlMessages id='pages.add-new' />
               </Button>
-              {'  '}
+
               <ButtonDropdown
                 isOpen={dropdownSplitOpen}
                 toggle={this.toggleSplit}

@@ -291,7 +291,7 @@ const SelectTopping = (props) => {
 
             <Button
               color='primary'
-              className={`btn-shadow btn-multiple-state ${
+              className={`btn-shadow btn-multiple-state mr-3 ${
                 props.loading ? 'show-spinner' : ''
               }`}
               size='lg'

@@ -26,6 +26,10 @@ const Staff = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './staffs')
 )
 
+const Toppings = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './toppings')
+)
+
 const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './blank-page')
 )
@@ -77,6 +81,10 @@ class App extends Component {
                 path={`${match.url}/staffs`}
                 // render={props => <CreateCashier {...props} />}
                 render={(props) => <Staff {...props} />}
+              />
+              <Route
+                path={`${match.url}/toppings`}
+                render={(props) => <Toppings {...props} />}
               />
               <Route
                 path={`${match.url}/blank-page`}
