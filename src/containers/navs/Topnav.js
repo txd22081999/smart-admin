@@ -198,8 +198,17 @@ class TopNav extends Component {
   }
 
   render() {
-    const { containerClassnames, menuClickCount, locale } = this.props
+    const {
+      containerClassnames,
+      menuClickCount,
+      locale,
+      profileImg,
+      restaurantInfo,
+    } = this.props
     const { messages } = this.props.intl
+    const {
+      restaurant: { name: restaurantName = '' },
+    } = restaurantInfo
     return (
       <nav className='navbar fixed-top'>
         <div className='d-flex align-items-center navbar-left'>
@@ -300,13 +309,19 @@ class TopNav extends Component {
           <div className='user d-inline-block'>
             <UncontrolledDropdown className='dropdown-menu-right'>
               <DropdownToggle className='p-0' color='empty'>
-                <span className='name mr-1'>Quán Ăn Maika 3</span>
+                <span className='name mr-1'>
+                  {restaurantName || 'Restaurant Name'}
+                </span>
                 <span>
                   {/* <img alt='Profile' src='/assets/img/profile-pic-l.jpg' /> */}
                   <img
                     style={{ width: '40px', height: '40px' }}
                     alt='Profile'
-                    src='https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
+                    // src='https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
+                    src={
+                      profileImg ||
+                      'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
+                    }
                   />
                 </span>
               </DropdownToggle>
@@ -328,7 +343,7 @@ class TopNav extends Component {
   }
 }
 
-const mapStateToProps = ({ menu, settings }) => {
+const mapStateToProps = ({ menu, settings, restaurantInfo }) => {
   const { containerClassnames, menuClickCount, selectedMenuHasSubItems } = menu
   const { locale } = settings
   return {
@@ -336,6 +351,7 @@ const mapStateToProps = ({ menu, settings }) => {
     menuClickCount,
     selectedMenuHasSubItems,
     locale,
+    restaurantInfo,
   }
 }
 export default injectIntl(

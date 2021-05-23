@@ -111,6 +111,7 @@ class RestaurantSelection extends Component {
     super(props)
     this.state = {
       restaurantList: [],
+      loading: true,
     }
   }
 
@@ -127,6 +128,10 @@ class RestaurantSelection extends Component {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+      })
+
+      this.setState({
+        loading: false,
       })
 
       const { status } = res
@@ -187,7 +192,7 @@ class RestaurantSelection extends Component {
     // const { password, email } = this.state
     // const initialValues = { email, password }
     const { setRestaurant } = this.props
-    const { password, username, id: restaurantId } = this.state
+    const { password, username, id: restaurantId, loading } = this.state
     const initialValues = { username, password }
 
     const { restaurantList = [] } = this.state
@@ -195,6 +200,10 @@ class RestaurantSelection extends Component {
       restaurantList.length < 10
         ? `0${restaurantList.length}`
         : `${restaurantList.length}`
+
+    if (loading) {
+      return <div className='loading'></div>
+    }
 
     return (
       <div className='restaurant-container'>
