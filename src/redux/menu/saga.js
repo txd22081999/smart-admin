@@ -11,6 +11,7 @@ import {
   CREATE_TOPPING_ITEM,
   GET_TOPPING_GROUP,
   GET_TOPPING_ITEMS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS,
 } from '../actions'
 import { getErrorMessage } from '../utils'
 import axios from 'axios'
@@ -34,6 +35,8 @@ import {
   getToppingGroupError,
   getToppingItemsSuccess,
   getToppingItemsError,
+  updateToppingWithMenuItemsSuccess,
+  updateToppingWithMenuItemsError,
 } from './actions'
 import { NotificationManager } from 'src/components/common/react-notifications'
 
@@ -292,6 +295,8 @@ function* createMenuItem({ payload }) {
     }
   } catch (error) {
     console.log('ERR', error.response)
+    NotificationManager.error('Menu item creating failed', 'Failed', 3000)
+
     yield put(
       createMenuGroupError('Something went wrong in createMenuGroup Saga!')
     )
@@ -445,7 +450,6 @@ function* getToppingGroups({ payload }) {
       restaurantId,
       menuId
     )
-    console.log(response)
     if (!response.message) {
       const {
         data: {
@@ -483,7 +487,6 @@ const getToppingItemsAsync = async (merchantId, restaurantId, menuId) => {
 }
 
 function* getToppingItems({ payload }) {
-  console.log(payload)
   const { merchantId, restaurantId, menuId } = payload
   try {
     const response = yield call(
@@ -492,7 +495,6 @@ function* getToppingItems({ payload }) {
       restaurantId,
       menuId
     )
-    console.log(response)
     if (!response.message) {
       const {
         data: {
@@ -508,6 +510,66 @@ function* getToppingItems({ payload }) {
     console.log('ERR', error.response)
     yield put(
       getToppingItemsError('Something went wrong in getToppingGroup Saga!')
+    )
+  }
+}
+
+const updateToppingWithMenuItemsAsync = async (
+  merchantId,
+  restaurantId,
+  menuId,
+  toppingItemId,
+  data
+) => {
+  const accessToken = localStorage.getItem('access_token')
+  try {
+    // console.log(merchantId, restaurantId, menuId, toppingItemId, data)
+    let response
+    response = await axios({
+      method: 'PUT',
+      url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-item/${toppingItemId}/menu-item`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data,
+    })
+    return response
+  } catch (error) {
+    return getErrorMessage(error)
+  }
+}
+
+function* updateToppingWithMenuItems({ payload }) {
+  const { merchantId, restaurantId, menuId, toppingItemId, data } = payload
+  try {
+    const response = yield call(
+      updateToppingWithMenuItemsAsync,
+      merchantId,
+      restaurantId,
+      menuId,
+      toppingItemId,
+      data
+    )
+
+    const {
+      data: { statusCode, message },
+    } = response
+    if (statusCode === 200) {
+      yield put(updateToppingWithMenuItemsSuccess(message))
+      NotificationManager.success(message, 'Success', 3000)
+    } else {
+      console.log(message)
+      NotificationManager.error(message, 'Failed', 3000)
+
+      yield put(updateToppingWithMenuItemsError(message))
+    }
+  } catch (error) {
+    console.log('ERR', error.response)
+    NotificationManager.error(error.response.message, 'Failed', 3000)
+    yield put(
+      updateToppingWithMenuItemsError(
+        'Something went wrong in updateToppingWithMenuItems Saga!'
+      )
     )
   }
 }
@@ -541,6 +603,10 @@ export function* watchCreateMenu() {
   yield takeEvery(CREATE_TOPPING_ITEM, createToppingItem)
 }
 
+export function* watchUpdateMenu() {
+  yield takeEvery(UPDATE_TOPPING_WITH_MENU_ITEMS, updateToppingWithMenuItems)
+}
+
 export default function* rootSaga() {
-  yield all([fork(watchGetMenu), fork(watchCreateMenu)])
+  yield all([fork(watchGetMenu), fork(watchCreateMenu), fork(watchUpdateMenu)])
 }

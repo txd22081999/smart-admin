@@ -11,7 +11,7 @@ import {
   getMenuItems,
   getToppingItems,
   setToppingByMenuItems,
-  updateToppingByMenuItems,
+  updateToppingWithMenuItems,
 } from '../../../redux/actions'
 
 const SelectTopping = (props) => {
@@ -27,9 +27,10 @@ const SelectTopping = (props) => {
       menus = [{ id: '' }],
       menuItems = [],
       toppingItems = [],
+      toppingByMenuItems = [],
     },
     restaurantInfo,
-    updateToppingByMenuItems,
+    updateToppingWithMenuItems,
   } = props
 
   const [toppingItemsOption, setToppingItemsOption] = useState([])
@@ -115,9 +116,36 @@ const SelectTopping = (props) => {
   }
 
   const handleComplete = () => {
-    console.log('complete')
+    const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
+    const {
+      restaurant: { id: restaurantId },
+    } = restaurantInfo
+    const menuId = menus[0].id || ''
+    // const toppingItemId = formInfo.toppingItems
+    console.log(merchantId, restaurantId, menuId)
+    toppingByMenuItems.forEach((toppingByMenuItem) => {
+      const {
+        toppingItem: { id: toppingItemId, menuItem: menuItemArr },
+      } = toppingByMenuItem
+      const menuItems = menuItemArr.map((item) => ({
+        menuItemId: item.id,
+        customPrice: 0,
+      }))
+      const data = {
+        menuItemToppings: menuItems,
+      }
 
-    updateToppingByMenuItems()
+      console.log(data)
+      updateToppingWithMenuItems({
+        merchantId,
+        restaurantId,
+        menuId,
+        toppingItemId,
+        data,
+      })
+      console.log('SENT')
+    })
+
     console.log('call api')
   }
 
@@ -313,5 +341,5 @@ export default connect(mapStateToProps, {
   getToppingItems,
   getMenuItems,
   setToppingByMenuItems,
-  updateToppingByMenuItems,
+  updateToppingWithMenuItems,
 })(SelectTopping)

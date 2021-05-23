@@ -32,7 +32,9 @@ import {
   GET_TOPPING_ITEMS_SUCCESS,
   GET_TOPPING_ITEMS_ERROR,
   SET_TOPPING_BY_MENU_ITEMS,
-  UPDATE_TOPPING_BY_MENU_ITEMS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS_SUCCESS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR,
 } from '../actions'
 
 export const getMenus = (merchantId, restaurantId) => ({
@@ -218,7 +220,23 @@ export const setToppingByMenuItems = (data) => ({
   payload: { data },
 })
 
-export const updateToppingByMenuItems = (data) => ({
-  type: UPDATE_TOPPING_BY_MENU_ITEMS,
-  payload: {},
+export const updateToppingWithMenuItems = ({
+  merchantId,
+  restaurantId,
+  menuId,
+  toppingItemId,
+  data,
+}) => ({
+  type: UPDATE_TOPPING_WITH_MENU_ITEMS,
+  payload: { merchantId, restaurantId, menuId, toppingItemId, data },
+})
+
+export const updateToppingWithMenuItemsSuccess = (message) => ({
+  type: UPDATE_TOPPING_WITH_MENU_ITEMS_SUCCESS,
+  payload: { message },
+})
+
+export const updateToppingWithMenuItemsError = (message) => ({
+  type: UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR,
+  payload: { message },
 })

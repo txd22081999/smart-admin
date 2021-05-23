@@ -29,7 +29,9 @@ import {
   GET_TOPPING_ITEMS_SUCCESS,
   GET_TOPPING_ITEMS_ERROR,
   SET_TOPPING_BY_MENU_ITEMS,
-  UPDATE_TOPPING_BY_MENU_ITEMS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS,
+  UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR,
+  UPDATE_TOPPING_WITH_MENU_ITEMS_SUCCESS,
 } from '../actions'
 
 const INIT_STATE = {
@@ -328,9 +330,19 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
-    case UPDATE_TOPPING_BY_MENU_ITEMS: {
-      console.log(state.toppingByMenuItems)
+    case UPDATE_TOPPING_WITH_MENU_ITEMS: {
+      return {
+        ...state,
+      }
+    }
 
+    case UPDATE_TOPPING_WITH_MENU_ITEMS_SUCCESS: {
+      return {
+        ...state,
+      }
+    }
+
+    case UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR: {
       return {
         ...state,
       }
