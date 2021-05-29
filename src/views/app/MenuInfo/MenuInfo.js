@@ -34,31 +34,58 @@ const MenuGroup = (props) => {
   }
 
   return (
-    <Card
+    <div
       style={{ cursor: 'pointer', marginBottom: '40px' }}
       onClick={onGroupClick}
+      className='pt-2 pl-4'
     >
-      <CardBody>
-        <h2>{name}</h2>
-        <p>Index: {index}</p>
-        <p>{isActive ? 'Active' : 'Inactive'} </p>
+      <h2 className='font-weight-600' style={{ fontWeight: '1.6rem' }}>
+        {name}
+      </h2>
+      {/* <p>Index: {index}</p> */}
+      {/* <p>{isActive ? 'Active' : 'Inactive'} </p> */}
 
-        <div>
-          {menuItems.map((menuItem) => {
-            if (menuItem.menuGroupId === groupId) {
-              return <MenuItem key={menuItem.id} menuItem={menuItem} />
-            }
-            return null
-          })}
-          {/* <MenuItem
+      <div className={clsx(isActive ? '' : 'opacity-05')}>
+        {menuItems.map((menuItem) => {
+          if (menuItem.menuGroupId === groupId) {
+            return <MenuItem key={menuItem.id} menuItem={menuItem} />
+          }
+          return null
+        })}
+        {/* <MenuItem
             merchantId={merchantId}
             restaurantId={restaurantId}
             menuId={menuId}
             menuGroup={id}
           /> */}
-        </div>
-      </CardBody>
-    </Card>
+      </div>
+    </div>
+
+    // <Card
+    //   style={{ cursor: 'pointer', marginBottom: '40px' }}
+    //   onClick={onGroupClick}
+    // >
+    //   <CardBody>
+    //     <h2>{name}</h2>
+    //     {/* <p>Index: {index}</p> */}
+    //     {/* <p>{isActive ? 'Active' : 'Inactive'} </p> */}
+
+    //     <div className={clsx(isActive ? '' : 'opacity-05')}>
+    //       {menuItems.map((menuItem) => {
+    //         if (menuItem.menuGroupId === groupId) {
+    //           return <MenuItem key={menuItem.id} menuItem={menuItem} />
+    //         }
+    //         return null
+    //       })}
+    //       {/* <MenuItem
+    //         merchantId={merchantId}
+    //         restaurantId={restaurantId}
+    //         menuId={menuId}
+    //         menuGroup={id}
+    //       /> */}
+    //     </div>
+    //   </CardBody>
+    // </Card>
   )
 }
 
@@ -202,7 +229,7 @@ const MenuInfo = (props) => {
 
       {showCreateGroup && (
         <div className={clsx(loadingMenuGroups ? 'opacity-05' : 'opacity-1')}>
-          <MenuGroupCreate onSubmit={onMenuGroupCreate} />{' '}
+          <MenuGroupCreate onSubmit={onMenuGroupCreate} />
         </div>
       )}
 

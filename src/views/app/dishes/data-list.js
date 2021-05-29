@@ -151,6 +151,11 @@ class DataListPages extends Component {
   }
 
   onCheckItem = (event, id) => {
+    if (!event.target.className.includes('custom-control')) {
+      // Menu item clicked
+      const { history } = this.props
+      history.push(`/app/dishes/${id}`)
+    }
     if (
       event.target.tagName === 'A' ||
       (event.target.parentElement && event.target.parentElement.tagName === 'A')

@@ -35,6 +35,7 @@ const MenuItem = (props) => {
               style={{ maxWidth: '200px', maxHeight: '200px' }}
               src={imageUrl}
               alt=''
+              className='menu-item-image'
             />
           </Colxx>
           <Colxx md='9'>
