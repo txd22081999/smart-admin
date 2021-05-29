@@ -291,6 +291,7 @@ function* createMenuItem({ payload }) {
       // history.push('/')
     } else {
       console.log(response.message)
+      NotificationManager.success(response.message, 'Success', 3000)
       yield put(createMenuItemError(response.message))
     }
   } catch (error) {

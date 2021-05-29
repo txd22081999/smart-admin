@@ -22,6 +22,7 @@ import {
 import axios from 'axios'
 import { USER_URL } from '../../constants/config'
 import { getErrorMessage } from '../utils'
+import { NotificationManager } from 'src/components/common/react-notifications'
 
 export function* watchLoginUser() {
   yield takeEvery(LOGIN_USER, loginWithUsernamePassword)
@@ -96,7 +97,6 @@ const registerWithUsernamePasswordAsync = async (user) => {
 
 function* registerWithUsernamePassword({ payload }) {
   // const { username, email, password } = payload.user
-  console.log(payload)
   const { history } = payload
   try {
     const registerUser = yield call(
@@ -105,12 +105,15 @@ function* registerWithUsernamePassword({ payload }) {
     )
     if (!registerUser.message) {
       // localStorage.setItem('user_id', registerUser.user.uid)
+      NotificationManager.success('Register success', 'Success', 3000)
       yield put(registerUserSuccess(registerUser))
       history.push('/merchant/login')
     } else {
+      NotificationManager.success(registerUser.message, 'Error', 3000)
       yield put(registerUserError(registerUser.message))
     }
   } catch (error) {
+    NotificationManager.success(error, 'Error', 3000)
     yield put(registerUserError(error))
   }
 }
