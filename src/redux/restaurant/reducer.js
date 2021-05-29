@@ -3,6 +3,9 @@ import {
   GET_MERCHANT_SUCCESS,
   GET_MERCHANT_ERROR,
   SET_RESTAURANT,
+  CREATE_RESTAURANT,
+  CREATE_RESTAURANT_SUCCESS,
+  CREATE_RESTAURANT_ERROR,
 } from '../actions'
 
 const localData = localStorage.getItem('persist:root')
@@ -41,6 +44,15 @@ export default (state = INIT_STATE, action) => {
     //     user: '',
     //     error: action.payload.message,
     //   }
+    case CREATE_RESTAURANT: {
+      return { ...state }
+    }
+    case CREATE_RESTAURANT_SUCCESS: {
+      return { ...state }
+    }
+    case CREATE_RESTAURANT_ERROR: {
+      return { ...state }
+    }
     default:
       return { ...state }
   }

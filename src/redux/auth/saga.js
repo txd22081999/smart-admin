@@ -66,7 +66,7 @@ function* loginWithUsernamePassword({ payload }) {
     } = data
 
     localStorage.setItem('access_token', access_token)
-
+    localStorage.setItem('merchant_id', user.id)
     yield put(loginUserSuccess(user))
     history.push('/restaurant')
   } catch (error) {
@@ -109,11 +109,11 @@ function* registerWithUsernamePassword({ payload }) {
       yield put(registerUserSuccess(registerUser))
       history.push('/merchant/login')
     } else {
-      NotificationManager.success(registerUser.message, 'Error', 3000)
+      NotificationManager.error(registerUser.message, 'Error', 3000)
       yield put(registerUserError(registerUser.message))
     }
   } catch (error) {
-    NotificationManager.success(error, 'Error', 3000)
+    NotificationManager.error(error, 'Error', 3000)
     yield put(registerUserError(error))
   }
 }

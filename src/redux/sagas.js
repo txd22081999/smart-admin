@@ -3,7 +3,14 @@ import authSagas from './auth/saga'
 import merchantSagas from './merchant/saga'
 import staffSagas from './staff/saga'
 import menuSagas from './menu/saga'
+import restaurantSagas from './restaurant/saga'
 
 export default function* rootSaga(getState) {
-  yield all([authSagas(), merchantSagas(), staffSagas(), menuSagas()])
+  yield all([
+    authSagas(),
+    merchantSagas(),
+    staffSagas(),
+    menuSagas(),
+    restaurantSagas(),
+  ])
 }

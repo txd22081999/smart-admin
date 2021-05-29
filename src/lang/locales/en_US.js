@@ -96,6 +96,7 @@ module.exports = {
   'restaurant.remove-all': 'Xóa hết',
   'restaurant.update': 'Cập nhật',
   'restaurant.remove': 'Xóa',
+  'restaurant.address': 'Địa chỉ',
 
   'staff.create': 'Tạo tài khoản nhân viên',
   'staff.create-button': 'Tạo',

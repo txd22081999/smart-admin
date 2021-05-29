@@ -3,6 +3,9 @@ import {
   GET_RESTAURANT_SUCCESS,
   GET_RESTAURANT_ERROR,
   SET_RESTAURANT,
+  CREATE_RESTAURANT,
+  CREATE_RESTAURANT_SUCCESS,
+  CREATE_RESTAURANT_ERROR,
 } from '../actions'
 
 export const getRestaurant = (id) => ({
@@ -23,4 +26,19 @@ export const getRestaurantError = (error) => ({
 export const setRestaurant = (restaurant) => ({
   type: SET_RESTAURANT,
   payload: { restaurant },
+})
+
+export const createRestaurant = (merchantId, restaurant) => ({
+  type: CREATE_RESTAURANT,
+  payload: { merchantId, restaurant },
+})
+
+export const createRestaurantSuccess = (restaurant) => ({
+  type: CREATE_RESTAURANT_SUCCESS,
+  payload: { restaurant },
+})
+
+export const createRestaurantError = (error) => ({
+  type: CREATE_RESTAURANT_ERROR,
+  payload: { message: error },
 })
