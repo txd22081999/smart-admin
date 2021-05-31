@@ -47,7 +47,8 @@ const SelectTopping = (props) => {
     //     username: 'merchant123',
     //   },
     // } = authUser
-    const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
+    // const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
+    const merchantId = localStorage.getItem('merchant_id')
     const {
       restaurant: { id: restaurantId },
     } = restaurantInfo
@@ -116,7 +117,7 @@ const SelectTopping = (props) => {
   }
 
   const handleComplete = () => {
-    const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
+    const merchantId = localStorage.getItem('merchant_id')
     const {
       restaurant: { id: restaurantId },
     } = restaurantInfo

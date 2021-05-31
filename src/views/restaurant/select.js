@@ -47,6 +47,7 @@ const RestaurantSelect = (props) => {
   const onRestaurantSelect = () => {
     const { restaurant, setRestaurant } = props
     console.log(restaurant)
+    localStorage.setItem('restaurant_id', restaurant.id)
     setRestaurant(restaurant)
   }
 

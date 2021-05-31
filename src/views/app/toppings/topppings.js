@@ -36,7 +36,8 @@ class Dishes extends Component {
       // },
       restaurantInfo: {
         restaurant: {
-          id: restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`,
+          // id: restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`,
+          id: restaurantId,
         },
       },
       restaurantMenu: { menus, loading, error, menu, menuItems = [] },
@@ -45,7 +46,7 @@ class Dishes extends Component {
       getMenuGroup,
     } = this.props
 
-    const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
+    const merchantId = localStorage.getItem('merchant_id')
     const menuId = menus[0]?.id || `93e90bca-09f6-4cf2-9915-883fccb14276`
 
     getMenu(merchantId, restaurantId)

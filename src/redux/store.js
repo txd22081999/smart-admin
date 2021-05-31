@@ -8,6 +8,15 @@ import sagas from './sagas'
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: [
+    'settings',
+    'authUser',
+    'menu',
+    'staffUser',
+    'merchantUser',
+    'restaurantInfo',
+    'restaurantMenu',
+  ],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -33,12 +42,12 @@ export function configureStore(initialState) {
 
   sagaMiddleware.run(sagas)
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const nextRootReducer = require('./reducers')
-      store.replaceReducer(nextRootReducer)
-    })
-  }
+  // if (module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     const nextRootReducer = require('./reducers')
+  //     store.replaceReducer(nextRootReducer)
+  //   })
+  // }
 
   return { store, persistor }
 }

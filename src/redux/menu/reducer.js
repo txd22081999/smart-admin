@@ -32,6 +32,7 @@ import {
   UPDATE_TOPPING_WITH_MENU_ITEMS,
   UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR,
   UPDATE_TOPPING_WITH_MENU_ITEMS_SUCCESS,
+  GET_MENUS_ERROR,
 } from '../actions'
 
 const INIT_STATE = {
@@ -42,6 +43,7 @@ const INIT_STATE = {
   toppingGroups: [],
   toppingItems: [],
   loading: false,
+  loadingGetMenus: false,
   loadingMenuItems: false,
   loadingMenuItem: false,
   loadingToppingGroups: false,
@@ -55,15 +57,24 @@ export default (state = INIT_STATE, action) => {
   const { payload, type } = action
   switch (type) {
     case GET_MENUS: {
-      return { ...state, loading: true, error: '' }
+      return { ...state, loadingGetMenus: true, error: '' }
     }
     case GET_MENUS_SUCCESS: {
       console.log(payload)
       return {
         ...state,
-        loading: false,
+        loadingGetMenus: false,
         error: '',
         menus: payload.menus,
+      }
+    }
+    case GET_MENUS_ERROR: {
+      console.log(payload)
+      return {
+        ...state,
+        loadingGetMenus: false,
+        error: payload.message,
+        menus: [],
       }
     }
     // GET MENU GROUP
