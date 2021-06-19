@@ -117,10 +117,7 @@ const MenuInfo = (props) => {
   } = props
 
   const menuId = pathname.split(`/app/dishes/create/`)[1]
-  // const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
   const merchantId = localStorage.getItem('merchant_id')
-  // const restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`
-  // const restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`
   const restaurantId =
     restaurantInfo.restaurant.id || localStorage.getItem('restaurant_id')
 
