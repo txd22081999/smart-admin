@@ -6,6 +6,7 @@
     "dependencies": {
         "@glidejs/glide": "^3.3.0",
         "@mapbox/mapbox-gl-geocoder": "^4.7.1",
+        "@voucherify/sdk": "^1.0.1",
         "availity-reactstrap-validation": "^2.0.4",
         "axios": "^0.18.0",
         "boxicons": "^2.0.7",
