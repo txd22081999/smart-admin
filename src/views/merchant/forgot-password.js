@@ -7,20 +7,33 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { forgotPassword } from '../../redux/actions'
 import { NotificationManager } from '../../components/common/react-notifications'
 import { connect } from 'react-redux'
+import axios from 'axios'
 
 class ForgotPassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
       email: 'demo@foa.com',
+      loading: false,
     }
   }
 
-  onForgotPassword = (values) => {
-    if (!this.props.loading) {
+  onForgotPassword = async (values) => {
+    const { loading } = this.state
+    if (!loading) {
+      this.setState({
+        loading: true,
+      })
+
       if (values.email !== '') {
-        this.props.forgotPassword(values, this.props.history)
+        // this.props.forgotPassword(values, this.props.history)
+        // const {data } = await axios({
+        // })
       }
+
+      this.setState({
+        loading: false,
+      })
     }
   }
 
@@ -58,7 +71,7 @@ class ForgotPassword extends Component {
   }
 
   render() {
-    const { email } = this.state
+    const { email, loading } = this.state
     const initialValues = { email }
 
     return (
@@ -117,7 +130,7 @@ class ForgotPassword extends Component {
                       <Button
                         color='primary'
                         className={`btn-shadow btn-multiple-state ${
-                          this.props.loading ? 'show-spinner' : ''
+                          loading ? 'show-spinner' : ''
                         }`}
                         size='lg'
                       >

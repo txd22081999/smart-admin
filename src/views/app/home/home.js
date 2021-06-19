@@ -64,9 +64,6 @@ class Home extends Component {
         <Row>
           <Colxx xxs='12' className='mb-4'>
             <div className='Home'>
-              <p>
-                <IntlMessages id='menu.home' />
-              </p>
               <div className='img-container'></div>
               <div className='store-info'>
                 <div className='profile-info d-flex'>

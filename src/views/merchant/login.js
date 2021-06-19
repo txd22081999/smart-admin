@@ -116,6 +116,7 @@ class Login extends Component {
                       <Field
                         className='form-control'
                         name='username'
+                        autoComplete='username'
                         validate={this.validateUsername}
                       />
                       {errors.username && touched.username && (
@@ -132,6 +133,7 @@ class Login extends Component {
                         className='form-control'
                         type='password'
                         name='password'
+                        autoComplete='current-password'
                         validate={this.validatePassword}
                       />
                       {errors.password && touched.password && (

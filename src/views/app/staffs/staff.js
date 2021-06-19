@@ -114,15 +114,6 @@ class CreateStaff extends Component {
                   <IntlMessages id='staff.create' />
                 </CardTitle>
 
-                {/* <div className='img-upload-container'>
-                  <span className='upload-label'>
-                    <IntlMessages id='restaurant.coverImg' />
-                  </span>
-                  <div className='img-upload'>
-                    <UploadImage onImageChange={this.onImageChange} />
-                  </div>
-                </div> */}
-
                 <Form onChange={this.onFormChange}>
                   <Label className='form-group has-float-label mb-4'>
                     <Input
@@ -200,11 +191,6 @@ class CreateStaff extends Component {
                       defaultValue={this.state.password}
                     />
                     <IntlMessages id='staff.password' />
-                  </Label>
-
-                  <Label className='form-group has-float-label mb-4'>
-                    {/* <Input type='number' defaultValue={this.state.phone} /> */}
-                    <IntlMessages id='staff.position' />
                   </Label>
 
                   <div className='d-flex justify-content-end align-items-center'>
