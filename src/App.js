@@ -14,7 +14,7 @@ import NotificationContainer from './components/common/react-notifications/Notif
 import { isMultiColorActive } from './constants/defaultValues'
 import { getDirection } from './helpers/Utils'
 import 'boxicons'
-// hell
+// hel
 
 const ViewMain = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views')
