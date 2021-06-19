@@ -13,13 +13,21 @@ export const localeOptions = [
   { id: 'enrtl', name: 'English - RTL', direction: 'rtl' },
 ]
 
+// export const firebaseConfig = {
+//   apiKey: 'AIzaSyBBksq-Asxq2M4Ot-75X19IyrEYJqNBPcg',
+//   authDomain: 'gogo-react-login.firebaseapp.com',
+//   databaseURL: 'https://gogo-react-login.firebaseio.com',
+//   projectId: 'gogo-react-login',
+//   storageBucket: 'gogo-react-login.appspot.com',
+//   messagingSenderId: '216495999563',
+// }
 export const firebaseConfig = {
-  apiKey: 'AIzaSyBBksq-Asxq2M4Ot-75X19IyrEYJqNBPcg',
-  authDomain: 'gogo-react-login.firebaseapp.com',
-  databaseURL: 'https://gogo-react-login.firebaseio.com',
-  projectId: 'gogo-react-login',
-  storageBucket: 'gogo-react-login.appspot.com',
-  messagingSenderId: '216495999563',
+  apiKey: 'AIzaSyB6uDiANw15T1SNAfB7h-z4LC4Kr3wIgWg',
+  authDomain: 'merchant-dashboard-5c894.firebaseapp.com',
+  projectId: 'merchant-dashboard-5c894',
+  storageBucket: 'merchant-dashboard-5c894.appspot.com',
+  messagingSenderId: '145347345549',
+  appId: '1:145347345549:web:43db993fb0a812f5bc76c4',
 }
 
 export const searchPath = '/app/pages/search'

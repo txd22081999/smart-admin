@@ -77,9 +77,13 @@ class ForgotPassword extends Component {
               </p>
             </div>
             <div className='form-side'>
-              <NavLink to={`/`} className='white'>
-                <span className='logo-single' />
-              </NavLink>
+              <div className='mb-3'>
+                <NavLink to={`/merchant`}>
+                  <div className='site-logo font-weight-bold'>
+                    Smart<span className='text-orange'>Merchant</span>
+                  </div>
+                </NavLink>
+              </div>
               <CardTitle className='mb-4'>
                 <IntlMessages id='user.forgot-password' />
               </CardTitle>
@@ -107,8 +111,8 @@ class ForgotPassword extends Component {
                     </FormGroup>
 
                     <div className='d-flex justify-content-between align-items-center'>
-                      <NavLink to={`/user/forgot-password`}>
-                        <IntlMessages id='user.forgot-password-question' />
+                      <NavLink to={`/merchant/register`} className='mr-3'>
+                        <IntlMessages id='user.register' />
                       </NavLink>
                       <Button
                         color='primary'

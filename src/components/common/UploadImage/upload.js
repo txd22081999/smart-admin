@@ -5,12 +5,13 @@ import IntlMessages from '../../../helpers/IntlMessages'
 import './upload.scss'
 
 const UploadImage = (props) => {
+  const { onImageChange, limit = 2 } = props
+
   const [images, setImages] = useState([])
   const [controlVisible, setControlVisible] = useState(false)
   const maxNumber = 1
 
   const onChange = (imageList, addUpdateIndex) => {
-    const { onImageChange } = props
     // data for submit
     console.log(imageList, addUpdateIndex)
     setImages(imageList)
@@ -45,18 +46,21 @@ const UploadImage = (props) => {
         }) => (
           // write your building UI
           <div className='upload__image-wrapper'>
-            <button
+            <span
+              className='upload-select-btn'
               style={isDragging ? { color: 'red' } : undefined}
               onClick={onImageUpload}
               {...dragProps}
             >
               <IntlMessages id='restaurant.click-or-drop' />
-            </button>
+            </span>
             &nbsp;
-            <button onClick={onImageRemoveAll}>
-              {' '}
-              <IntlMessages id='restaurant.remove-all' />
-            </button>
+            {limit !== 1 && (
+              <button onClick={onImageRemoveAll}>
+                {' '}
+                <IntlMessages id='restaurant.remove-all' />
+              </button>
+            )}
             {imageList.map((image, index) => (
               <div key={index} className='image-item'>
                 <img

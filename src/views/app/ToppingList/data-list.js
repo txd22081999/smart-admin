@@ -295,9 +295,11 @@ class DataListPages extends Component {
       modalOpen,
       categories,
     } = this.state
-    const { match } = this.props
+    const { match, subData = [] } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
+
+    console.log(subData)
 
     return !this.state.isLoading ? (
       <div className='loading' />
@@ -353,16 +355,19 @@ class DataListPages extends Component {
                 )
               } else {
                 return (
-                  <DataListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
-                    onCheckItem={this.onCheckItem}
-                    collect={collect}
-                  />
+                  <div>
+                    <DataListView
+                      key={product.id}
+                      product={product}
+                      isSelect={this.state.selectedItems.includes(product.id)}
+                      onCheckItem={this.onCheckItem}
+                      collect={collect}
+                      subItems={[{ name: 'ASdasda' }, { name: 'LOLOL' }]}
+                    />
+                  </div>
                 )
               }
-            })}{' '}
+            })}
             <Pagination
               currentPage={this.state.currentPage}
               totalPage={this.state.totalPage}

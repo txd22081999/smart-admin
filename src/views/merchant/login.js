@@ -157,6 +157,7 @@ class Login extends Component {
                           this.props.loading ? 'show-spinner' : ''
                         }`}
                         size='lg'
+                        type='submit'
                       >
                         <span className='spinner d-inline-block'>
                           <span className='bounce1' />

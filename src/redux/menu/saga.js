@@ -287,8 +287,7 @@ function* createMenuItem({ payload }) {
       } = response
       yield put(createMenuItemSuccess(menuItem))
       NotificationManager.success('Menu item created', 'Success', 3000)
-      // history.push('/app/dishes/create/menu-item')
-      // history.push('/')
+      history.push(`/app/dishes/create/${menuId}`)
     } else {
       console.log(response.message)
       NotificationManager.success(response.message, 'Success', 3000)

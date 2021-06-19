@@ -70,6 +70,10 @@ module.exports = {
   'pages.cancel': 'Hủy',
   'pages.submit': 'Xác nhận',
   'pages.add-new-modal-title': 'Thêm món mới',
+  'pages.display-options': 'Display',
+  'pages.another-action': 'another action',
+  'pages.delete': 'Delete',
+  'menu.': 'menu',
 
   'dashboards.website-visits': 'Lượt truy cập',
   'dashboards.conversion-rates': 'Số lần đặt món',
@@ -97,6 +101,10 @@ module.exports = {
   'restaurant.update': 'Cập nhật',
   'restaurant.remove': 'Xóa',
   'restaurant.address': 'Địa chỉ',
+  'restaurant.menu-item-img': 'Hình ảnh',
+  'restaurant.open-hours': 'Lịch hoạt động',
+  'restaurant.area': 'Khu vực',
+  'restaurant.district': 'Quận',
 
   'staff.create': 'Tạo tài khoản nhân viên',
   'staff.create-button': 'Tạo',

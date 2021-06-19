@@ -43,7 +43,7 @@ const MenuCreate = (props) => {
     //   user: { id: merchantId }
     // },
     restaurantInfo: {
-      restaurant: { id: restaurantId = `02573012-af6f-4e29-9c6a-55e616c1e7e8` },
+      restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
     },
     restaurantMenu: { menus, loading, error, menu },
     getMenu,

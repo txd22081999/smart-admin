@@ -21,7 +21,6 @@ import { Colxx } from '../../components/common/CustomBootstrap'
 import IntlMessages from '../../helpers/IntlMessages'
 
 import { USER_URL } from '../../constants/config'
-import { restaurantList } from './mockData'
 
 import './restaurant.scss'
 
@@ -61,7 +60,7 @@ const RestaurantSelect = (props) => {
             <Row className='d-flex align-items-center'>
               {true && (
                 <span className='check-icon'>
-                  <i class='bx bxs-check-circle'></i>
+                  <i className='bx bxs-check-circle'></i>
                 </span>
               )}
 
@@ -121,7 +120,7 @@ class RestaurantSelection extends Component {
       const { merchantUser } = this.props
       // const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
       // const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
-      const merchantId = merchantUser.id
+      const merchantId = localStorage.getItem('merchant_id')
       const accessToken = localStorage.getItem('access_token')
       const res = await axios({
         url: `${USER_URL}/${merchantId}/restaurant`,
@@ -148,8 +147,6 @@ class RestaurantSelection extends Component {
 
       if (!data) return
 
-      console.log(data)
-
       const { results = [] } = data
       const newRestaurantList = results.map((item) => {
         const {
@@ -163,6 +160,11 @@ class RestaurantSelection extends Component {
           phone,
           posAppKey,
           id,
+          position,
+          coverImageUrl,
+          verifiedImageUrl,
+          cityId,
+          areaId,
         } = item
 
         const restaurantItem = {
@@ -176,6 +178,11 @@ class RestaurantSelection extends Component {
           isVerified,
           phone,
           posAppKey,
+          position,
+          coverImageUrl,
+          verifiedImageUrl,
+          cityId,
+          areaId,
         }
 
         return restaurantItem

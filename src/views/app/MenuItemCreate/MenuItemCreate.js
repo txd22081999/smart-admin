@@ -4,9 +4,14 @@ import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Select } from 'reactstrap'
 import { Field, Formik } from 'formik'
 import IntlMessages from 'src/helpers/IntlMessages'
+import { storage } from '../../../helpers/Firebase'
+import UploadImage from '../../../components/common/UploadImage'
 import { FormikReactSelect } from '../../../containers/form-validations/FormikFields'
 
 import { createMenuItem } from '../../../redux/actions'
+
+import './MenuItemCreate.scss'
+import { uploadFile } from 'src/helpers/Utils'
 
 const MenuItemCreate = (props) => {
   const {
@@ -19,6 +24,9 @@ const MenuItemCreate = (props) => {
   } = props
 
   const [menuGroupOption, setMenuGroupOption] = useState([])
+  const [image, setImage] = useState(null)
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageLoading, setImageLoading] = useState(false)
 
   useEffect(() => {
     if (menuGroup.length === 0) return
@@ -30,6 +38,10 @@ const MenuItemCreate = (props) => {
     })
     setMenuGroupOption(newMenuGroupOption)
   }, [menuGroup])
+
+  useEffect(() => {
+    handleUpload()
+  }, [image])
 
   const initialValues = {
     // menuGroup: '',
@@ -44,15 +56,30 @@ const MenuItemCreate = (props) => {
     name: '',
     description: '',
     price: '',
-    imageUrl: '',
     isActive: true,
     index: 65537,
+  }
+
+  const handleUpload = async () => {
+    if (!image) return
+    setImageLoading(true)
+    const imageUrl = await uploadFile(image)
+    if (!imageUrl) {
+      console.log('Failed in handleUpload')
+      return
+    }
+    setImageUrl(imageUrl)
+    setImageLoading(false)
   }
 
   const handleSubmit = (values) => {
     console.log('SUBMIT create group')
     console.log(values)
     if (loading) {
+      return
+    }
+    if (!imageUrl) {
+      console.log('No image specifed')
       return
     }
     // if (values.name !== '' && values.index !== '') {
@@ -74,7 +101,7 @@ const MenuItemCreate = (props) => {
       restaurantId,
       menuId,
       menuGroupId,
-      data: values,
+      data: { ...values, imageUrl },
       history,
     })
 
@@ -138,8 +165,13 @@ const MenuItemCreate = (props) => {
     console.log('Change'.v)
   }
 
+  const onImageChange = (value) => {
+    const { file } = value[0]
+    setImage(file)
+  }
+
   return (
-    <div className='mb-4'>
+    <div className='MenuItemCreate mb-4'>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({
           errors,
@@ -169,7 +201,11 @@ const MenuItemCreate = (props) => {
               >
                 {menuGroupOption.length > 0 &&
                   menuGroupOption.map((item) => {
-                    return <option value={item.value}>{item.label}</option>
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    )
                   })}
               </select>
 
@@ -225,7 +261,7 @@ const MenuItemCreate = (props) => {
               )}
             </FormGroup>
 
-            <FormGroup className='form-group has-float-label'>
+            {/* <FormGroup className='form-group has-float-label'>
               <Label>
                 <IntlMessages id='menu.menu-item-image' />
               </Label>
@@ -239,9 +275,18 @@ const MenuItemCreate = (props) => {
                   {errors.imageUrl}
                 </div>
               )}
-            </FormGroup>
+            </FormGroup> */}
 
-            <FormGroup className='form-group has-float-label'>
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
+                <IntlMessages id='restaurant.menu-item-img' />
+              </span>
+              <div className='img-upload'>
+                <UploadImage onImageChange={onImageChange} limit={1} />
+              </div>
+            </div>
+
+            <FormGroup className='form-group has-float-label mt-4'>
               <Label>
                 <IntlMessages id='menu.menu-item-index' />
               </Label>
@@ -274,7 +319,7 @@ const MenuItemCreate = (props) => {
             <Button
               color='primary'
               className={`btn-shadow btn-multiple-state ${
-                props.loading ? 'show-spinner' : ''
+                imageLoading ? 'show-spinner' : ''
               }`}
               size='lg'
             >

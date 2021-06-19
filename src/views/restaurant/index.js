@@ -23,6 +23,7 @@ const Restaurant = ({ match }) => {
           <Redirect exact from={`${match.url}/`} to={`${match.url}/select`} />
           <Route
             path={`${match.url}/select`}
+            // render={(props) => <Create {...props} />}
             render={(props) => <Select {...props} />}
           />
           <Route

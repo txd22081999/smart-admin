@@ -75,7 +75,7 @@ const createRestaurantAsync = async (merchantId, restaurant) => {
 
 function* createRestaurant({ payload }) {
   // const { username, email, password } = payload.user
-  const { merchantId, restaurant } = payload
+  const { merchantId, restaurant, history } = payload
   try {
     const response = yield call(createRestaurantAsync, merchantId, restaurant)
     console.log(response)
@@ -88,6 +88,7 @@ function* createRestaurant({ payload }) {
       NotificationManager.success('Restaurant was created', 'Success', 3000)
 
       yield put(createRestaurantSuccess(restaurant))
+      history.push('/restaurant/select')
     } else {
       NotificationManager.success(response.message, 'Error', 3000)
       console.log(response.message)

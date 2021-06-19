@@ -89,8 +89,7 @@ class ToppingList extends Component {
         toppingGroups = [],
       },
     } = this.props
-    console.log(toppingGroups)
-    console.log(toppingItems)
+
     const pageSize = 10
     if (
       toppingItems.length !== 0 &&
@@ -98,7 +97,7 @@ class ToppingList extends Component {
       toppingGroups.length > 0
     ) {
       const newToppingItems = toppingItems.map(
-        ({ id, name, imageUrl, description, toppingGroupId }) => {
+        ({ id, name, imageUrl, description, toppingGroupId, menuId }) => {
           const group = findToppingGroupById(toppingGroupId, toppingGroups)
 
           return {
@@ -110,6 +109,7 @@ class ToppingList extends Component {
             statusColor: 'secondary',
             description,
             date: '01.04.2021',
+            menuId,
           }
         }
       )
@@ -131,8 +131,12 @@ class ToppingList extends Component {
 
   render() {
     const { history, getMenu, restaurantMenu } = this.props
-    const { loadingToppingItems } = restaurantMenu
-    console.log(loadingToppingItems)
+    const {
+      loadingToppingItems,
+      menuItems = [],
+      toppingItems = [],
+    } = restaurantMenu
+
     const { tableData = {} } = this.state
 
     if (loadingToppingItems) {
@@ -150,7 +154,11 @@ class ToppingList extends Component {
         <Row>
           <Colxx xxs='12' className='mb-4'>
             {tableData.data.length > 0 && (
-              <DataList history={history} data={tableData} />
+              <DataList
+                history={history}
+                data={tableData}
+                subData={menuItems}
+              />
             )}
           </Colxx>
         </Row>

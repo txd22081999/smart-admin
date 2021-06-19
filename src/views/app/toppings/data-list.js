@@ -330,7 +330,7 @@ class DataListPages extends Component {
             categories={categories}
           />
           <Row>
-            {this.state.items.map((product) => {
+            {/* {this.state.items.map((product) => {
               if (this.state.displayMode === 'imagelist') {
                 return (
                   <ImageListView
@@ -343,26 +343,32 @@ class DataListPages extends Component {
                 )
               } else if (this.state.displayMode === 'thumblist') {
                 return (
-                  <ThumbListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
-                    collect={collect}
-                    onCheckItem={this.onCheckItem}
-                  />
+                  <div>
+                    <ThumbListView
+                      key={product.id}
+                      product={product}
+                      isSelect={this.state.selectedItems.includes(product.id)}
+                      collect={collect}
+                      onCheckItem={this.onCheckItem}
+                    />
+                    <p>Hello</p>
+                  </div>
                 )
               } else {
                 return (
-                  <DataListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
-                    onCheckItem={this.onCheckItem}
-                    collect={collect}
-                  />
+                  <div>
+                    <DataListView
+                      key={product.id}
+                      product={product}
+                      isSelect={this.state.selectedItems.includes(product.id)}
+                      onCheckItem={this.onCheckItem}
+                      collect={collect}
+                    />
+                    <p>Hello</p>
+                  </div>
                 )
               }
-            })}{' '}
+            })} */}
             <Pagination
               currentPage={this.state.currentPage}
               totalPage={this.state.totalPage}

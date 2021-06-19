@@ -338,6 +338,10 @@ hr {
 .site-logo {
   font-size: 2rem;
   font-weight: 800;
+
+  &::hover {
+    color: black;
+  }
 }
 
 .logo-single {

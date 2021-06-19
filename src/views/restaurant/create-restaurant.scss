@@ -1,18 +1,68 @@
-.create-restaurant-container {
-  width: 100%;
+.CreateRestaurant {
+  .time-picker-container {
+    margin-top: 10px;
+    // display: none;
+    padding: 0 10px;
+    display: flex;
+    // align-items: center;
 
-  .upload-label {
-    cursor: text;
-    font-size: 90%;
-    opacity: 1;
-    margin-left: 0.75rem;
-    z-index: 3;
-    line-height: 1;
-    padding: 0 1px;
+    .day {
+      font-weight: 600;
+      margin-right: 15px;
+    }
+
+    .time-picker-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      // width: 100%;
+      width: 500px;
+    }
+
+    .time-picker-label {
+      margin-right: 8px;
+    }
+
+    .react-time-picker__wrapper {
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #212121;
+    }
+
+    .react-time-picker__button {
+      svg {
+        width: 15px;
+        stroke: #212121;
+        &:hover {
+          stroke: #e2863b;
+        }
+      }
+
+      &:hover {
+        svg {
+          stroke: #e2863b;
+        }
+      }
+    }
   }
 
-  .img-upload {
-    margin-bottom: 20px;
-    // padding-left: 20px;
+  .create-restaurant-container {
+    width: 100%;
+
+    .upload-label {
+      cursor: text;
+      font-size: 90%;
+      opacity: 1;
+      margin-left: 0.75rem;
+      z-index: 3;
+      line-height: 1;
+      padding: 0 1px;
+    }
+
+    .img-upload {
+      margin-bottom: 20px;
+      // padding-left: 20px;
+    }
   }
 }

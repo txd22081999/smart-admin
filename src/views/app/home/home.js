@@ -4,6 +4,7 @@ import { Row } from 'reactstrap'
 import IntlMessages from '../../../helpers/IntlMessages'
 import { Badge } from 'reactstrap'
 import { connect } from 'react-redux'
+import Pusher from 'pusher-js'
 
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
@@ -13,6 +14,7 @@ import Breadcrumb from '../../../containers/navs/Breadcrumb'
 import { getMerchant } from '../../../redux/actions'
 
 import './home.scss'
+import { PUSHER_APP_CLUSTER, PUSHER_APP_KEY } from 'src/constants/config'
 
 class Home extends Component {
   // componentDidMount() {

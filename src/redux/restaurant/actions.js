@@ -28,9 +28,9 @@ export const setRestaurant = (restaurant) => ({
   payload: { restaurant },
 })
 
-export const createRestaurant = (merchantId, restaurant) => ({
+export const createRestaurant = (merchantId, restaurant, history) => ({
   type: CREATE_RESTAURANT,
-  payload: { merchantId, restaurant },
+  payload: { merchantId, restaurant, history },
 })
 
 export const createRestaurantSuccess = (restaurant) => ({

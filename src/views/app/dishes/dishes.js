@@ -50,8 +50,9 @@ class Dishes extends Component {
 
     // BUGGG
     const merchantId = localStorage.getItem('merchant_id')
+    const restaurantIdLocal = localStorage.getItem('restaurant_id')
     // const menuId = menus[0]?.id || `93e90bca-09f6-4cf2-9915-883fccb14276`
-    getMenu(merchantId, restaurantId)
+    getMenu(merchantId, restaurantIdLocal)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -73,6 +74,7 @@ class Dishes extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('DID UPDATE')
     const {
       restaurantMenu: {
         menus,
@@ -176,9 +178,9 @@ class Dishes extends Component {
       return <div className='loading' />
     }
 
-    if (!loadingGetMenus && menus.length === 0) {
-      return <div>Create new menu</div>
-    }
+    // if (!loadingGetMenus && menus.length === 0) {
+    //   return <div>Create new menu</div>
+    // }
 
     return (
       <Fragment>

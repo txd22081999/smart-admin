@@ -121,12 +121,21 @@ const MenuInfo = (props) => {
   const merchantId = localStorage.getItem('merchant_id')
   // const restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`
   // const restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`
-  const restaurantId = restaurantInfo.restaurant.id
+  const restaurantId =
+    restaurantInfo.restaurant.id || localStorage.getItem('restaurant_id')
 
   useEffect(() => {
     // setMenu(menuId)
     // getMenuGroup({ merchantId, restaurantId, menuId })
-    console.log('HIHI')
+    if (menuGroup.length === 0) {
+      console.log({ merchantId, restaurantId, menuId })
+      getMenuGroup({ merchantId, restaurantId, menuId })
+    }
+    if (menuItems.length === 0) {
+      console.log({ merchantId, restaurantId, menuId })
+      getMenuItems({ merchantId, restaurantId, menuId })
+    }
+    console.log('MenuInfo Mounted')
   }, [])
 
   useEffect(() => {

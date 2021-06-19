@@ -1,4 +1,19 @@
 .image-upload-container {
+  .upload__image-wrapper {
+    background-color: #ffffff;
+    padding: 10px 5px;
+    border: 1px solid #dcdcdc;
+  }
+
+  .upload-select-btn {
+    background-color: #e2863b;
+    border-color: #e2863b;
+    padding: 6px 20px;
+    border-radius: 14px;
+    color: white;
+    cursor: pointer;
+  }
+
   .image-item {
     margin: 0 auto;
     margin-top: 10px;

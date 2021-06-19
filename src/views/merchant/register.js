@@ -67,8 +67,10 @@ class Register extends Component {
               </p>
             </div>
             <div className='form-side'>
-              <NavLink to={`/`} className='white'>
-                <span className='logo-single' />
+              <NavLink to={`/merchant`}>
+                <div className='site-logo font-weight-bold'>
+                  Smart<span className='text-orange'>Merchant</span>
+                </div>
               </NavLink>
               <CardTitle className='mb-4'>
                 <IntlMessages id='user.register' />
@@ -179,7 +181,11 @@ class Register extends Component {
                         </div>
                       )}
 
-                      <div className='d-flex justify-content-end align-items-center mt-3'>
+                      <div className='d-flex justify-content-end align-items-center mt-3 justify-content-between'>
+                        <NavLink to={`/merchant/forgot-password`}>
+                          <IntlMessages id='user.forgot-password-question' />
+                        </NavLink>
+
                         <Button
                           color='primary'
                           className={`btn-shadow btn-multiple-state ${
