@@ -41,7 +41,7 @@ class ToppingList extends Component {
       restaurantInfo: {
         restaurant: {
           // id: restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`,
-          id: restaurantId,
+          id: restaurantId = localStorage.getItem('restaurant_id'),
         },
       },
       restaurantMenu: { menus, loading, error, menu, menuItems = [] },

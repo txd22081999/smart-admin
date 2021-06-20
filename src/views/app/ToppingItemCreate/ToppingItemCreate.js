@@ -26,7 +26,7 @@ const ToppingItemCreate = (props) => {
       user: { id: merchantId },
     } = authUser
     const {
-      restaurant: { id: restaurantId },
+      restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
     } = restaurantInfo
     const menuId = menus[0].id || ''
     console.log(merchantId, restaurantId, menuId)
@@ -77,7 +77,7 @@ const ToppingItemCreate = (props) => {
     //   // createMenuGroup(values, history)
     // }
     const {
-      restaurant: { id: restaurantId },
+      restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
     } = restaurantInfo
     const {
       user: { id: merchantId },
