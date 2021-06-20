@@ -1,31 +1,33 @@
-import React from "react";
-import { Card, CardBody, CardTitle, Progress } from "reactstrap";
+import React from 'react'
+import { Card, CardBody, CardTitle, Progress } from 'reactstrap'
 
-import IntlMessages from "../../helpers/IntlMessages";
-import data from "../../data/profileStatuses";
+import IntlMessages from '../../helpers/IntlMessages'
+import data from '../../data/profileStatuses'
 
-const ProfileStatuses = ({cardClass="h-100"}) => {
+const ProfileStatuses = ({ cardClass = 'h-100' }) => {
   return (
     <Card className={cardClass}>
       <CardBody>
         <CardTitle>
-          <IntlMessages id="dashboards.profile-status" />
+          {/* <IntlMessages id="dashboards.profile-status" /> */}
+          <span>Thông tin nhà hàng</span>
         </CardTitle>
+
         {data.map((s, index) => {
           return (
-            <div key={index} className="mb-4">
-              <p className="mb-2">
+            <div key={index} className='mb-4'>
+              <p className='mb-2'>
                 {s.title}
-                <span className="float-right text-muted">
+                <span className='float-right text-muted'>
                   {s.status}/{s.total}
                 </span>
               </p>
               <Progress value={(s.status / s.total) * 100} />
             </div>
-          );
+          )
         })}
       </CardBody>
     </Card>
-  );
-};
-export default ProfileStatuses;
+  )
+}
+export default ProfileStatuses

@@ -20,8 +20,6 @@ const Menu = (props) => {
     history,
   } = props
 
-  console.log(history)
-
   const onMenuClick = () => {
     history.push(`/app/dishes/create/${id}`)
   }
@@ -33,7 +31,7 @@ const Menu = (props) => {
     >
       <CardBody>
         <h2>{name}</h2>
-        <p>Index: {index}</p>
+        {/* <p>Index: {index}</p> */}
         <p>{isActive ? 'Active' : 'Inactive'} </p>
       </CardBody>
     </Card>
@@ -221,7 +219,7 @@ const MenuCreate = (props) => {
 
   return (
     <div>
-      <h2>Danh sách menu</h2>
+      <h2 style={{ marginBottom: 15 }}>Danh sách menu</h2>
       {menus.map((menu) => {
         return <Menu key={menu.id} menu={menu} history={history} />
       })}

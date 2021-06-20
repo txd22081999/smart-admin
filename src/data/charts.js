@@ -20,6 +20,27 @@ export const lineChartData = {
   ],
 }
 
+export const saleByMonthData = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  datasets: [
+    {
+      label: '',
+      // data: [54, 63, 60, 65, 60, 68, 60],
+      // data: [25.4, 26.0, 24.7, 65, 60, 68.2, 60.3],
+      data: [25.4, 26.0, 24.7, 28.5, 29.1, 29.5, 29.4],
+      borderColor: colors.themeColor1,
+      pointBackgroundColor: colors.foregroundColor,
+      pointBorderColor: colors.themeColor1,
+      pointHoverBackgroundColor: colors.themeColor1,
+      pointHoverBorderColor: colors.foregroundColor,
+      pointRadius: 6,
+      pointBorderWidth: 2,
+      pointHoverRadius: 8,
+      fill: false,
+    },
+  ],
+}
+
 export const polarAreaChartData = {
   labels: ['Cơm', 'Hủ tíu', 'Phở'],
   datasets: [

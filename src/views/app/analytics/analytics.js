@@ -49,18 +49,22 @@ class Analytics extends Component {
 
         {/* <SortableStaticticsRow messages={messages} /> */}
 
-        <Row>
+        {/* <Row>
           <Colxx xxs='12' lg='6' className='mb-4'>
             <ProductCategoriesPolarArea />
           </Colxx>
           <Colxx xxs='12' lg='6' className='mb-4'>
-            {/* <OrderStockRadarChart /> */}
+            <OrderStockRadarChart />
           </Colxx>
-        </Row>
+        </Row> */}
 
         <Row>
           <Colxx xxs='12' className='mb-4'>
-            <SalesChartCard />
+            <SalesChartCard day />
+          </Colxx>
+
+          <Colxx xxs='12' className='mb-4'>
+            <SalesChartCard month />
           </Colxx>
         </Row>
       </Fragment>
