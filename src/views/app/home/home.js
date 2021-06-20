@@ -64,7 +64,14 @@ class Home extends Component {
         <Row>
           <Colxx xxs='12' className='mb-4'>
             <div className='Home'>
-              <div className='img-container'></div>
+              <div
+                className='img-container'
+                // style={{ background: coverImageUrl }}
+                style={{
+                  // backgroundImage: `url("https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg")`,
+                  backgroundImage: `url(${coverImageUrl})`,
+                }}
+              ></div>
               <div className='store-info'>
                 <div className='profile-info d-flex'>
                   <div className='profile-img'>
