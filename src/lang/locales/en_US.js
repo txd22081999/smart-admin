@@ -13,7 +13,7 @@ module.exports = {
   'general.copyright': 'Gogo React © 2018 All Rights Reserved.',
 
   /* 02.User Login, Logout, Register */
-  'user.login-title': 'Merchant Login',
+  'user.login-title': 'Đăng nhập tài khoản',
   'user.register': 'Đăng ký',
   'user.forgot-password': 'Quên mật khẩu',
   'user.email': 'E-mail',
@@ -21,8 +21,8 @@ module.exports = {
   'user.forgot-password-question': 'Quên mật khẩu?',
   'user.fullname': 'Full Name',
   'user.full-name': 'Họ tên',
-  'user.login-button': 'LOGIN',
-  'user.register-button': 'REGISTER',
+  'user.login-button': 'Đăng nhập',
+  'user.register-button': 'Đăng ký',
   'user.reset-password-button': 'RESET',
   'user.buy': 'BUY',
   'user.username': 'Tên nhà hàng',
@@ -30,6 +30,7 @@ module.exports = {
   'user.id-number': 'Số ID',
   'user-merchant.login-title': 'Restaurant Login',
   'user-merchant.user-name': 'Tên người dùng',
+  'user.confirm-password': 'Xác nhận mật khẩu',
 
   /* 03.Menu */
   'menu.app': 'Home',

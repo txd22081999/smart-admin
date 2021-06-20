@@ -18,12 +18,13 @@ import { Formik, Form, Field } from 'formik'
 
 const initialValues = {
   // username: 'Merchant',
-  email: 'mechant123@foa.com',
-  password: '123123',
-  username: 'Quán Ăn Maika 3',
+  username: 'HappyFood',
+  email: 'happyfood@gmail.com',
+  password: '123456789',
+  confirmPassword: '123456789',
   phone: '0943123456',
   idNumber: '272699300',
-  fullName: '',
+  fullName: 'Nguyễn Văn An',
 }
 class Register extends Component {
   constructor(props) {
@@ -36,8 +37,22 @@ class Register extends Component {
     if (Object.values(values).includes('')) return
 
     const { registerUser } = this.props
-    const { email, fullName, idNumber, name, password, phone, username } =
-      values
+    const {
+      email,
+      fullName,
+      idNumber,
+      name,
+      password,
+      phone,
+      username,
+      confirmPassword,
+    } = values
+
+    if (confirmPassword !== password) {
+      console.log('Unmatched password!')
+      return
+    }
+
     const user = {
       username,
       password,
@@ -56,12 +71,16 @@ class Register extends Component {
         <Colxx xxs='12' md='10' className='mx-auto my-auto'>
           <Card className='auth-card'>
             <div className='position-relative image-side '>
-              <p className='text-white h2'>MAGIC IS IN THE DETAILS</p>
+              <p className='text-white h2'>PHÉP MÀU TRONG SỰ CHI TIẾT</p>
               <p className='white mb-0'>
-                Please use this form to register. <br />
-                If you are a member, please{' '}
-                <NavLink to={`/user/login`} className='white'>
-                  login
+                Hãy dùng form này để đăng ký. <br />
+                Nếu bạn đã có tài khoản, hãy{' '}
+                <NavLink
+                  to={`/user/login`}
+                  className='white'
+                  style={{ textDecoration: 'underline' }}
+                >
+                  đăng nhập
                 </NavLink>
                 .
               </p>
@@ -127,6 +146,23 @@ class Register extends Component {
                       {errors.password && touched.password && (
                         <div className='invalid-feedback d-block'>
                           {errors.password}
+                        </div>
+                      )}
+                    </FormGroup>
+
+                    <FormGroup className='form-group has-float-label'>
+                      <Label>
+                        <IntlMessages id='user.confirm-password' />
+                      </Label>
+                      <Field
+                        className='form-control'
+                        name='confirmPassword'
+                        type='password'
+                        validate={this.validateConfirmPassword}
+                      />
+                      {errors.confirmPassword && touched.confirmPassword && (
+                        <div className='invalid-feedback d-block'>
+                          {errors.confirmPassword}
                         </div>
                       )}
                     </FormGroup>

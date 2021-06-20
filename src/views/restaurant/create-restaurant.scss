@@ -1,4 +1,10 @@
 .CreateRestaurant {
+  height: 100%;
+  width: 100%;
+
+  .create-restaurant-card {
+  }
+
   .time-picker-container {
     margin-top: 10px;
     // display: none;
@@ -49,6 +55,17 @@
 
   .create-restaurant-container {
     width: 100%;
+    overflow: scroll;
+    max-height: 800px;
+
+    &::-webkit-scrollbar {
+      width: 0; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    &::-webkit-scrollbar-thumb {
+    }
+    // margin-bottom: 100px;
 
     .upload-label {
       cursor: text;

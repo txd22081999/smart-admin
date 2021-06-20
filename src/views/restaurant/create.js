@@ -74,7 +74,7 @@ class CreateRestaurant extends Component {
       email: 'mechant123@foa.com',
       address: '324 Trần Hưng Đạo',
       password: '123123',
-      name: 'Quán Phở Ngon',
+      name: 'Quán ăn Happy Food',
       phone: '0943123456',
       idNumber: '272699300',
       pictures: [],
@@ -87,7 +87,9 @@ class CreateRestaurant extends Component {
       cities: [],
       districts: [],
       city: {},
+      city2: {},
       district: {},
+      district2: {},
       position: { lng: 106.6799777, lat: 10.762913 }, // Truong KHTN
     }
   }
@@ -95,82 +97,6 @@ class CreateRestaurant extends Component {
   componentDidMount() {
     // GET city list
     this.fetchCities()
-  }
-
-  fetchCities = async () => {
-    const { position, districts, city } = this.state
-    const accessToken = localStorage.getItem('access_token')
-    const {
-      data: {
-        data: { cities },
-      },
-    } = await axios({
-      method: 'POST',
-      url: `${GEOCODE_URL}/get-cities`,
-      // data: {
-      //   position: {
-      //     latitude: position.lat,
-      //     longitude: position.lng,
-      //   },
-      // },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    if (cities.length > 0) {
-      this.setState({
-        cities,
-      })
-    }
-
-    if (Object.keys(city).length === 0) {
-      this.setState({
-        city: cities[0],
-      })
-    }
-
-    if (districts.length === 0) {
-      this.fetchDistricts(cities[0].id)
-    }
-  }
-
-  fetchDistricts = async (cityId) => {
-    const { position, district } = this.state
-    const accessToken = localStorage.getItem('access_token')
-    const {
-      data: {
-        data: {
-          city: { districts },
-        },
-      },
-    } = await axios({
-      method: 'POST',
-      url: `${GEOCODE_URL}/get-districts`,
-      data: {
-        cityId,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-
-    if (districts.length > 0) {
-      this.setState({
-        districts,
-      })
-
-      // if (Object.keys(district).length === 0) {
-      this.setState({
-        district: districts[0],
-      })
-      // }
-    }
-  }
-
-  handleMapMove = (position) => {
-    this.setState({
-      position,
-    })
   }
 
   onMerchantCreate = async () => {
@@ -185,19 +111,14 @@ class CreateRestaurant extends Component {
       closeTimes,
       position,
       city,
+      city2,
       district,
+      district2,
     } = this.state
     const { authUser, createRestaurant, history } = this.props
 
     // Handle location
-    // ---- GET city
-
-    // this.setState({
-    //   city: cityResult
-    // })
-
-    // ---- GET district
-
+    console.log('CREATEING')
     // Handle upload image and get returned download url
     if (!image) return
     this.setState({
@@ -250,9 +171,11 @@ class CreateRestaurant extends Component {
       },
       openHours: openHourArr,
       // categories: ['RESTAURANT'],
-      cityId: city.id,
-      district: district.id,
-      areaId: district.id,
+      cityId: city2.id,
+      // district: district.id,
+      district: district2.id,
+      // areaId: district.id,
+      areaId: district2.id,
       categoryIds: [1, 5], // new
       coverImageUrl: imageUrl,
       verifiedImageUrl: imageUrl,
@@ -264,15 +187,91 @@ class CreateRestaurant extends Component {
     createRestaurant(merchantId, restaurant, history)
   }
 
+  fetchCities = async () => {
+    const { position, districts, city } = this.state
+    const accessToken = localStorage.getItem('access_token')
+    const {
+      data: {
+        data: { cities },
+      },
+    } = await axios({
+      method: 'POST',
+      url: `${GEOCODE_URL}/get-cities`,
+      // data: {
+      //   position: {
+      //     latitude: position.lat,
+      //     longitude: position.lng,
+      //   },
+      // },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    if (cities.length > 0) {
+      this.setState({
+        cities,
+      })
+    }
+
+    if (Object.keys(city).length === 0) {
+      this.setState({
+        city: cities[0],
+        city2: cities[0],
+      })
+    }
+
+    if (districts.length === 0) {
+      this.fetchDistricts(cities[0].id)
+    }
+  }
+
+  fetchDistricts = async (cityId) => {
+    const { position, district } = this.state
+    const accessToken = localStorage.getItem('access_token')
+    const {
+      data: {
+        data: {
+          city: { districts },
+        },
+      },
+    } = await axios({
+      method: 'POST',
+      url: `${GEOCODE_URL}/get-districts`,
+      data: {
+        cityId,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    if (districts.length > 0) {
+      this.setState({
+        districts,
+      })
+
+      // if (Object.keys(district).length === 0) {
+      this.setState({
+        district: districts[0],
+        district2: districts[0],
+      })
+      // }
+    }
+  }
+
+  handleMapMove = (position) => {
+    this.setState({
+      position,
+    })
+  }
+
   onDrop = (picture) => {
-    console.log(picture)
     this.setState({
       pictures: this.state.pictures.concat(picture),
     })
   }
 
   onImageChange = (imageFile, addUpdateIndex) => {
-    // data for submit
     const { file: image } = imageFile[0]
     this.setState({
       image,
@@ -287,8 +286,6 @@ class CreateRestaurant extends Component {
   }
 
   onDayChange = (items) => {
-    console.log(items)
-
     const dayValue = items.map((item) => item.value)
     this.setState((prevState) => {
       const newOpenTimes = [...prevState.openTimes].filter((timeItem) =>
@@ -359,9 +356,13 @@ class CreateRestaurant extends Component {
     const cityName = e.target.value
     const { cities } = this.state
     const foundCity = cities.find((city) => city.name === cityName)
-    this.setState({
-      city: foundCity,
-    })
+    this.setState(
+      {
+        city: foundCity,
+        city2: foundCity,
+      },
+      () => console.log(this.state)
+    )
     this.fetchDistricts(foundCity.id)
   }
 
@@ -371,8 +372,10 @@ class CreateRestaurant extends Component {
     const foundDistrict = districts.find(
       (district) => district.name === districtName
     )
+    console.log(foundDistrict)
     this.setState({
       district: foundDistrict,
+      district2: foundDistrict,
     })
   }
 
@@ -384,7 +387,10 @@ class CreateRestaurant extends Component {
         <Row className='h-100'>
           <Colxx xxs='12' md='10' className='mx-auto my-auto'>
             <div className='create-restaurant-container'>
-              <Card style={{ padding: '30px 40px' }}>
+              <Card
+                className='create-restaurant-card'
+                style={{ padding: '30px 40px' }}
+              >
                 <div className='form-restaurant'>
                   {/* <NavLink to={`/`} className='white'>
                   <span className='logo-single' />
@@ -439,7 +445,12 @@ class CreateRestaurant extends Component {
                     </Label>
 
                     <Label className='form-group has-float-label mb-4'>
-                      <Input type='select' name='district' id='district-slect'>
+                      <Input
+                        type='select'
+                        name='district'
+                        id='district-slect'
+                        onChange={this.onDistrictChange}
+                      >
                         {districts.map((district) => (
                           <option key={district.id}>{district.name}</option>
                         ))}
