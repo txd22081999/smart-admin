@@ -27,6 +27,7 @@ const ThumbListView = ({
                 alt={product.title}
                 src={product.img}
                 className='list-thumbnail responsive border-0 card-img-left thumb-image'
+                style={{ maxWidth: '85px' }}
               />
             </NavLink>
             {/* <div className='d-flex' style={{ flexDirection: 'column' }}> */}
@@ -64,7 +65,7 @@ const ThumbListView = ({
 
             {/* </div> */}
           </div>
-          <div>hello</div>
+          {/* <div>hello</div> */}
         </Card>
       </ContextMenuTrigger>
     </Colxx>

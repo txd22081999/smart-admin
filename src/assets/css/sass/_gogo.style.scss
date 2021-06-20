@@ -440,6 +440,10 @@ p {
   line-height: 0.9rem;
 }
 
+.text-md-small {
+  font-size: 0.85rem;
+}
+
 .text-white {
   color: $button-text-color !important;
 }
@@ -1755,7 +1759,8 @@ button {
   }
 
   .navbar-logo {
-    width: 110px;
+    // width: 110px;
+    width: fit-content;
     height: 35px;
     position: absolute;
     left: 0;

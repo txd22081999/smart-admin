@@ -90,12 +90,12 @@ const data = [
     //   },
     // ],
   },
-  {
-    id: 'blankpage',
-    icon: 'iconsminds-bucket',
-    label: 'menu.blank-page',
-    to: '/app/blank-page',
-  },
+  // {
+  //   id: 'blankpage',
+  //   icon: 'iconsminds-bucket',
+  //   label: 'menu.blank-page',
+  //   to: '/app/blank-page',
+  // },
   // {
   //   id: 'docs',
   //   icon: 'iconsminds-library',

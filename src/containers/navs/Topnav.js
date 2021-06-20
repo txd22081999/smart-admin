@@ -211,7 +211,7 @@ class TopNav extends Component {
     } = restaurantInfo
     return (
       <nav className='navbar fixed-top'>
-        <div className='d-flex align-items-center navbar-left'>
+        <div className='d-flex align-items-center'>
           <NavLink
             to='#'
             className='menu-button d-none d-md-block'
@@ -221,6 +221,7 @@ class TopNav extends Component {
           >
             <MenuIcon />
           </NavLink>
+
           <NavLink
             to='#'
             className='menu-button-mobile d-xs-block d-sm-block d-md-none'
@@ -229,7 +230,7 @@ class TopNav extends Component {
             <MobileMenuIcon />
           </NavLink>
 
-          <div className='search' data-search-path='/app/pages/search'>
+          {/* <div className='search' data-search-path='/app/pages/search'>
             <Input
               name='searchKeyword'
               id='searchKeyword'
@@ -244,9 +245,9 @@ class TopNav extends Component {
             >
               <i className='simple-icon-magnifier' />
             </span>
-          </div>
+          </div> */}
 
-          <div className='d-inline-block'>
+          {/* <div className='d-inline-block'>
             <UncontrolledDropdown className='ml-2'>
               <DropdownToggle
                 caret
@@ -269,8 +270,9 @@ class TopNav extends Component {
                 })}
               </DropdownMenu>
             </UncontrolledDropdown>
-          </div>
-          <div className='position-relative d-none d-none d-lg-inline-block'>
+          </div> */}
+
+          {/* <div className='position-relative d-none d-none d-lg-inline-block'>
             <a
               className='btn btn-outline-primary btn-sm ml-2'
               target='_top'
@@ -278,8 +280,9 @@ class TopNav extends Component {
             >
               <IntlMessages id='user.buy' />
             </a>
-          </div>
+          </div> */}
         </div>
+
         <a className='navbar-logo' href='/app'>
           <span className='site-logo'>
             Smart<span className='text-orange'>Merchant</span>
@@ -287,6 +290,7 @@ class TopNav extends Component {
           {/* <span className="logo d-none d-xs-block" />
           <span className="logo-mobile d-block d-xs-none" /> */}
         </a>
+
         <div className='navbar-right'>
           {isDarkSwitchActive && <TopnavDarkSwitch />}
 

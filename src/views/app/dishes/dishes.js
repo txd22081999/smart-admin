@@ -46,18 +46,13 @@ class Dishes extends Component {
       getMenuGroup,
     } = this.props
 
-    // const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
-
     // BUGGG
     const merchantId = localStorage.getItem('merchant_id')
     const restaurantIdLocal = localStorage.getItem('restaurant_id')
-    // const menuId = menus[0]?.id || `93e90bca-09f6-4cf2-9915-883fccb14276`
     getMenu(merchantId, restaurantIdLocal)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // console.log(nextProps.restaurantMenu.menuGroup)
-    // console.log(this.props.restaurantMenu.menuGroup)
     if (
       nextProps.restaurantMenu.menuItems.length >
         this.props.restaurantMenu.menuItems.length ||
@@ -67,14 +62,12 @@ class Dishes extends Component {
         this.props.restaurantMenu.menuGroup.length ||
       nextState.tableData.data.length > this.state.tableData.data.length
     ) {
-      console.log('UPDATE')
       return true
     }
     return false
   }
 
   componentDidUpdate(prevProps) {
-    console.log('DID UPDATE')
     const {
       restaurantMenu: {
         menus,
@@ -87,6 +80,7 @@ class Dishes extends Component {
       getMenuItems,
       getMenuGroup,
     } = this.props
+
     const pageSize = 10
     if (menus.length > 0) {
       console.log(menus)
@@ -110,39 +104,29 @@ class Dishes extends Component {
       }
     }
 
-    console.log(menuItems.length !== 0)
-    console.log(this.state.tableData.data.length === 0)
-    console.log(menuGroup.length > 0)
-    // console.log(
-    //   menuItems.length !== 0 &&
-    //     this.state.tableData.data.length === 0 &&
-    //     menuGroup.length > 0
-    // )
+    console.log(menuItems)
     if (
       menuItems.length !== 0 &&
       this.state.tableData.data.length === 0 &&
       menuGroup.length > 0
     ) {
       const newMenuItems = menuItems.map(
-        ({ id, name, imageUrl, description, menuGroupId }) => {
+        ({ id, name, imageUrl, description, menuGroupId, isActive, price }) => {
           const group = findMenuGroupById(menuGroupId, menuGroup)
 
           return {
             id,
             title: name,
             img: imageUrl,
-            // category: group.name || 'Unknown',
             category: group.name || 'Unknown',
             statusColor: 'secondary',
             description,
-            sales: 574,
-            stock: 16,
-            date: '01.04.2021',
+            isActive,
+            price,
+            date: '01-06-2021',
           }
         }
       )
-
-      console.log(newMenuItems)
 
       const newTableData = {
         status: true,
@@ -153,9 +137,6 @@ class Dishes extends Component {
         data: newMenuItems,
       }
 
-      console.log(newTableData)
-
-      console.log('SET STATE')
       this.setState({
         tableData: newTableData,
       })
@@ -163,7 +144,6 @@ class Dishes extends Component {
   }
 
   render() {
-    console.log('RENDER')
     const { history, getMenu, restaurantMenu } = this.props
     const {
       loadingMenuItems = false,
@@ -172,16 +152,17 @@ class Dishes extends Component {
     } = restaurantMenu
     const { tableData = {} } = this.state
 
-    console.log(menus)
+    // console.log(menus)
 
     if (loadingMenuItems) {
       return <div className='loading' />
     }
 
-    // if (!loadingGetMenus && menus.length === 0) {
-    //   return <div>Create new menu</div>
-    // }
+    if (!loadingGetMenus && menus.length === 0) {
+      return <div>Create new menu</div>
+    }
 
+    console.log(tableData)
     return (
       <Fragment>
         <Row>
@@ -193,7 +174,9 @@ class Dishes extends Component {
         <Row>
           <Colxx xxs='12' className='mb-4'>
             {/* {tableData.data.length > 0 && ( */}
-            {true && <DataList history={history} data={tableData} />}
+            {tableData.data.length > 0 && (
+              <DataList history={history} data={tableData} />
+            )}
           </Colxx>
         </Row>
       </Fragment>

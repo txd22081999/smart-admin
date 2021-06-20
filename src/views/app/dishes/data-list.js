@@ -35,8 +35,6 @@ const temp = {
       status: 'Đang chuẩn bị',
       statusColor: 'secondary',
       description: 'Homemade cheesecake with fresh berries and mint',
-      sales: 574,
-      stock: 16,
       date: '01.04.2021',
     },
   ],
@@ -52,9 +50,9 @@ class DataListPages extends Component {
 
       selectedPageSize: 10,
       orderOptions: [
-        { column: 'title', label: 'Product Name' },
-        { column: 'category', label: 'Category' },
-        { column: 'status', label: 'Status' },
+        { column: 'title', label: 'Tên món' },
+        { column: 'category', label: 'Nhóm món' },
+        { column: 'status', label: 'Trạng thái' },
       ],
       pageSizes: [10, 20, 30, 50, 100],
 
@@ -65,7 +63,7 @@ class DataListPages extends Component {
         { label: 'Món tráng miệng', value: 'Món tráng miệng', key: 3 },
       ],
 
-      selectedOrderOption: { column: 'title', label: 'Product Name' },
+      selectedOrderOption: { column: 'title', label: 'Tên món' },
       dropdownSplitOpen: false,
       modalOpen: false,
       currentPage: 1,

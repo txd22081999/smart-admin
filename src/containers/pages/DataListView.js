@@ -28,17 +28,31 @@ const DataListView = ({
                   {product.title}
                 </p>
               </NavLink>
-              <p className='mb-1 text-muted text-small w-15 w-sm-100'>
-                {product.category}
-              </p>
-              <p className='mb-1 text-muted text-small w-15 w-sm-100'>
-                {product.date}
-              </p>
-              <div className='w-15 w-sm-100'>
-                <Badge color={product.statusColor} pill>
-                  {product.status}
-                </Badge>
-              </div>
+              {product.category && (
+                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                  {product.category}
+                </p>
+              )}
+
+              {product.date && (
+                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                  {product.price}đ
+                </p>
+              )}
+
+              {product.date && (
+                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                  {product.date}
+                </p>
+              )}
+
+              {product.statusColor && (
+                <div className='w-15 w-sm-100'>
+                  <Badge color={product.statusColor} pill>
+                    {product.status}
+                  </Badge>
+                </div>
+              )}
             </div>
             {/* <div>Hello</div> */}
             <div className='custom-control custom-checkbox pl-1 align-self-center pr-4'>

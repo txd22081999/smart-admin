@@ -15,6 +15,7 @@ import { injectIntl } from 'react-intl'
 import { Colxx, Separator } from '../../components/common/CustomBootstrap'
 import Breadcrumb from '../navs/Breadcrumb'
 import IntlMessages from '../../helpers/IntlMessages'
+import './ListPageHeading.scss'
 
 import {
   DataListIcon,
@@ -50,7 +51,7 @@ class ListPageHeading extends Component {
       changeOrderBy,
       changePageSize,
       selectedPageSize,
-      totalItemCount,
+      totalItemCount = 0,
       selectedOrderOption,
       match,
       startIndex,
@@ -66,162 +67,163 @@ class ListPageHeading extends Component {
 
     const { displayOptionsIsOpen, dropdownSplitOpen } = this.state
     return (
-      <Row>
-        <Colxx xxs='12'>
-          <div className='mb-2'>
-            <h1>
-              <IntlMessages id={heading} />
-            </h1>
+      <div className='ListPageHeading'>
+        <Row>
+          <Colxx xxs='12'>
+            <div className='mb-2'>
+              <h1>
+                <IntlMessages id={heading} />
+              </h1>
 
-            <div className='text-zero top-right-button-container'>
-              <Button
-                color='primary'
-                size='lg'
-                className='top-right-button'
-                onClick={() => toggleModal()}
-              >
-                <IntlMessages id='pages.add-new' />
-              </Button>
-
-              <ButtonDropdown
-                isOpen={dropdownSplitOpen}
-                toggle={this.toggleSplit}
-              >
-                <div className='btn btn-primary btn-lg pl-4 pr-0 check-button check-all'>
-                  <CustomInput
-                    className='custom-checkbox mb-0 d-inline-block'
-                    type='checkbox'
-                    id='checkAll'
-                    checked={selectedItemsLength >= itemsLength}
-                    onChange={() => handleChangeSelectAll(true)}
-                    label={
-                      <span
-                        className={`custom-control-label ${
-                          selectedItemsLength > 0 &&
-                          selectedItemsLength < itemsLength
-                            ? 'indeterminate'
-                            : ''
-                        }`}
-                      />
-                    }
-                  />
-                </div>
-                <DropdownToggle
-                  caret
+              <div className='text-zero top-right-button-container'>
+                <Button
                   color='primary'
-                  className='dropdown-toggle-split btn-lg'
-                />
-                <DropdownMenu right>
-                  <DropdownItem>
-                    <IntlMessages id='pages.delete' />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id='pages.another-action' />
-                  </DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </div>
-            {/* <Breadcrumb match={match} /> */}
-          </div>
+                  size='lg'
+                  className='top-right-button mr-2'
+                  onClick={() => toggleModal()}
+                >
+                  <IntlMessages id='pages.add-new' />
+                </Button>
 
-          <div className='mb-2'>
-            <Button
-              color='empty'
-              className='pt-0 pl-0 d-inline-block d-md-none'
-              onClick={this.toggleDisplayOptions}
-            >
-              <IntlMessages id='pages.display-options' />{' '}
-              <i className='simple-icon-arrow-down align-middle' />
-            </Button>
-            <Collapse
-              isOpen={displayOptionsIsOpen}
-              className='d-md-block'
-              id='displayOptions'
-            >
-              <span className='mr-3 d-inline-block float-md-left'>
-                <a
-                  href='#/'
-                  className={`mr-2 view-icon ${
-                    displayMode === 'list' ? 'active' : ''
-                  }`}
-                  onClick={() => changeDisplayMode('list')}
+                <ButtonDropdown
+                  isOpen={dropdownSplitOpen}
+                  toggle={this.toggleSplit}
                 >
-                  <DataListIcon />
-                </a>
-                <a
-                  href='#/'
-                  className={`mr-2 view-icon ${
-                    displayMode === 'thumblist' ? 'active' : ''
-                  }`}
-                  onClick={() => changeDisplayMode('thumblist')}
-                >
-                  <ThumbListIcon />
-                </a>
-                <a
-                  href='#/'
-                  className={`mr-2 view-icon ${
-                    displayMode === 'imagelist' ? 'active' : ''
-                  }`}
-                  onClick={() => changeDisplayMode('imagelist')}
-                >
-                  <ImageListIcon />
-                </a>
-              </span>
-
-              <div className='d-block d-md-inline-block pt-1'>
-                <UncontrolledDropdown className='mr-1 float-md-left btn-group mb-1'>
-                  <DropdownToggle caret color='outline-dark' size='xs'>
-                    <IntlMessages id='pages.orderby' />
-                    {selectedOrderOption.label}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {orderOptions.map((order, index) => {
-                      return (
-                        <DropdownItem
-                          key={index}
-                          onClick={() => changeOrderBy(order.column)}
-                        >
-                          {order.label}
-                        </DropdownItem>
-                      )
-                    })}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <div className='search-sm d-inline-block float-md-left mr-1 mb-1 align-top'>
-                  <input
-                    type='text'
-                    name='keyword'
-                    id='search'
-                    placeholder={messages['menu.search']}
-                    onKeyPress={(e) => onSearchKey(e)}
+                  <div className='btn btn-primary btn-lg pl-4 pr-0 check-button check-all'>
+                    <CustomInput
+                      className='custom-checkbox mb-0 d-inline-block'
+                      type='checkbox'
+                      id='checkAll'
+                      checked={selectedItemsLength >= itemsLength}
+                      onChange={() => handleChangeSelectAll(true)}
+                      label={
+                        <span
+                          className={`custom-control-label ${
+                            selectedItemsLength > 0 &&
+                            selectedItemsLength < itemsLength
+                              ? 'indeterminate'
+                              : ''
+                          }`}
+                        />
+                      }
+                    />
+                  </div>
+                  <DropdownToggle
+                    caret
+                    color='primary'
+                    className='dropdown-toggle-split btn-lg'
                   />
-                </div>
-              </div>
-              <div className='float-md-right pt-1'>
-                <span className='text-muted text-small mr-1'>{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>
-                <UncontrolledDropdown className='d-inline-block'>
-                  <DropdownToggle caret color='outline-dark' size='xs'>
-                    {selectedPageSize}
-                  </DropdownToggle>
                   <DropdownMenu right>
-                    {pageSizes.map((size, index) => {
-                      return (
-                        <DropdownItem
-                          key={index}
-                          onClick={() => changePageSize(size)}
-                        >
-                          {size}
-                        </DropdownItem>
-                      )
-                    })}
+                    <DropdownItem>
+                      {/* <IntlMessages id='pages.delete' /> */}
+                      Xóa
+                    </DropdownItem>
+                    <DropdownItem color='red'>Ẩn</DropdownItem>
                   </DropdownMenu>
-                </UncontrolledDropdown>
+                </ButtonDropdown>
               </div>
-            </Collapse>
-          </div>
-          <Separator className='mb-5' />
-        </Colxx>
-      </Row>
+              {/* <Breadcrumb match={match} /> */}
+            </div>
+
+            <div className='mb-2'>
+              <Button
+                color='empty'
+                className='pt-0 pl-0 d-inline-block d-md-none'
+                onClick={this.toggleDisplayOptions}
+              >
+                <IntlMessages id='pages.display-options' />{' '}
+                <i className='simple-icon-arrow-down align-middle' />
+              </Button>
+              <Collapse
+                isOpen={displayOptionsIsOpen}
+                className='d-md-block'
+                id='displayOptions'
+              >
+                <span className='mr-3 d-inline-block float-md-left'>
+                  <a
+                    href='#/'
+                    className={`mr-2 view-icon ${
+                      displayMode === 'list' ? 'active' : ''
+                    }`}
+                    onClick={() => changeDisplayMode('list')}
+                  >
+                    <DataListIcon />
+                  </a>
+                  <a
+                    href='#/'
+                    className={`mr-2 view-icon ${
+                      displayMode === 'thumblist' ? 'active' : ''
+                    }`}
+                    onClick={() => changeDisplayMode('thumblist')}
+                  >
+                    <ThumbListIcon />
+                  </a>
+                  <a
+                    href='#/'
+                    className={`mr-2 view-icon ${
+                      displayMode === 'imagelist' ? 'active' : ''
+                    }`}
+                    onClick={() => changeDisplayMode('imagelist')}
+                  >
+                    <ImageListIcon />
+                  </a>
+                </span>
+
+                <div className='d-block d-md-inline-block pt-1'>
+                  <UncontrolledDropdown className='mr-1 float-md-left btn-group mb-1'>
+                    <DropdownToggle caret color='outline-dark' size='xs'>
+                      <IntlMessages id='pages.orderby' />
+                      {selectedOrderOption.label}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      {orderOptions.map((order, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => changeOrderBy(order.column)}
+                          >
+                            {order.label}
+                          </DropdownItem>
+                        )
+                      })}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <div className='search-sm d-inline-block float-md-left mr-1 mb-1 align-top'>
+                    <input
+                      type='text'
+                      name='keyword'
+                      id='search'
+                      placeholder={messages['menu.search']}
+                      onKeyPress={(e) => onSearchKey(e)}
+                    />
+                  </div>
+                </div>
+                <div className='float-md-right pt-1'>
+                  <span className='text-muted text-small mr-1'>{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>
+                  <UncontrolledDropdown className='d-inline-block'>
+                    <DropdownToggle caret color='outline-dark' size='xs'>
+                      {selectedPageSize}
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      {pageSizes.map((size, index) => {
+                        return (
+                          <DropdownItem
+                            key={index}
+                            onClick={() => changePageSize(size)}
+                          >
+                            {size}
+                          </DropdownItem>
+                        )
+                      })}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </div>
+              </Collapse>
+            </div>
+            {/* <Separator className='mb-5' /> */}
+          </Colxx>
+        </Row>
+      </div>
     )
   }
 }

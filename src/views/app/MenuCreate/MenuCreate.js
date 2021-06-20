@@ -27,7 +27,10 @@ const Menu = (props) => {
   }
 
   return (
-    <Card style={{ cursor: 'pointer' }} onClick={onMenuClick}>
+    <Card
+      style={{ cursor: 'pointer', opacity: isActive ? 1 : 0.5 }}
+      onClick={onMenuClick}
+    >
       <CardBody>
         <h2>{name}</h2>
         <p>Index: {index}</p>
@@ -218,7 +221,7 @@ const MenuCreate = (props) => {
 
   return (
     <div>
-      <h2>Danh sách thực đơn</h2>
+      <h2>Danh sách menu</h2>
       {menus.map((menu) => {
         return <Menu key={menu.id} menu={menu} history={history} />
       })}

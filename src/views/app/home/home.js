@@ -66,7 +66,6 @@ class Home extends Component {
             <div className='Home'>
               <div
                 className='img-container'
-                // style={{ background: coverImageUrl }}
                 style={{
                   // backgroundImage: `url("https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg")`,
                   backgroundImage: `url(${coverImageUrl})`,
@@ -122,7 +121,7 @@ class Home extends Component {
 
                     <div
                       className='d-flex align-items-center justify-content-between'
-                      style={{ maxWidth: 300 }}
+                      style={{ maxWidth: 350 }}
                     >
                       <div className='d-flex align-items-center'>
                         <box-icon type='solid' name='calendar-event'></box-icon>
@@ -130,7 +129,7 @@ class Home extends Component {
                       </div>
                       <div className='time d-flex align-items-center'>
                         <box-icon name='time-five'></box-icon>
-                        <p>10:00 - 13:00</p>
+                        <p>10:00 AM - 02:00 PM</p>
                       </div>
                     </div>
 
