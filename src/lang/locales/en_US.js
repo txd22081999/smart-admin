@@ -160,6 +160,6 @@ module.exports = {
 
   'paypal.link-paypal': 'Liên kết Paypal',
   'paypal.link-text':
-    'Tích hợp thanh toán online cho nhãn hàng với Paypal ngay.',
+    'Tích hợp thanh toán online cho nhà hàng với Paypal ngay.',
   'paypal.link-button': 'Xác nhận liên kết',
 }

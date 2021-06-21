@@ -93,7 +93,7 @@ const Paypal = (props) => {
     <Fragment>
       <Row>
         <Colxx xxs='12'>
-          <Breadcrumb heading='menu.paypal' match={props.match} />
+          <Breadcrumb heading='menu.payment' match={props.match} />
           <Separator className='mb-5' />
         </Colxx>
       </Row>
