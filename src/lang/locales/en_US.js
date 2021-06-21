@@ -151,7 +151,15 @@ module.exports = {
   'menu.menu-item-select': 'Chọn món',
   'menu.save-btn': 'Lưu',
   'menu.complete-btn': 'Hoàn tất',
+  'menu.paypal': 'Paypal',
+  'menu.orders': 'Đơn hàng',
+  'menu.payment': 'Thanh toán',
 
   'menu.toppings': 'Toppings',
   'menu.topping-data-list': 'Danh sách topping',
+
+  'paypal.link-paypal': 'Liên kết Paypal',
+  'paypal.link-text':
+    'Tích hợp thanh toán online cho nhãn hàng với Paypal ngay.',
+  'paypal.link-button': 'Xác nhận liên kết',
 }

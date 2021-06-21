@@ -314,7 +314,7 @@ class TopNav extends Component {
             <UncontrolledDropdown className='dropdown-menu-right'>
               <DropdownToggle className='p-0' color='empty'>
                 <span className='name mr-1'>
-                  {restaurantName || 'Restaurant Name'}
+                  {restaurantName || 'Quán Ăn Maika'}
                 </span>
                 <span>
                   {/* <img alt='Profile' src='/assets/img/profile-pic-l.jpg' /> */}

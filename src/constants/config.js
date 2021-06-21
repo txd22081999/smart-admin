@@ -14,3 +14,5 @@ export const ACCESS_TOKEN = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudE
 export const STAFF_URL = `${BASE_URL}/user/merchant/${merchantId}/restaurant/${restaurantId}/staff`
 export const PUSHER_APP_KEY = '29ff5ecb5e2501177186'
 export const PUSHER_APP_CLUSTER = 'ap1'
+
+export const SMART_MERCHANT_URL = 'http://web-merchant-2.herokuapp.com/'

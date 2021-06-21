@@ -78,8 +78,34 @@ const data = [
     // ],
   },
   {
+    id: 'orders',
+    icon: 'bx bx-cookie',
+    label: 'menu.orders',
+    to: '/app/orders',
+    // subs: [
+    //   {
+    //     icon: 'simple-icon-paper-plane',
+    //     label: 'menu.second',
+    //     to: '/app/anylitics/anylitics',
+    //   },
+    // ],
+  },
+  {
+    id: 'payment',
+    icon: 'iconsminds-billing',
+    label: 'menu.payment',
+    to: '/app/payment',
+    // subs: [
+    //   {
+    //     icon: 'simple-icon-paper-plane',
+    //     label: 'menu.second',
+    //     to: '/app/anylitics/anylitics',
+    //   },
+    // ],
+  },
+  {
     id: 'map',
-    icon: 'iconsminds-monitor-analytics',
+    icon: 'iconsminds-map-marker-2',
     label: 'menu.map',
     to: '/app/map',
     // subs: [

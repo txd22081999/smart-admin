@@ -41,9 +41,9 @@ const MenuItem = (props) => {
           <Colxx md='9'>
             <h2>{name}</h2>
             <p>{description}</p>
-            <p>{price}</p>
-            <p>Index: {index}</p>
-            <p>{isActive ? 'Active' : 'Inactive'} </p>
+            <p>{price}đ </p>
+            {/* <p>Index: {index}</p> */}
+            {/* <p>{isActive ? 'Active' : 'Inactive'} </p> */}
           </Colxx>
         </Row>
       </CardBody>
