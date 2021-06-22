@@ -6,6 +6,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   Input,
+  Tooltip,
 } from 'reactstrap'
 
 import { NavLink } from 'react-router-dom'
@@ -40,6 +41,7 @@ class TopNav extends Component {
     this.state = {
       isInFullScreen: false,
       searchKeyword: '',
+      tooltipOpen: false,
     }
   }
 
@@ -207,6 +209,18 @@ class TopNav extends Component {
     })
   }
 
+  toggleTooltip = () => {
+    this.setState((prevState) => ({
+      tooltipOpen: !prevState.tooltipOpen,
+    }))
+  }
+
+  selectRestaurant = () => {
+    this.props.history.replace({
+      pathname: '/restaurant/select',
+    })
+  }
+
   render() {
     const {
       containerClassnames,
@@ -219,6 +233,9 @@ class TopNav extends Component {
     const {
       restaurant: { name: restaurantName = '' },
     } = restaurantInfo
+
+    const { tooltipOpen } = this.state
+
     return (
       <nav className='navbar fixed-top'>
         <div className='d-flex align-items-center'>
@@ -305,6 +322,35 @@ class TopNav extends Component {
           {isDarkSwitchActive && <TopnavDarkSwitch />}
 
           <div className='header-icons d-inline-block align-middle'>
+            <div
+              style={{ display: 'inline-block', padding: '0.6rem' }}
+              onMouseOver={() => {
+                this.setState({
+                  tooltipOpen: true,
+                })
+              }}
+              onClick={this.selectRestaurant}
+            >
+              <span
+                style={{ marginBottom: -2, cursor: 'pointer' }}
+                class='iconify'
+                data-icon='bi:shop'
+                data-inline='false'
+                data-width='22'
+                data-height='22'
+                color='#aaaaaa'
+                id='selectRestaurant'
+              ></span>
+              <Tooltip
+                placement='bottom'
+                isOpen={tooltipOpen}
+                target={'selectRestaurant'}
+                toggle={this.toggleTooltip}
+              >
+                Chọn nhà hàng
+              </Tooltip>
+            </div>
+
             <TopnavEasyAccess />
             {/* <TopnavNotifications /> */}
             <button
@@ -331,7 +377,6 @@ class TopNav extends Component {
                   <img
                     style={{ width: '40px', height: '40px' }}
                     alt='Profile'
-                    // src='https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
                     src={
                       profileImg ||
                       'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
