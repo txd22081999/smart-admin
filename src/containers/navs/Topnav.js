@@ -192,9 +192,19 @@ class TopNav extends Component {
       this.props.selectedMenuHasSubItems
     )
   }
+
   mobileMenuButtonClick = (e, containerClassnames) => {
     e.preventDefault()
     this.props.clickOnMobileMenu(containerClassnames)
+  }
+
+  handleSelectRestaurant = () => {
+    const { history } = this.props
+    history.replace({
+      pathname: '/restaurant/select',
+      // search: '?query=abc',
+      // state:{isActive: true}
+    })
   }
 
   render() {
@@ -296,7 +306,7 @@ class TopNav extends Component {
 
           <div className='header-icons d-inline-block align-middle'>
             <TopnavEasyAccess />
-            <TopnavNotifications />
+            {/* <TopnavNotifications /> */}
             <button
               className='header-icon btn btn-empty d-none d-sm-inline-block'
               type='button'
@@ -330,13 +340,16 @@ class TopNav extends Component {
                 </span>
               </DropdownToggle>
               <DropdownMenu className='mt-3' right>
-                <DropdownItem>Account</DropdownItem>
-                <DropdownItem>Features</DropdownItem>
-                <DropdownItem>History</DropdownItem>
-                <DropdownItem>Support</DropdownItem>
+                <DropdownItem>Tài khoản</DropdownItem>
+                {/* <DropdownItem>Features</DropdownItem>
+                <DropdownItem>History</DropdownItem> */}
+                <DropdownItem>Hỗ trợ</DropdownItem>
                 <DropdownItem divider />
+                <DropdownItem onClick={() => this.handleSelectRestaurant()}>
+                  Chọn nhà hàng
+                </DropdownItem>
                 <DropdownItem onClick={() => this.handleLogout()}>
-                  Sign out
+                  Đăng xuất
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

@@ -10,11 +10,8 @@ import {
 
 const localData = localStorage.getItem('persist:root')
 // .replace(`\\"`, `"`)
-console.log(localData)
-// console.log(typeof localData)
-// console.log(localData.replace(`\\`, ``))
-// console.log(JSON.parse(JSON.stringify(localData)))
-console.log(JSON.parse(localData))
+// console.log(localData)
+// console.log(JSON.parse(localData))
 
 const INIT_STATE = {
   restaurant: {},

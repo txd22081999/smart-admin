@@ -5,52 +5,125 @@ import IntlMessages from '../../../helpers/IntlMessages'
 import { Badge } from 'reactstrap'
 import { connect } from 'react-redux'
 import Pusher from 'pusher-js'
+import axios from 'axios'
 
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
 // import Banner from '../../../assets/images/banner.jpg'
 // import Banner from './banner.jpg'
 // import Banner from './banner.jpg'
-import { getMerchant } from '../../../redux/actions'
+import { getMerchant, setRestaurant } from '../../../redux/actions'
 
+import {
+  PUSHER_APP_CLUSTER,
+  PUSHER_APP_KEY,
+  USER_URL,
+} from 'src/constants/config'
 import './home.scss'
-import { PUSHER_APP_CLUSTER, PUSHER_APP_KEY } from 'src/constants/config'
+import { getDayByName, padNumber } from 'src/helpers/Utils'
 
 class Home extends Component {
-  // componentDidMount() {
-  //   // getMerchantInfo()
-  //   const {
-  //     getMerchant,
-  //     authUser: {
-  //       user: { id: merchantId } =,
-  //     },
-  //   } = this.props
-  //   console.log('EDIT')
-  //   // getMerchant(merchantId)
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+    }
+  }
+
+  componentDidMount() {
+    const restaurantId = localStorage.getItem('restaurant_id')
+    const merchantId = localStorage.getItem('merchant_id')
+    const accessToken = localStorage.getItem('access_token')
+    if (!restaurantId || !merchantId || !accessToken) {
+      // No id found, Neet to login
+      const { history } = this.props
+      history.replace('/merchant/login')
+      return
+    }
+
+    // Fetch restaurant infor if there is not exist
+    this.fetchRestaurantInfo(accessToken, merchantId, restaurantId)
+  }
+
+  fetchRestaurantInfo = async (accessToken, merchantId, restaurantId) => {
+    try {
+      this.setState({
+        loading: true,
+      })
+      const { setRestaurant } = this.props
+
+      const { data } = await axios({
+        method: 'GET',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (!data) {
+        console.log('Error: No data return')
+      } else {
+        const {
+          data: { restaurant },
+        } = data
+        setRestaurant({ ...restaurant })
+      }
+    } catch (error) {
+      console.log('Error in fetch restaurant info at Home page')
+      console.error(error)
+    } finally {
+      this.setState({
+        loading: false,
+      })
+    }
+  }
+
+  // getWorkingDay = (openHours) => {
+
   // }
+
+  getOpenTime = (time) => {
+    if (!time) return
+    const { fromHour, fromMinute, toHour, toMinute } = time
+    return `${padNumber(fromHour)}:${padNumber(fromMinute)} - ${padNumber(
+      toHour
+    )}:${padNumber(toMinute)}`
+  }
 
   render() {
     // console.log(Banner)
+    console.log(this.props)
     const {
-      merchantUser: { error, loading, merchant },
+      merchantUser: { error, loading: merchantUserLoading, merchant },
       restaurantInfo: {
         restaurant: {
-          name,
-          area,
           address,
+          area,
+          areaId,
+          categories = [],
           city,
-          contractId,
-          isActive,
-          isVerified,
-          phone,
-          posAppKey,
+          cityId,
           coverImageUrl = 'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg',
+          verifiedImageUrl = 'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg',
+          id,
+          isActive,
+          isBanned,
+          isVerified,
+          name,
+          phone,
+          position,
+          videoUrl,
+          openHours = [],
+          owner,
+          contractId,
+          posAppKey,
         },
       },
     } = this.props
 
-    if (loading) {
-      return <p>Loading</p>
+    const { loading } = this.state
+
+    if (loading || merchantUserLoading) {
+      return <div class='loading'></div>
     }
 
     return (
@@ -81,25 +154,37 @@ class Home extends Component {
                     />
                   </div>
                   <div className='text'>
-                    <div className='text-header d-flex align-items-center justify-content-between'>
+                    <div className='text-header d-flex align-items-center'>
                       <h3 className='name text-orange'>{name}</h3>
 
-                      <div className=' d-flex align-items-center'>
-                        <Badge
-                          color='primary'
-                          pill
-                          style={{ padding: '5px 10px' }}
-                        >
-                          Cơm
-                        </Badge>
+                      <div className='d-flex'>
+                        {categories.map(({ iconUrl, name: categoryName }) => (
+                          <Badge
+                            color='primary'
+                            pill
+                            style={{ padding: '5px 10px', marginLeft: 10 }}
+                          >
+                            <div
+                              className='d-flex align-items-center'
+                              style={{ margin: 0 }}
+                            >
+                              {categoryName}
+                              <img
+                                className='cate-icon'
+                                src={iconUrl}
+                                alt={categoryName}
+                              />
+                            </div>
+                          </Badge>
+                        ))}
 
-                        <Badge
+                        {/* <Badge
                           color='primary'
                           pill
                           style={{ padding: '5px 10px', marginLeft: 10 }}
                         >
                           Hủ tíu
-                        </Badge>
+                        </Badge> */}
 
                         <NavLink to={`/app/home/edit`} className='black'>
                           <box-icon
@@ -121,15 +206,28 @@ class Home extends Component {
 
                     <div
                       className='d-flex align-items-center justify-content-between'
-                      style={{ maxWidth: 350 }}
+                      style={{ maxWidth: 600 }}
                     >
                       <div className='d-flex align-items-center'>
                         <box-icon type='solid' name='calendar-event'></box-icon>
-                        <p className='calendar'>Thứ 2 - Thứ 6</p>
+                        <p className='calendar'>
+                          {openHours.map(
+                            (
+                              { day, fromHour, fromMinute, toHour, toMinute },
+                              index
+                            ) => (
+                              <>
+                                <span>{getDayByName(day)}</span>
+                                {index === openHours.length - 1 ? '' : ', '}
+                              </>
+                            )
+                          )}
+                          {/* String(9).padStart(4, '0')) */}
+                        </p>
                       </div>
                       <div className='time d-flex align-items-center'>
                         <box-icon name='time-five'></box-icon>
-                        <p>10:00 AM - 02:00 PM</p>
+                        <p>{this.getOpenTime(openHours[0])}</p>
                       </div>
                     </div>
 
@@ -152,4 +250,4 @@ class Home extends Component {
 const mapStateToProps = ({ authUser, merchantUser, restaurantInfo }) => {
   return { merchantUser, authUser, restaurantInfo }
 }
-export default connect(mapStateToProps, { getMerchant })(Home)
+export default connect(mapStateToProps, { getMerchant, setRestaurant })(Home)

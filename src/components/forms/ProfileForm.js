@@ -28,16 +28,13 @@ const options = [
 class ProfileForm extends Component {
   constructor(props) {
     super(props)
-    this.validateEmail = this.validateEmail.bind(this)
-    this.validateName = this.validateName.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(values) {
+  handleSubmit = (values) => {
     console.log(values)
   }
 
-  validateEmail(value) {
+  validateEmail = (value) => {
     let error
     if (!value) {
       error = 'Please enter your email address'
@@ -47,7 +44,7 @@ class ProfileForm extends Component {
     return error
   }
 
-  validateName(value) {
+  validateName = (value) => {
     let error
     if (!value) {
       error = 'Please enter your name'
@@ -57,7 +54,7 @@ class ProfileForm extends Component {
     return error
   }
 
-  validateAddress(value) {
+  validateAddress = (value) => {
     let error
     if (!value) {
       error = 'Please enter your address'
@@ -67,7 +64,7 @@ class ProfileForm extends Component {
     return error
   }
 
-  validateContact(value) {
+  validateContact = (value) => {
     let error
     if (!value) {
       error = 'Please enter your phone number'
@@ -77,7 +74,7 @@ class ProfileForm extends Component {
     return error
   }
 
-  validateSpeciality(value) {
+  validateSpeciality = (value) => {
     console.log(value)
   }
 
@@ -87,13 +84,23 @@ class ProfileForm extends Component {
         <Colxx xxs='12'>
           <Card>
             <CardBody>
-              <h6 className='mb-4'>Thông tin cửa hàng</h6>
+              <h6 className='mb-4'>Thông tin nhà hàng</h6>
               <Formik
                 initialValues={{
                   name: '',
                   email: '',
                   address: '',
+                  coverImageUrl: '',
                   workingHour: '',
+                  cityId: 0,
+                  city: '',
+                  areaId: '',
+                  area: '',
+                  phone: '',
+                  // position: {},
+                  isActive: true,
+                  isVerified: true,
+
                   workingDay: '',
                   contact: '',
                   speciality: [],

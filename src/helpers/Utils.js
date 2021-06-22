@@ -97,3 +97,20 @@ export const sortByDay = (data) => {
   })
   return sortedData
 }
+
+export const getDayByName = (day) => {
+  const DAY_IN_WEEK = {
+    Monday: 'Thứ 2',
+    Tuesday: 'Thứ 3',
+    Wednesday: 'Thứ 4',
+    Thursday: 'Thứ 5',
+    Friday: 'Thứ 6',
+    Saturday: 'Thứ 7',
+    Sunday: 'Chủ nhật',
+  }
+  return DAY_IN_WEEK[day]
+}
+
+export const padNumber = (number, offset = 2, char = '0') => {
+  return String(number).padStart(offset, char)
+}

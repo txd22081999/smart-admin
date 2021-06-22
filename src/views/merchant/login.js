@@ -84,9 +84,7 @@ class Login extends Component {
         <Colxx xxs='12' md='10' className='mx-auto my-auto'>
           <Card className='auth-card'>
             <div className='position-relative image-side '>
-              <p className='text-white h2'>
-                Điều hành kinh doanh một cách hiệu quả.
-              </p>
+              <p className='text-white h2'>Kinh doanh thật hiệu quả.</p>
               <p className='white mb-0'>
                 Hãy sử dụng tài khoản được cấp để đăng nhập
                 <br />

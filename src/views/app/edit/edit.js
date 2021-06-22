@@ -12,7 +12,9 @@ import ProfileForm from '../../../components/forms/ProfileForm'
 
 import './edit.scss'
 
-class Edit extends Component {
+class EditProfile extends Component {
+  componentDidMount() {}
+
   render() {
     // console.log(Banner)
     return (
@@ -34,4 +36,4 @@ class Edit extends Component {
   }
 }
 
-export default Edit
+export default EditProfile
