@@ -14,6 +14,7 @@ import {
   Marker,
 } from 'react-google-maps'
 import { PUSHER_APP_CLUSTER, PUSHER_APP_KEY } from 'src/constants/config'
+import { listenNotification } from 'src/helpers/Utils'
 
 const MapWithAMarker = withScriptjs(
   withGoogleMap((props) => (
@@ -31,22 +32,9 @@ const MapWithAMarker = withScriptjs(
 export default class MapsUi extends Component {
   componentDidMount() {
     console.log('DID MOUNT')
-    const test_restaurant = `59648039-fb38-4a5a-8ce7-6938b27b76ab`
-    const pusher = new Pusher(PUSHER_APP_KEY, {
-      cluster: PUSHER_APP_CLUSTER,
-    })
-
-    // const order_id = `1e6f9eca-0899-4d49-9837-49f2397ff808`
-    const channel = pusher.subscribe(`orders_${test_restaurant}`)
-    // const channel = pusher.subscribe(`order_${order_id}`)
-    channel.bind('new-order', (data) => {
-      console.log(data)
-    })
-    channel.bind('order-status', (data) => {
-      console.log(data)
-    })
-
-    console.log(pusher)
+    // const test_restaurant = `59648039-fb38-4a5a-8ce7-6938b27b76ab`
+    // const restaurantId = localStorage.getItem('restaurant_id')
+    listenNotification()
   }
 
   render() {

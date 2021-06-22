@@ -1,3 +1,6 @@
+import Pusher from 'pusher-js'
+import { NotificationManager } from 'src/components/common/react-notifications'
+import { PUSHER_APP_CLUSTER, PUSHER_APP_KEY } from 'src/constants'
 import { defaultDirection } from '../constants/defaultValues'
 import { storage } from './Firebase'
 
@@ -113,4 +116,55 @@ export const getDayByName = (day) => {
 
 export const padNumber = (number, offset = 2, char = '0') => {
   return String(number).padStart(offset, char)
+}
+
+export const listenNotification = () => {
+  // const restaurantId = '6587f789-8c76-4a2e-9924-c14fc30629ef'
+  const restaurantId = '01bd1b6e-2dd2-4c7a-a79b-7ae05d029495'
+
+  const pusher = new Pusher(PUSHER_APP_KEY, {
+    cluster: PUSHER_APP_CLUSTER,
+  })
+
+  // const order_id = `1e6f9eca-0899-4d49-9837-49f2397ff808`
+  const channel = pusher.subscribe(`orders_${restaurantId}`)
+  console.log(channel)
+
+  channel.bind('order-status', (data) => {
+    console.log(data)
+
+    handleNotification(data)
+  })
+}
+
+const handleNotification = (data) => {
+  const NOTIFY_TIME = 15000
+
+  try {
+    const {
+      status,
+      delivery: { customerId, customerName },
+    } = data
+
+    const notiMessage = `Khách hàng ${customerId} :${status}`
+    NotificationManager.success(notiMessage, 'Đơn hàng mới', NOTIFY_TIME)
+    return
+  } catch (error) {
+    console.log(error)
+    // New order
+    try {
+      const {
+        order: {
+          delivery: { customerId },
+          status,
+        },
+      } = data
+
+      const notiMessage = `Khách hàng ${customerId} :${status}`
+      NotificationManager.success(notiMessage, 'Đơn hàng mới', NOTIFY_TIME)
+      return
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
