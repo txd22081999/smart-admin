@@ -170,6 +170,14 @@ const MenuInfo = (props) => {
     createMenuGroup({ merchantId, restaurantId, menuId, data: values })
   }
 
+  const getMenuName = () => {
+    const params = window.location.href.split('/')
+    const menuId = params[params.length - 1]
+    const foundMenu = menus.find((menu) => menu.id === menuId)
+    if (foundMenu) return foundMenu.name
+    return 'Thực đơn'
+  }
+
   if (loading) {
     // return <p>Loading</p>
     return <div className='loading'></div>
@@ -182,7 +190,7 @@ const MenuInfo = (props) => {
   return (
     <div>
       <div className='d-flex align-items-center justify-content-space-between mb-2'>
-        <h2>Thực đơn (theo nhóm)</h2>
+        <h2>{getMenuName()}</h2>
         {/* <span className='button'>Hello</span> */}
         <div>
           <button

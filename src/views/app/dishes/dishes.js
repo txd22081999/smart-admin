@@ -13,6 +13,7 @@ import {
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
 import { findMenuGroupById } from './utils'
+import MenuCreate from '../MenuCreate'
 
 const DataList = React.lazy(() =>
   import(/* webpackChunkName: "product-data-list" */ './data-list')
@@ -158,8 +159,10 @@ class Dishes extends Component {
       return <div className='loading' />
     }
 
-    if (!loadingGetMenus && menus.length === 0) {
-      return <div>Create new menu</div>
+    // if (!loadingGetMenus && menus.length === 0) {
+    if (true) {
+      // return <div>Create new menu</div>
+      return <MenuCreate history={this.props.history} />
     }
 
     console.log(tableData)

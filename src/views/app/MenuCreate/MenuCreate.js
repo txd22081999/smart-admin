@@ -9,10 +9,14 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap'
-import { Field, Formik } from 'formik'
+import { Field, Formik, isObject } from 'formik'
 import IntlMessages from 'src/helpers/IntlMessages'
+import Select from 'react-select'
 
 import { getMenus } from '../../../redux/actions'
+import axios from 'axios'
+import { BASE_URL, USER_URL } from 'src/constants'
+import { NotificationManager } from 'src/components/common/react-notifications'
 
 const Menu = (props) => {
   const {
@@ -46,10 +50,20 @@ const MenuCreate = (props) => {
     restaurantInfo: {
       restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
     },
-    restaurantMenu: { menus, loading, error, menu },
+    restaurantMenu: { menus, loading: fetchLoading, error, menu },
     getMenu,
     history,
   } = props
+
+  const [isActive, setIsActive] = useState(true)
+
+  const [loading, setLoading] = useState(false)
+
+  const initialValues = {
+    menuName: 'Thực đơn 1',
+    isActive: true,
+    index: 65536,
+  }
 
   // const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
   const merchantId = localStorage.getItem('merchant_id')
@@ -61,17 +75,73 @@ const MenuCreate = (props) => {
     // getMenu(merchantId, restaurantId)
   }, [])
 
-  if (loading) {
+  const handleCreateMenu = async (values) => {
+    try {
+      setLoading(true)
+      const { menuName, isActive, index } = values
+      const accessToken = localStorage.getItem('access_token')
+      const { data } = await axios({
+        method: 'POST',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          name: menuName,
+          isActive,
+          index,
+        },
+      })
+      if (data) {
+        const {
+          data: {
+            menu: { id: menuId },
+          },
+        } = data
+        NotificationManager.success('New menu created', 'Success', 3000)
+        history.push(`/app/dishes/create/${menuId}`)
+      } else {
+        console.log('Error in create new menu. No response found!')
+      }
+    } catch (error) {
+      console.log('Error in create new menu')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const validateMenuName = (value) => {
+    let error
+    if (!value || value.trim().length === 0) {
+      error = 'Please enter your menu name'
+    } else if (value.length < 2) {
+      error = 'Name must be longer than 2 characters'
+    }
+    return error
+  }
+
+  const validateIndex = (value) => {
+    let error
+    if (!value) {
+      error = 'Please enter your menu index'
+    }
+    return error
+  }
+
+  if (fetchLoading || loading) {
     return <div className='loading'></div>
   }
 
-  if (menus.length === 0) {
+  if (menus.length === 0 && !fetchLoading) {
     return (
       <div>
-        <h3>Create a new Menu</h3>
+        <h3>
+          <IntlMessages id='menu.create-title' />
+        </h3>
 
-        {/* <div className='mt-4'>
-          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <div className='mt-4'>
+          <Formik initialValues={initialValues} onSubmit={handleCreateMenu}>
             {({
               errors,
               touched,
@@ -89,96 +159,23 @@ const MenuCreate = (props) => {
               >
                 <FormGroup className='form-group has-float-label'>
                   <Label>
-                    <IntlMessages id='menu.select-menu-group' />
-                  </Label>
-                  <select
-                    name='menuGroup'
-                    className='form-control'
-                    value={values.menuGroup}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    {menuGroupOption.length > 0 &&
-                      menuGroupOption.map((item) => {
-                        return <option value={item.value}>{item.label}</option>
-                      })}
-                  </select>
-
-                  {errors.menuGroup && touched.menuGroup ? (
-                    <div className='invalid-feedback d-block'>
-                      {errors.menuGroup}
-                    </div>
-                  ) : null}
-                </FormGroup>
-
-                <FormGroup className='form-group has-float-label'>
-                  <Label>
-                    <IntlMessages id='menu.menu-item-name' />
+                    <IntlMessages id='menu.menu-name' />
                   </Label>
                   <Field
                     className='form-control'
-                    name='name'
-                    validate={validateName}
+                    name='menuName'
+                    validate={validateMenuName}
                   />
-                  {errors.name && touched.name && (
+                  {errors.menuName && touched.menuName && (
                     <div className='invalid-feedback d-block'>
-                      {errors.name}
+                      {errors.menuName}
                     </div>
                   )}
                 </FormGroup>
 
                 <FormGroup className='form-group has-float-label'>
                   <Label>
-                    <IntlMessages id='menu.menu-item-description' />
-                  </Label>
-                  <Field
-                    className='form-control'
-                    name='description'
-                    validate={validateDescription}
-                  />
-                  {errors.description && touched.description && (
-                    <div className='invalid-feedback d-block'>
-                      {errors.description}
-                    </div>
-                  )}
-                </FormGroup>
-
-                <FormGroup className='form-group has-float-label'>
-                  <Label>
-                    <IntlMessages id='menu.menu-item-price' />
-                  </Label>
-                  <Field
-                    className='form-control'
-                    name='price'
-                    type='number'
-                    validate={validatePrice}
-                  />
-                  {errors.price && touched.price && (
-                    <div className='invalid-feedback d-block'>
-                      {errors.price}
-                    </div>
-                  )}
-                </FormGroup>
-
-                <FormGroup className='form-group has-float-label'>
-                  <Label>
-                    <IntlMessages id='menu.menu-item-image' />
-                  </Label>
-                  <Field
-                    className='form-control'
-                    name='imageUrl'
-                    validate={validateImage}
-                  />
-                  {errors.imageUrl && touched.imageUrl && (
-                    <div className='invalid-feedback d-block'>
-                      {errors.imageUrl}
-                    </div>
-                  )}
-                </FormGroup>
-
-                <FormGroup className='form-group has-float-label'>
-                  <Label>
-                    <IntlMessages id='menu.menu-item-index' />
+                    <IntlMessages id='menu.index' />
                   </Label>
                   <Field
                     className='form-control'
@@ -193,10 +190,27 @@ const MenuCreate = (props) => {
                   )}
                 </FormGroup>
 
+                {/* Select here */}
+                {/* <FormGroup className='form-group has-float-label'>
+                  <Select
+                    // components={{ Input: CustomSelectInput }}
+                    className='react-select'
+                    classNamePrefix='react-select'
+                    name='isActive'
+                    value={'active'}
+                    defaultValue='active'
+                    // onChange={(e) => setIsActive(e.value)}
+                    options={[
+                      { label: 'Active', value: 'active' },
+                      { label: 'Inactive', value: 'inactive' },
+                    ]}
+                  />
+                </FormGroup> */}
+
                 <Button
                   color='primary'
                   className={`btn-shadow btn-multiple-state ${
-                    props.loading ? 'show-spinner' : ''
+                    loading ? 'show-spinner' : ''
                   }`}
                   size='lg'
                 >
@@ -206,13 +220,13 @@ const MenuCreate = (props) => {
                     <span className='bounce3' />
                   </span>
                   <span className='label'>
-                    <IntlMessages id='menu.menu-item-create-btn' />
+                    <IntlMessages id='menu.menu-create-btn' />
                   </span>
                 </Button>
               </Form>
             )}
           </Formik>
-        </div> */}
+        </div>
       </div>
     )
   }

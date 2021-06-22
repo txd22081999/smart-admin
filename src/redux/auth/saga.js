@@ -140,7 +140,11 @@ function* logout({ payload }) {
     yield call(logoutAsync, history)
     // localStorage.removeItem('user_id')
     localStorage.removeItem('access_token')
-  } catch (error) {}
+    localStorage.removeItem('merchant_id')
+    localStorage.removeItem('restaurant_id')
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export function* watchForgotPassword() {

@@ -154,6 +154,9 @@ module.exports = {
   'menu.paypal': 'Paypal',
   'menu.orders': 'Đơn hàng',
   'menu.payment': 'Thanh toán',
+  'menu.create-title': 'Tạo menu mới',
+  'menu.menu-name': 'Tên menu',
+  'menu.index': 'Chỉ số',
 
   'menu.toppings': 'Toppings',
   'menu.topping-data-list': 'Danh sách topping',
