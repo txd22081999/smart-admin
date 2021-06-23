@@ -58,22 +58,6 @@ class ToppingList extends Component {
     // getMenuItems({ merchantId, restaurantId, menuId })
     getToppingItems({ merchantId, restaurantId, menuId })
     getToppingGroup({ merchantId, restaurantId, menuId })
-
-    // const {
-    //   // authUser: {
-    //   //   user: { id: merchantId }
-    //   // },
-    //   restaurantInfo: {
-    //     restaurant: {
-    //       id: restaurantId = `0053dc1a-5473-4000-9e99-6ec2f9f2e14d`,
-    //     },
-    //   },
-    //   getMenu,
-    // } = this.props
-    // const merchantId = `2487f7ec-2f25-4692-a2d5-97a7a471ebbd`
-    // console.log(merchantId)
-    // console.log(restaurantId)
-    // getMenu(merchantId, restaurantId)
   }
 
   componentDidUpdate() {
@@ -97,19 +81,37 @@ class ToppingList extends Component {
       toppingGroups.length > 0
     ) {
       const newToppingItems = toppingItems.map(
-        ({ id, name, imageUrl, description, toppingGroupId, menuId }) => {
+        ({
+          id,
+          name,
+          price,
+          maxQuantity,
+          isActive,
+          index,
+          state,
+          imageUrl,
+          description,
+          toppingGroupId,
+          menuId,
+        }) => {
           const group = findToppingGroupById(toppingGroupId, toppingGroups)
 
           return {
             id,
+            price,
+            maxQuantity,
+            isActive,
+            index,
+            state,
+            description,
+            toppingGroupId,
+            menuId,
             title: name,
             img: imageUrl,
             // category: group.name || 'Unknown',
             category: group.name || 'Unknown',
             statusColor: 'secondary',
-            description,
-            date: '01.04.2021',
-            menuId,
+            // date: '01.04.2021',
           }
         }
       )

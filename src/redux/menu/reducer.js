@@ -276,7 +276,6 @@ export default (state = INIT_STATE, action) => {
     case GET_TOPPING_ITEMS_SUCCESS: {
       // console.log(payload.menuItems)
       // console.log(state.menuGroup)
-
       return {
         ...state,
         loadingToppingItems: false,

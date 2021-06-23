@@ -164,7 +164,10 @@ class Home extends Component {
                           <Badge
                             color='primary'
                             pill
-                            style={{ padding: '5px 10px', marginLeft: 10 }}
+                            style={{
+                              padding: '5px 10px',
+                              marginLeft: 10,
+                            }}
                           >
                             <div
                               className='d-flex align-items-center'

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
 import { ContextMenuTrigger } from 'react-contextmenu'
 import { Colxx } from '../../components/common/CustomBootstrap'
+import clsx from 'clsx'
 
 const DataListView = ({
   product,
@@ -11,9 +12,17 @@ const DataListView = ({
   collect,
   onCheckItem,
   subItems = [],
+  large,
+  isTopping,
 }) => {
+  if (!product) {
+    return <div className='loading'></div>
+  }
+  if (isTopping) {
+  } else {
+  }
   return (
-    <Colxx xxs='12' className='mb-3'>
+    <Colxx xxs='12' className={clsx('mb-3')}>
       <ContextMenuTrigger id='menu_id' data={product.id} collect={collect}>
         <Card
           onClick={(event) => onCheckItem(event, product.id)}
@@ -23,36 +32,49 @@ const DataListView = ({
         >
           <div className='pl-2 d-flex flex-grow-1 min-width-zero'>
             <div className='card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center'>
-              <NavLink to={`?p=${product.id}`} className='w-40 w-sm-100'>
-                <p className='list-item-heading mb-1 truncate'>
-                  {product.title}
-                </p>
-              </NavLink>
-              {product.category && (
-                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
-                  {product.category}
-                </p>
-              )}
+              {isTopping ? (
+                <div
+                  className='d-flex justify-content-between align-items-lg-center'
+                  style={{ minWidth: 250 }}
+                >
+                  <NavLink to={`?p=${product.id}`} className='w-40 w-sm-100'>
+                    <p className='list-item-heading mb-1 truncate'>
+                      {product.category}
+                    </p>
+                  </NavLink>
 
-              {product.date && (
-                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
-                  {product.price}đ
-                </p>
-              )}
+                  <p className='mb-1 text-muted text-md-small w-35 w-sm-100'>
+                    {product.description}
+                  </p>
 
-              {product.date && (
-                <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
-                  {product.date}
-                </p>
-              )}
-
-              {product.statusColor && (
-                <div className='w-15 w-sm-100'>
-                  <Badge color={product.statusColor} pill>
-                    {product.status}
-                  </Badge>
+                  <p className='mb-1 text-muted text-md-small w-25 w-sm-100'>
+                    {product.price}đ
+                  </p>
                 </div>
+              ) : (
+                <>
+                  <NavLink to={`?p=${product.id}`} className='w-40 w-sm-100'>
+                    <p className='list-item-heading mb-1 truncate'>
+                      {product.title}
+                    </p>
+                  </NavLink>
+                  <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                    {product.category}
+                  </p>
+                  <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                    {product.price}đ
+                  </p>
+                  <p className='mb-1 text-muted text-md-small w-15 w-sm-100'>
+                    {product.date}
+                  </p>
+                </>
               )}
+
+              <div className='w-15 w-sm-100'>
+                <Badge color={product.statusColor} pill>
+                  {product.status}
+                </Badge>
+              </div>
             </div>
             {/* <div>Hello</div> */}
             <div className='custom-control custom-checkbox pl-1 align-self-center pr-4'>

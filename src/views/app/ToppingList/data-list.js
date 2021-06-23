@@ -358,6 +358,8 @@ class DataListPages extends Component {
                   <div>
                     <DataListView
                       key={product.id}
+                      large
+                      isTopping={true}
                       product={product}
                       isSelect={this.state.selectedItems.includes(product.id)}
                       onCheckItem={this.onCheckItem}
