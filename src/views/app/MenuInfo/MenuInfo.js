@@ -334,33 +334,9 @@ const MenuInfo = (props) => {
               data={tableData}
               toggleDisplayByCategory={toggleDisplayByCategory}
             />
-
-            <DataList history={history} data={tableData} />
           </Colxx>
         </Row>
       )}
-      {/* <Row>
-        <Colxx xxs='12' className='mb-4'>
-          <DataList history={history} data={tableData} />
-          {console.log('data here', tableData) && (
-            // tableData.data.length > 0 &&
-            <DataList history={history} data={tableData} />
-          )}
-        </Colxx>
-      </Row> */}
-
-      {/* {menuGroup.map((group) => {
-        return (
-          <MenuGroup
-            menuItems={menuItems}
-            getMenuItems={getMenuItems}
-            merchantId={merchantId}
-            restaurantId={restaurantId}
-            group={group}
-            key={group.id}
-          />
-        )
-      })} */}
     </div>
   )
 }

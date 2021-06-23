@@ -90,12 +90,12 @@ const MenuItemCreate = (props) => {
     const {
       restaurant: { id: restaurantId },
     } = restaurantInfo
-    const {
-      user: { id: merchantId },
-    } = authUser
+    // const {
+    //   user: { id: merchantId },
+    // } = authUser
     const menuGroupId = values.menuGroup || menuGroupOption[0].value
+    const merchantId = localStorage.getItem('merchant_id')
     const menuId = menus[0].id || ''
-    console.log(menuId)
     createMenuItem({
       merchantId,
       restaurantId,
