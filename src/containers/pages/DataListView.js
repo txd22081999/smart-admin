@@ -38,16 +38,16 @@ const DataListView = ({
                   style={{ minWidth: 250 }}
                 >
                   <NavLink to={`?p=${product.id}`} className='w-40 w-sm-100'>
-                    <p className='list-item-heading mb-1 truncate'>
+                    <p className='list-item-heading mb-1 truncate p-1'>
                       {product.category}
                     </p>
                   </NavLink>
 
-                  <p className='mb-1 text-muted text-md-small w-35 w-sm-100'>
+                  <p className='mb-1 text-muted text-md-small w-35 w-sm-100 p-1'>
                     {product.description}
                   </p>
 
-                  <p className='mb-1 text-muted text-md-small w-25 w-sm-100'>
+                  <p className='mb-1 text-muted text-md-small w-25 w-sm-100 p-1'>
                     {product.price}đ
                   </p>
                 </div>
