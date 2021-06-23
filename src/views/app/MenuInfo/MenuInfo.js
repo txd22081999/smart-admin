@@ -162,7 +162,7 @@ const MenuInfo = (props) => {
             description,
             isActive,
             price,
-            date: '01-06-2021',
+            date: '',
           }
         }
       )
