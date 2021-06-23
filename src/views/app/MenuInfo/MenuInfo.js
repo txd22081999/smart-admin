@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardBody } from 'reactstrap'
-
+import { Card, CardBody, Row, Button } from 'reactstrap'
+import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import MenuItem from '../MenuItem'
 import {
   getMenuGroup,
@@ -14,6 +14,13 @@ import './MenuInfo.scss'
 import MenuGroupCreate from '../MenuGroupCreate'
 import clsx from 'clsx'
 import IntlMessages from 'src/helpers/IntlMessages'
+import { findMenuGroupById } from '../dishes/utils'
+
+import './MenuInfo.scss'
+
+const DataList = React.lazy(() =>
+  import(/* webpackChunkName: "product-data-list" */ './data-list')
+)
 
 const MenuGroup = (props) => {
   const {
@@ -90,10 +97,10 @@ const MenuGroup = (props) => {
 }
 
 const MenuInfo = (props) => {
-  console.log(props)
-
   const [showCreateGroup, setShowCreateGroup] = useState(false)
   const [showCreateItem, setShowCreateItem] = useState(false)
+  const [tableData, setTableData] = useState({ data: [] })
+  const [showByCategory, setShowByCategory] = useState(false)
 
   const {
     location: { pathname },
@@ -116,7 +123,8 @@ const MenuInfo = (props) => {
     restaurantInfo,
   } = props
 
-  const menuId = pathname.split(`/app/dishes/create/`)[1]
+  const menuId =
+    pathname.split(`/app/dishes/create/`)[1] || pathname.split(`/`)[3]
   const merchantId = localStorage.getItem('merchant_id')
   const restaurantId =
     restaurantInfo.restaurant.id || localStorage.getItem('restaurant_id')
@@ -132,13 +140,53 @@ const MenuInfo = (props) => {
       console.log({ merchantId, restaurantId, menuId })
       getMenuItems({ merchantId, restaurantId, menuId })
     }
-    console.log('MenuInfo Mounted')
   }, [])
+
+  useEffect(() => {
+    if (
+      menuItems.length !== 0 &&
+      tableData.data.length === 0 &&
+      menuGroup.length > 0
+    ) {
+      const pageSize = 10
+      const newMenuItems = menuItems.map(
+        ({ id, name, imageUrl, description, menuGroupId, isActive, price }) => {
+          const group = findMenuGroupById(menuGroupId, menuGroup)
+
+          return {
+            id,
+            title: name,
+            img: imageUrl,
+            category: group.name || 'Unknown',
+            statusColor: 'secondary',
+            description,
+            isActive,
+            price,
+            date: '01-06-2021',
+          }
+        }
+      )
+
+      const newTableData = {
+        status: true,
+        totalItem: menuItems.length,
+        totalPage: Math.ceil(menuItems.length / pageSize),
+        pageSize,
+        currentPage: '1',
+        data: newMenuItems,
+      }
+      setTableData(newTableData)
+    }
+  }, [menuItems, menuGroup])
 
   useEffect(() => {
     setShowCreateGroup(false)
     setShowCreateItem(false)
   }, [menuGroup])
+
+  const toggleDisplayByCategory = () => {
+    setShowByCategory((prevState) => !prevState)
+  }
 
   const onMenuGroupCreateClick = () => {
     console.log(props)
@@ -188,7 +236,7 @@ const MenuInfo = (props) => {
   // }
 
   return (
-    <div>
+    <div className='MenuInfo'>
       <div className='d-flex align-items-center justify-content-space-between mb-2'>
         <h2>{getMenuName()}</h2>
         {/* <span className='button'>Hello</span> */}
@@ -250,8 +298,58 @@ const MenuInfo = (props) => {
           <MenuGroupCreate onSubmit={onMenuGroupCreate} />
         </div>
       )}
+      {showByCategory ? (
+        <>
+          <div
+          // className='d-flex align-item'
+          >
+            <Button
+              color='primary'
+              size='lg'
+              className='show-by-btn top-right-button'
+              onClick={() => toggleDisplayByCategory()}
+            >
+              {/* <IntlMessages id='pages.add-new' /> */}
+              Theo danh sách
+            </Button>
+          </div>
+          {menuGroup.map((group) => {
+            return (
+              <MenuGroup
+                menuItems={menuItems}
+                getMenuItems={getMenuItems}
+                merchantId={merchantId}
+                restaurantId={restaurantId}
+                group={group}
+                key={group.id}
+              />
+            )
+          })}
+        </>
+      ) : (
+        <Row>
+          <Colxx xxs='12' className='mb-4'>
+            <DataList
+              history={history}
+              data={tableData}
+              toggleDisplayByCategory={toggleDisplayByCategory}
+            />
 
-      {menuGroup.map((group) => {
+            <DataList history={history} data={tableData} />
+          </Colxx>
+        </Row>
+      )}
+      {/* <Row>
+        <Colxx xxs='12' className='mb-4'>
+          <DataList history={history} data={tableData} />
+          {console.log('data here', tableData) && (
+            // tableData.data.length > 0 &&
+            <DataList history={history} data={tableData} />
+          )}
+        </Colxx>
+      </Row> */}
+
+      {/* {menuGroup.map((group) => {
         return (
           <MenuGroup
             menuItems={menuItems}
@@ -262,7 +360,7 @@ const MenuInfo = (props) => {
             key={group.id}
           />
         )
-      })}
+      })} */}
     </div>
   )
 }

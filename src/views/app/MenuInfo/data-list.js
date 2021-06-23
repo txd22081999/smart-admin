@@ -13,8 +13,6 @@ import ImageListView from '../../../containers/pages/ImageListView'
 import ThumbListView from '../../../containers/pages/ThumbListView'
 import AddNewModal from '../../../containers/pages/AddNewModal'
 
-import mockData from './mockData.json'
-
 function collect(props) {
   return { data: props.data }
 }
@@ -86,6 +84,19 @@ class DataListPages extends Component {
       })
       return false
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      data: { data: newData },
+    } = this.props
+    const {
+      data: { data: prevData },
+    } = prevProps
+
+    if (newData.length > 0 && prevData.length === 0) {
+      this.dataListRender()
+    }
   }
 
   componentWillUnmount() {
@@ -223,7 +234,6 @@ class DataListPages extends Component {
       this.state
 
     const { data = {} } = this.props
-    console.log(data)
     this.setState({
       totalPage: data.totalPage,
       items: data.data,
@@ -298,7 +308,7 @@ class DataListPages extends Component {
       modalOpen,
       categories,
     } = this.state
-    const { match } = this.props
+    const { match, toggleDisplayByCategory } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
 
@@ -309,6 +319,7 @@ class DataListPages extends Component {
         <div className='disable-text-selection'>
           <ListPageHeading
             heading='menu.data-list'
+            displayCreate={false}
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
@@ -326,6 +337,7 @@ class DataListPages extends Component {
             orderOptions={orderOptions}
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
+            toggleDisplayByCategory={toggleDisplayByCategory}
           />
           <AddNewModal
             modalOpen={modalOpen}

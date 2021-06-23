@@ -90,6 +90,19 @@ class DataListPages extends Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      data: { data: newData },
+    } = this.props
+    const {
+      data: { data: prevData },
+    } = prevProps
+
+    if (newData.length > 0 && prevData.length === 0) {
+      this.dataListRender()
+    }
+  }
+
   componentWillUnmount() {
     this.mouseTrap.unbind('ctrl+a')
     this.mouseTrap.unbind('command+a')
@@ -220,7 +233,7 @@ class DataListPages extends Component {
       this.state
 
     const { data = {} } = this.props
-    console.log(data)
+    // console.log(data)
     this.setState({
       totalPage: data.totalPage,
       items: data.data,

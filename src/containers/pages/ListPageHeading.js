@@ -63,6 +63,8 @@ class ListPageHeading extends Component {
       pageSizes,
       toggleModal,
       heading,
+      displayCreate = true,
+      toggleDisplayByCategory,
     } = this.props
 
     const { displayOptionsIsOpen, dropdownSplitOpen } = this.state
@@ -76,14 +78,26 @@ class ListPageHeading extends Component {
               </h1>
 
               <div className='text-zero top-right-button-container'>
-                <Button
-                  color='primary'
-                  size='lg'
-                  className='top-right-button mr-2'
-                  onClick={() => toggleModal()}
-                >
-                  <IntlMessages id='pages.add-new' />
-                </Button>
+                {displayCreate ? (
+                  <Button
+                    color='primary'
+                    size='lg'
+                    className='top-right-button mr-2'
+                    onClick={() => toggleModal()}
+                  >
+                    <IntlMessages id='pages.add-new' />
+                  </Button>
+                ) : (
+                  <Button
+                    color='primary'
+                    size='lg'
+                    className='top-right-button mr-2'
+                    onClick={() => toggleDisplayByCategory()}
+                  >
+                    {/* <IntlMessages id='pages.add-new' /> */}
+                    Theo nhóm
+                  </Button>
+                )}
 
                 <ButtonDropdown
                   isOpen={dropdownSplitOpen}
