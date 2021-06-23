@@ -12,6 +12,7 @@ import ListPageHeading from '../../../containers/pages/ListPageHeading'
 import ImageListView from '../../../containers/pages/ImageListView'
 import ThumbListView from '../../../containers/pages/ThumbListView'
 import AddNewModal from '../../../containers/pages/AddNewModal'
+import { isObject } from 'formik'
 
 function collect(props) {
   return { data: props.data }
@@ -150,6 +151,7 @@ class DataListPages extends Component {
 
   onSearchKey = (e) => {
     if (e.key === 'Enter') {
+      console.log(e.target.value.toLowerCase())
       this.setState(
         {
           search: e.target.value.toLowerCase(),
@@ -232,50 +234,28 @@ class DataListPages extends Component {
   dataListRender() {
     const { selectedPageSize, currentPage, selectedOrderOption, search } =
       this.state
+    const { data = {}, isTopping = false } = this.props
 
-    const { data = {} } = this.props
+    let items = data.data
+    // if (isTopping) {
+    //   items = items.filter((item) =>
+    //     item.category.toLowerCase().includes(search)
+    //   )
+    //   console.log(search)
+    //   console.log(items)
+    // } else {
+    //   items = items.filter((item) => item.title.toLowerCase().includes(search))
+    // }
+    console.log(items)
+    console.log(search)
+    items = items.filter((item) => item.title.toLowerCase().includes(search))
     this.setState({
       totalPage: data.totalPage,
-      items: data.data,
+      items,
       selectedItems: [],
       totalItemCount: data.totalItem,
       isLoading: true,
     })
-
-    //Fetch dishes data
-    // setTimeout(() => {
-    //   //   fs.readFile('./mockData.json', { encoding: 'utf-8' }, (data, err) => {
-    //   //     console.log(data)
-    //   //     console.log(err)
-    //   //   })
-    //   const data = mockData
-    //   // console.log(data)
-    //   this.setState({
-    //     totalPage: data.totalPage,
-    //     items: data.data,
-    //     selectedItems: [],
-    //     totalItemCount: data.totalItem,
-    //     isLoading: true,
-    //   })
-    // }, 1000)
-
-    // axios
-    //   .get(
-    //     `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-    //   )
-    //   .then((res) => {
-    //     return res.data
-    //   })
-    //   .then((data) => {
-    //     console.log(data)
-    //     this.setState({
-    //       totalPage: data.totalPage,
-    //       items: data.data,
-    //       selectedItems: [],
-    //       totalItemCount: data.totalItem,
-    //       isLoading: true,
-    //     })
-    //   })
   }
 
   onContextMenuClick = (e, data, target) => {

@@ -220,10 +220,17 @@ class DataListPages extends Component {
       this.state
 
     const { data = {} } = this.props
-    console.log(data)
+    let items = data.data
+
+    if (search) {
+      items = items.filter((item) => {
+        return item.title.toString().toLowerCase().includes(search)
+      })
+    }
+
     this.setState({
       totalPage: data.totalPage,
-      items: data.data,
+      items,
       selectedItems: [],
       totalItemCount: data.totalItem,
       isLoading: true,
@@ -298,8 +305,6 @@ class DataListPages extends Component {
     const { match, subData = [] } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
-
-    console.log(subData)
 
     return !this.state.isLoading ? (
       <div className='loading' />
