@@ -15,6 +15,7 @@ import { registerUser } from '../../redux/actions'
 import IntlMessages from '../../helpers/IntlMessages'
 import { Colxx } from '../../components/common/CustomBootstrap'
 import { Formik, Form, Field } from 'formik'
+import { PASSWORD_REGEX } from 'src/helpers/Utils'
 
 const initialValues = {
   // username: 'Merchant',
@@ -63,6 +64,37 @@ class Register extends Component {
     }
 
     registerUser(user, this.props.history)
+  }
+
+  validateUsername = (value) => {
+    let error
+    if (!value) {
+      error = 'Please enter your username'
+    } else if (value.length < 5) {
+      error = 'Username must be longer than 5 character'
+    }
+    return error
+  }
+
+  validateEmail = (value) => {
+    let error
+    if (!value) {
+      error = 'Please enter your email address'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = 'Invalid email address'
+    }
+    return error
+  }
+
+  validatePassword = (value) => {
+    let error
+    if (!value) {
+      error = 'Please enter your password'
+    } else if (!new RegExp(PASSWORD_REGEX).test(value)) {
+      error =
+        'Password must contain at least 8 character with 1 capital letter, 1 normal letter and 1 number character'
+    }
+    return error
   }
 
   render() {
