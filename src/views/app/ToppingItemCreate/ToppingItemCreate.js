@@ -22,9 +22,13 @@ const ToppingItemCreate = (props) => {
   const [toppingGroupOption, setToppingGroupOption] = useState([])
 
   useEffect(() => {
-    const {
-      user: { id: merchantId },
-    } = authUser
+    const { user } = authUser
+    let merchantId
+    if (user) {
+      merchantId = authUser
+    } else {
+      merchantId = localStorage.getItem('merchant_id')
+    }
     const {
       restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
     } = restaurantInfo

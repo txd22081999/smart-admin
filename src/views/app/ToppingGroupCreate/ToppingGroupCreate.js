@@ -7,6 +7,7 @@ import IntlMessages from 'src/helpers/IntlMessages'
 import { FormikReactSelect } from '../../../containers/form-validations/FormikFields'
 
 import { createToppingGroup } from '../../../redux/actions'
+import localStorage from 'redux-persist/es/storage'
 
 const ToppingGroupCreate = (props) => {
   const {
@@ -32,7 +33,7 @@ const ToppingGroupCreate = (props) => {
     index: 65537,
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('SUBMIT create group')
     console.log(values)
     if (loadingToppingGroups) {
@@ -45,14 +46,21 @@ const ToppingGroupCreate = (props) => {
     // }
     if ([...Object.values(values)].includes('')) return
 
-    const {
+    let {
       restaurant: { id: restaurantId },
     } = restaurantInfo
-    const {
-      user: { id: merchantId },
-    } = authUser
+    // const {
+    //   user: { id: merchantId },
+    // } = authUser
+    const merchantId = await localStorage.getItem('merchant_id')
+    if (!restaurantId) {
+      restaurantId = await localStorage.getItem('restaurant_id')
+    }
     const menuId = menus[0].id || ''
+    console.log(merchantId)
+    console.log(restaurantId)
     console.log(menuId)
+
     createToppingGroup({
       merchantId,
       restaurantId,
