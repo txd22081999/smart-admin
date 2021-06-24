@@ -16,7 +16,7 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { BarChart } from '../../components/charts'
 import Select from 'react-select'
 
-import './RevenueInsightChartCard.scss'
+import './OrderStatusChartCard.scss'
 
 const barChartData2 = {
   labels: ['a', 'b', 'c', 'd', 'e'],
@@ -123,9 +123,10 @@ const selectMonthOptions = [
   { label: 'Tháng 12', value: '12' },
 ]
 
-const RevenueInsightChartCard = (props) => {
+const OrderStatusChartCard = (props) => {
   const { labels, data, dataArr, labelsDataset, options } = props
 
+  console.log(props)
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const toggle = () => setDropdownOpen((prevState) => !prevState)
@@ -160,11 +161,10 @@ const RevenueInsightChartCard = (props) => {
   }
 
   return (
-    <Card className='h-100 RevenueInsightChartCard'>
+    <Card className='h-100 OrderStatusChartCard'>
       <CardBody>
         <CardTitle>
-          <IntlMessages id='analytics.revenue-insight' />
-          {' (triệu đồng)'}
+          <IntlMessages id='analytics.complete-ratio' />
         </CardTitle>
 
         <div className='select-group-control'>
@@ -217,4 +217,4 @@ const RevenueInsightChartCard = (props) => {
   )
 }
 
-export default RevenueInsightChartCard
+export default OrderStatusChartCard

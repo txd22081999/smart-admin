@@ -126,10 +126,7 @@ const selectMonthOptions = [
 const OrderByAreaChartCard = (props) => {
   const { labels, data, dataArr, labelsDataset, options } = props
 
-  console.log(options)
-
   const [dropdownOpen, setDropdownOpen] = useState(false)
-
   const toggle = () => setDropdownOpen((prevState) => !prevState)
 
   let chartData = {

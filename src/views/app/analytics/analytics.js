@@ -2,6 +2,7 @@ import React, { Component, Fragment, useEffect, useState } from 'react'
 import { injectIntl } from 'react-intl'
 import { Row } from 'reactstrap'
 import axios from 'axios'
+import Bluebird from 'bluebird'
 
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
@@ -16,9 +17,18 @@ import ConversionRatesChartCard from '../../../containers/dashboards/ConversionR
 import OrderStockRadarChart from '../../../containers/dashboards/OrderStockRadarChart'
 import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCategoriesPolarArea'
 import OrderByAreaChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
-import { USER_URL } from 'src/constants'
+import { BASE_URL, USER_URL } from 'src/constants'
 import OrderRevenueChartCard from 'src/containers/dashboards/OrderRevenueChartCard'
 import RevenueInsightChartCard from 'src/containers/dashboards/RevenueInsightChartCard'
+import OrderStatusChartCard from 'src/containers/dashboards/OrderStatusChartCard'
+
+const ORDER_STATUS = {
+  ORDERED: 'ORDERED',
+  CONFIRMED: 'CONFIRMED',
+  READY: 'READY',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+}
 
 const Analytics = (props) => {
   const restaurantId = localStorage.getItem('restaurant_id')
@@ -43,9 +53,22 @@ const Analytics = (props) => {
     labelsDataset: [],
   })
 
+  const [orderStatusStat, setOrderStatusStat] = useState({
+    labels: [],
+    dataArr: [],
+    labelsDataset: [],
+  })
+
+  const [ordersStatus, setOrderStatus] = useState({
+    ordered: 0,
+    confirmed: 0,
+    ready: 0,
+    completed: 0,
+    cancelled: 0,
+  })
+
   useEffect(() => {
     fetchAnalyticsData()
-    fetchRevenueInsight()
   }, [])
 
   useEffect(() => {
@@ -55,7 +78,8 @@ const Analytics = (props) => {
   const fetchAnalyticsData = async () => {
     fetchOrderByTime()
     fetchRevenueInsight()
-    // fetchOrderByArea()
+    fetchOrderByArea()
+    fetchAllOrder()
   }
 
   const fetchOrderByTime = async () => {
@@ -142,16 +166,14 @@ const Analytics = (props) => {
       if (!data) return
 
       const {
-        data: { revenueInsight = [] },
+        data: { revenueInsight = {} },
       } = data
-
-      console.log(revenueInsight)
 
       const labelMapping = {
         actualRevenue: 'Doanh thu thực tế',
-        feeTotal: 'Tổng phí',
-        feePaid: 'Tổng phí phải trả',
-        feeBilling: 'Phí đã thanh toán',
+        feeTotal: 'Phí phải trả',
+        feePaid: 'Phí đã trả',
+        feeBilling: 'Phí cần thanh toán',
         allOrderTotalRevenue: 'Doanh thu tất cả đơn',
         saleOrderTotalRevenue: 'Doanh thu đơn sale',
         saleOnlineOrderTotalRevenue: 'Doanh thu đơn online',
@@ -159,14 +181,22 @@ const Analytics = (props) => {
         posOrderTotalRevenue: 'Doanh thu đơn POS',
       }
 
+      console.log(revenueInsight.saleOrderTotalRevenue)
+      console.log(revenueInsight.saleOnlineOrderTotalRevenue)
+      console.log(revenueInsight.saleCODOrderTotalRevenue)
+
+      const dataArr = []
       const labels = Object.keys(revenueInsight)
         .filter((item) => Object.keys(labelMapping).includes(item))
         .map((item) => {
-          console.log(item)
+          dataArr.push(revenueInsight[item])
           return labelMapping[item]
         })
-      const dataArr = Object.values(revenueInsight)
+      // const dataArr = Object.values(revenueInsight)
       const labelsDataset = Object.keys(revenueInsight)
+
+      console.log(labels)
+      console.log(labelsDataset)
 
       setRevenueInsight({
         labels,
@@ -181,6 +211,7 @@ const Analytics = (props) => {
 
   const fetchOrderByArea = async () => {
     try {
+      let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef`
       const { data } = await axios({
         method: 'GET',
         url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/statistic`,
@@ -188,10 +219,123 @@ const Analytics = (props) => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-
-      console.log(data)
     } catch (error) {
       console.log('Error in fetchOrderByArea')
+      console.error(error)
+    }
+  }
+
+  const fetchAllOrder = async () => {
+    try {
+      let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
+      let orderArr = []
+      const totalPage = new Array(3)
+      console.log(totalPage.length)
+      await Bluebird.map(totalPage, async () => {
+        const { data } = await axios({
+          method: 'GET',
+          url: `${BASE_URL}/order/get-all-restaurant-orders`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            restaurantId,
+            query: 'ALL',
+            pageNumber: 7,
+            // orderStatus: ORDER_STATUS.COMPLETED,
+          },
+        })
+        if (!data) return
+        const {
+          data: { orders = [] },
+        } = data
+
+        console.log(orders)
+        orderArr = [...orderArr, ...orders]
+      })
+
+      console.log(orderArr)
+
+      // orderArr.filter(order => order.status )
+
+      const cancelledOrders = []
+      const confirmedOrders = []
+      const readyOrders = []
+      const completedeOrders = []
+      const orderedOrders = []
+
+      orderArr.forEach((order) => {
+        const { status } = order
+        switch (status) {
+          case ORDER_STATUS.ORDERED: {
+            orderedOrders.push(order)
+            break
+          }
+          case ORDER_STATUS.CANCELLED: {
+            cancelledOrders.push(order)
+            break
+          }
+          case ORDER_STATUS.CONFIRMED: {
+            confirmedOrders.push(order)
+            break
+          }
+          case ORDER_STATUS.COMPLETED: {
+            completedeOrders.push(order)
+            break
+          }
+          case ORDER_STATUS.READY: {
+            readyOrders.push(order)
+            break
+          }
+          default: {
+          }
+        }
+      })
+
+      console.log(cancelledOrders)
+      console.log(confirmedOrders)
+      console.log(readyOrders)
+      console.log(completedeOrders)
+      console.log(orderedOrders)
+
+      setOrderStatus({
+        ordered: orderedOrders.length,
+        confirmed: completedeOrders.length,
+        ready: readyOrders.length,
+        completed: completedeOrders.length,
+        cancelled: cancelledOrders.length,
+      })
+
+      // const labels = Object.keys(revenueInsight)
+      //   .filter((item) => Object.keys(labelMapping).includes(item))
+      //   .map((item) => {
+      //     return labelMapping[item]
+      //   })
+      // const dataArr = Object.values(revenueInsight)
+      // const labelsDataset = Object.keys(revenueInsight)
+
+      // setRevenueInsight({
+      //   labels,
+      //   dataArr,
+      //   labelsDataset,
+      // })
+
+      // const labels = Object.keys(revenueInsight)
+      //   .filter((item) => Object.keys(labelMapping).includes(item))
+      //   .map((item) => {
+      //     console.log(item)
+      //     return labelMapping[item]
+      //   })
+      // const dataArr = Object.values(revenueInsight)
+      // const labelsDataset = Object.keys(revenueInsight)
+
+      // setRevenueInsight({
+      //   labels,
+      //   dataArr,
+      //   labelsDataset,
+      // })
+    } catch (error) {
+      console.log('Error in fetchAllOrders')
       console.error(error)
     }
   }
@@ -232,6 +376,18 @@ const Analytics = (props) => {
           {/* <WebsiteVisitsChartCard /> */}
           <RevenueInsightChartCard
             {...revenueInsight}
+            handleTypeChange={handleTypeChange}
+          />
+        </Colxx>
+      </Row>
+
+      <Row>
+        <Colxx sm='12' md='6' className='mb-4'>
+          {/* <WebsiteVisitsChartCard /> */}
+          <OrderStatusChartCard
+            labels={Object.keys(ordersStatus)}
+            dataArr={Object.values(ordersStatus)}
+            labelsDataset={Object.keys(ordersStatus)}
             handleTypeChange={handleTypeChange}
           />
         </Colxx>
