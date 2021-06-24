@@ -8,9 +8,9 @@ import {
   CREATE_RESTAURANT_ERROR,
 } from '../actions'
 
-export const getRestaurant = (id) => ({
+export const getRestaurant = (merchantId, restaurantId) => ({
   type: GET_RESTAURANT,
-  payload: { id },
+  payload: { merchantId, restaurantId },
 })
 
 export const getRestaurantSuccess = (restaurant) => ({

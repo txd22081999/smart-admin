@@ -5,10 +5,11 @@ import IntlMessages from '../../../helpers/IntlMessages'
 import './upload.scss'
 
 const UploadImage = (props) => {
-  const { onImageChange, limit = 2 } = props
+  const { onImageChange, limit = 2, defaultImageUrl } = props
 
   const [images, setImages] = useState([])
   const [controlVisible, setControlVisible] = useState(false)
+  const [showDefaultImg, setShowDefaultImg] = useState(true)
   const maxNumber = 1
 
   const onChange = (imageList, addUpdateIndex) => {
@@ -49,17 +50,30 @@ const UploadImage = (props) => {
             <span
               className='upload-select-btn'
               style={isDragging ? { color: 'red' } : undefined}
-              onClick={onImageUpload}
+              onClick={(a, b) => {
+                setShowDefaultImg(false)
+                onImageUpload(a, b)
+              }}
               {...dragProps}
             >
               <IntlMessages id='restaurant.click-or-drop' />
             </span>
             &nbsp;
             {limit !== 1 && (
-              <button onClick={onImageRemoveAll}>
+              <button
+                onClick={(a, b) => {
+                  setShowDefaultImg(false)
+                  onImageRemoveAll(a, b)
+                }}
+              >
                 {' '}
                 <IntlMessages id='restaurant.remove-all' />
               </button>
+            )}
+            {defaultImageUrl && showDefaultImg && (
+              <div className='default-img'>
+                <img src={defaultImageUrl} alt='default' />
+              </div>
             )}
             {imageList.map((image, index) => (
               <div key={index} className='image-item'>
@@ -77,8 +91,10 @@ const UploadImage = (props) => {
                   >
                     <button
                       className='mr-2'
-                      onMouseOver={() => console.log('HIHI')}
-                      onClick={() => onImageUpdate(index)}
+                      // onMouseOver={() => console.log('HIHI')}
+                      onClick={() => {
+                        onImageUpdate(index)
+                      }}
                     >
                       <IntlMessages id='restaurant.update' />
                     </button>

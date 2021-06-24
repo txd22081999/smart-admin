@@ -5,10 +5,10 @@ import Select from 'react-select'
 import { connect } from 'react-redux'
 import { createRestaurant } from '../../redux/actions'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 import IntlMessages from '../../helpers/IntlMessages'
 import { Colxx } from '../../components/common/CustomBootstrap'
-import TimePicker from 'react-time-picker'
 import Map from '../../components/map/Map'
 
 import UploadImage from '../../components/common/UploadImage'
@@ -17,55 +17,11 @@ import { sortByDay, uploadFile } from 'src/helpers/Utils'
 import { colourStyles, dayOptions, GEOCODE_URL } from 'src/constants'
 import ThumbnailLetters from 'src/components/cards/ThumbnailLetters'
 import './create-restaurant.scss'
+import HourSelect from '../HourSelect'
 
 const cityOptions = ['Ho Chi Minh', 'Ha Noi', 'Da Nang']
 
 const initialDays = dayOptions
-
-const SelectHours = (props) => {
-  const {
-    dayValue,
-    day = 'Thứ 2',
-    open = '09:00',
-    close = '14:00',
-    handleOpenTimeChange,
-    handleCloseTimeChange,
-  } = props
-  const [openHour, setOpenHour] = useState(open)
-  const [closeHour, setCloseHour] = useState(close)
-
-  useEffect(() => {
-    handleOpenTimeChange(open, dayValue)
-    handleCloseTimeChange(close, dayValue)
-  }, [])
-
-  const onOpenTimeChange = (time) => {
-    setOpenHour(time)
-    handleOpenTimeChange(time, dayValue)
-  }
-
-  const onCloseTimeChange = (time) => {
-    setCloseHour(time)
-    handleCloseTimeChange(time, dayValue)
-  }
-
-  return (
-    <div className='time-picker-container'>
-      <div className='time-picker-wrapper'>
-        <div>
-          <span className='day'>{day}</span>
-          <span className='time-picker-label'>Giờ mở</span>
-          <TimePicker onChange={onOpenTimeChange} value={openHour} />
-        </div>
-
-        <div>
-          <span className='time-picker-label'>Giờ đóng</span>
-          <TimePicker onChange={onCloseTimeChange} value={closeHour} />
-        </div>
-      </div>
-    </div>
-  )
-}
 
 class CreateRestaurant extends Component {
   constructor(props) {
@@ -118,7 +74,6 @@ class CreateRestaurant extends Component {
     const { authUser, createRestaurant, history } = this.props
 
     // Handle location
-    console.log('CREATEING')
     // Handle upload image and get returned download url
     if (!image) return
     this.setState({
@@ -272,6 +227,7 @@ class CreateRestaurant extends Component {
   }
 
   onImageChange = (imageFile, addUpdateIndex) => {
+    console.log(imageFile)
     const { file: image } = imageFile[0]
     this.setState({
       image,
@@ -377,6 +333,13 @@ class CreateRestaurant extends Component {
       district: foundDistrict,
       district2: foundDistrict,
     })
+  }
+
+  back = () => {
+    const { history } = this.props
+    // const history = useHistory()
+    // console.log(history)
+    history.push('/restaurant/select')
   }
 
   render() {
@@ -495,7 +458,7 @@ class CreateRestaurant extends Component {
                       {sortByDay(this.state.openDays).map(
                         ({ value, label }) => {
                           return (
-                            <SelectHours
+                            <HourSelect
                               key={value}
                               dayValue={value}
                               day={label}
@@ -518,7 +481,16 @@ class CreateRestaurant extends Component {
                       />
                     </Label>
 
-                    <div className='d-flex justify-content-end align-items-center'>
+                    <div className='d-flex justify-content-space-between align-items-center'>
+                      <Button
+                        // color='secondary'
+
+                        size='lg'
+                        onClick={() => this.back()}
+                        className='mr-3 secondary-btn'
+                      >
+                        <IntlMessages id='back-button' />
+                      </Button>
                       <Button
                         color='primary'
                         className={`btn-shadow btn-multiple-state ${

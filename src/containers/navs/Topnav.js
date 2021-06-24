@@ -18,6 +18,7 @@ import {
   clickOnMobileMenu,
   logoutUser,
   changeLocale,
+  getRestaurant,
 } from '../../redux/actions'
 
 import {
@@ -45,6 +46,8 @@ class TopNav extends Component {
     }
   }
 
+  componentDidMount() {}
+
   handleChangeLocale = (locale, direction) => {
     this.props.changeLocale(locale)
 
@@ -67,6 +70,7 @@ class TopNav extends Component {
       (document.msFullscreenElement && document.msFullscreenElement !== null)
     )
   }
+
   handleSearchIconClick = (e) => {
     if (window.innerWidth < menuHiddenBreakpoint) {
       let elem = e.target
@@ -92,9 +96,11 @@ class TopNav extends Component {
       this.search()
     }
   }
+
   addEventsSearch = () => {
     document.addEventListener('click', this.handleDocumentClickSearch, true)
   }
+
   removeEventsSearch = () => {
     document.removeEventListener('click', this.handleDocumentClickSearch, true)
   }
@@ -128,11 +134,13 @@ class TopNav extends Component {
       })
     }
   }
+
   handleSearchInputChange = (e) => {
     this.setState({
       searchKeyword: e.target.value,
     })
   }
+
   handleSearchInputKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.search()
@@ -219,6 +227,12 @@ class TopNav extends Component {
     this.props.history.replace({
       pathname: '/restaurant/select',
     })
+  }
+
+  redirectToEditProfile = () => {
+    console.log('click')
+    const { history } = this.props
+    history.push('/app/home/edit')
   }
 
   render() {
@@ -385,7 +399,9 @@ class TopNav extends Component {
                 </span>
               </DropdownToggle>
               <DropdownMenu className='mt-3' right>
-                <DropdownItem>Tài khoản</DropdownItem>
+                <DropdownItem onClick={this.redirectToEditProfile}>
+                  Tài khoản
+                </DropdownItem>
                 {/* <DropdownItem>Features</DropdownItem>
                 <DropdownItem>History</DropdownItem> */}
                 <DropdownItem>Hỗ trợ</DropdownItem>
@@ -422,5 +438,6 @@ export default injectIntl(
     clickOnMobileMenu,
     logoutUser,
     changeLocale,
+    getRestaurant,
   })(TopNav)
 )

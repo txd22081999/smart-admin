@@ -108,6 +108,7 @@ module.exports = {
   'restaurant.open-hours': 'Lịch hoạt động',
   'restaurant.area': 'Khu vực',
   'restaurant.district': 'Quận',
+  'restaurant.update-button': 'Cập nhật',
 
   'staff.create': 'Tạo tài khoản nhân viên',
   'staff.create-button': 'Tạo',
@@ -173,4 +174,6 @@ module.exports = {
   'analytics.complete-ratio': 'Tỉ lệ hoàn thành đơn',
   'analytics.order-number-by-area': 'Tỉ lệ đơn theo khu vực',
   'analytics.revenue-by-order-type': 'Doanh thu theo loại đơn',
+
+  'back-button': 'Trở lại',
 }

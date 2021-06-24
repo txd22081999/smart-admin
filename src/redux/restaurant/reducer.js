@@ -6,6 +6,7 @@ import {
   CREATE_RESTAURANT,
   CREATE_RESTAURANT_SUCCESS,
   CREATE_RESTAURANT_ERROR,
+  GET_RESTAURANT_SUCCESS,
 } from '../actions'
 
 const localData = localStorage.getItem('persist:root')
@@ -19,10 +20,10 @@ const INIT_STATE = {
   error: '',
 }
 
-export default (state = INIT_STATE, action) => {
-  switch (action.type) {
+export default (state = INIT_STATE, { payload, type }) => {
+  switch (type) {
     case SET_RESTAURANT: {
-      return { ...state, restaurant: action.payload.restaurant }
+      return { ...state, restaurant: payload.restaurant }
     }
     // case GET_MERCHANT:
     //   return { ...state, loading: true, error: '' }
@@ -49,6 +50,13 @@ export default (state = INIT_STATE, action) => {
     }
     case CREATE_RESTAURANT_ERROR: {
       return { ...state }
+    }
+    case GET_RESTAURANT_SUCCESS: {
+      console.log(payload)
+      return {
+        ...state,
+        restaurant: payload.restaurant,
+      }
     }
     default:
       return { ...state }
