@@ -27,7 +27,7 @@ export const saleByMonthData = {
       label: '',
       // data: [54, 63, 60, 65, 60, 68, 60],
       // data: [25.4, 26.0, 24.7, 65, 60, 68.2, 60.3],
-      data: [25.4, 26.0, 24.7, 28.5, 29.1, 29.5, 29.4],
+      // data: [25.4, 26.0, 24.7, 28.5, 29.1, 29.5, 29.4],
       borderColor: colors.themeColor1,
       pointBackgroundColor: colors.foregroundColor,
       pointBorderColor: colors.themeColor1,

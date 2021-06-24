@@ -87,6 +87,7 @@ module.exports = {
   'dashboards.last-week': 'Tuần trước',
   'dashboards.this-month': 'Tháng này',
   'dashboards.per-session': '',
+  'dashboards.order-by-area': 'Số đơn theo khu vực',
 
   'maps.google': 'Vị trí cửa hàng',
 

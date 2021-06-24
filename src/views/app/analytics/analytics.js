@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useEffect, useState } from 'react'
 import { injectIntl } from 'react-intl'
 import { Row } from 'reactstrap'
+import axios from 'axios'
 
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
@@ -14,42 +15,146 @@ import WebsiteVisitsChartCard from '../../../containers/dashboards/WebsiteVisits
 import ConversionRatesChartCard from '../../../containers/dashboards/ConversionRatesChartCard'
 import OrderStockRadarChart from '../../../containers/dashboards/OrderStockRadarChart'
 import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCategoriesPolarArea'
+import OrderByAreaChartCard from '../../../containers/dashboards/OrderByAreaChartCard'
+import { USER_URL } from 'src/constants'
 
-class Analytics extends Component {
-  render() {
-    const { messages } = this.props.intl
-    return (
-      <Fragment>
-        <Row>
-          <Colxx xxs='12'>
-            <Breadcrumb heading='menu.analytics' match={this.props.match} />
-            <Separator className='mb-5' />
-          </Colxx>
-        </Row>
-        <Row>
-          <Colxx sm='12' md='6' className='mb-4'>
-            <WebsiteVisitsChartCard />
-          </Colxx>
-          <Colxx sm='12' md='6' className='mb-4'>
-            <ConversionRatesChartCard />
-          </Colxx>
-        </Row>
+const Analytics = (props) => {
+  const restaurantId = localStorage.getItem('restaurant_id')
+  const merchantId = localStorage.getItem('merchant_id')
+  const accessToken = localStorage.getItem('access_token')
 
-        <Row>
-          <Colxx xl='4' lg='6' md='12' className='mb-4'>
-            <ProductCategoriesDoughnut />
-          </Colxx>
-          <Colxx xl='4' lg='6' md='12' className='mb-4'>
-            <ProfileStatuses cardClass='dashboard-progress' />
-          </Colxx>
-          <Colxx xl='4' lg='12' md='12'>
-            <SmallLineCharts itemClass='dashboard-small-chart-analytics' />
-          </Colxx>
-        </Row>
+  const [orderCountByTime, setOrderCountByTimeData] = useState({
+    labels: [],
+    dataArr: [],
+    labelsDataset: [],
+  })
 
-        {/* <SortableStaticticsRow messages={messages} /> */}
+  useEffect(() => {
+    fetchAnalyticsData()
+  }, [])
 
-        {/* <Row>
+  const fetchAnalyticsData = async () => {
+    fetchOrderByTime()
+  }
+
+  const fetchOrderByTime = async () => {
+    try {
+      let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
+      const { data } = await axios({
+        method: 'POST',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/order-statistics`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          from: '2021-06-01',
+          to: '2021-06-30',
+          groupByInterval: 'week',
+        },
+      })
+      if (!data) return
+
+      const {
+        data: { statistics = [] },
+      } = data
+
+      const labels = statistics.map((item) => item.columnName)
+
+      const posCount = []
+      const saleCount = []
+      const allCount = []
+
+      const posRevenue = []
+      const saleRevenue = []
+      const allRevenue = []
+
+      console.log(data)
+      statistics.forEach((item) => {
+        const {
+          columnName,
+          allOrderCount,
+          allOrderTotalRevenue,
+          posOrderCount,
+          posOrderTotalRevenue,
+          saleOrderCount,
+          saleOrderTotalRevenue,
+        } = item
+
+        posCount.push(posOrderCount)
+        saleCount.push(saleOrderCount)
+        allCount.push(allOrderCount)
+
+        posRevenue.push(posOrderTotalRevenue)
+        saleRevenue.push(saleOrderTotalRevenue)
+        allRevenue.push(allOrderTotalRevenue)
+      })
+
+      // console.log(labels)
+      // console.log(posCount)
+      // console.log(saleCount)
+      // console.log(allCount)
+
+      // console.log(posRevenue)
+      // console.log(saleRevenue)
+      // console.log(allRevenue)
+
+      setOrderCountByTimeData({
+        labels,
+        dataArr: [posCount, saleCount, allCount],
+        labelsDataset: ['POS', 'Sale', 'All'],
+      })
+    } catch (error) {
+      console.log('Error in fetchOrderByTime')
+      console.error(error)
+    }
+  }
+
+  const fetchOrderByArea = async () => {
+    try {
+      // const { data } = await axios({
+      //   method: 'GET',
+      //   url: `${USER_URL}/${merchantId}/restaurant/{restaurantId}/order-statistics`,
+      // })
+    } catch (error) {
+      console.log('Error in fetchOrderByArea')
+      console.error(error)
+    }
+  }
+
+  const { messages } = props.intl
+  return (
+    <Fragment>
+      <Row>
+        <Colxx xxs='12'>
+          <Breadcrumb heading='menu.analytics' match={props.match} />
+          <Separator className='mb-5' />
+        </Colxx>
+      </Row>
+      <Row>
+        <Colxx sm='12' md='6' className='mb-4'>
+          {/* <WebsiteVisitsChartCard /> */}
+          <OrderByAreaChartCard {...orderCountByTime} />
+        </Colxx>
+        <Colxx sm='12' md='6' className='mb-4'>
+          <ConversionRatesChartCard />
+        </Colxx>
+      </Row>
+
+      <Row>
+        <Colxx xl='4' lg='6' md='12' className='mb-4'>
+          <ProductCategoriesDoughnut />
+        </Colxx>
+        <Colxx xl='4' lg='6' md='12' className='mb-4'>
+          <ProfileStatuses cardClass='dashboard-progress' />
+        </Colxx>
+        <Colxx xl='4' lg='12' md='12'>
+          <SmallLineCharts itemClass='dashboard-small-chart-analytics' />
+        </Colxx>
+      </Row>
+
+      {/* <SortableStaticticsRow messages={messages} /> */}
+
+      {/* <Row>
           <Colxx xxs='12' lg='6' className='mb-4'>
             <ProductCategoriesPolarArea />
           </Colxx>
@@ -58,17 +163,16 @@ class Analytics extends Component {
           </Colxx>
         </Row> */}
 
-        <Row>
-          <Colxx xxs='12' className='mb-4'>
-            <SalesChartCard day />
-          </Colxx>
+      <Row>
+        <Colxx xxs='12' className='mb-4'>
+          <SalesChartCard day />
+        </Colxx>
 
-          <Colxx xxs='12' className='mb-4'>
-            <SalesChartCard month />
-          </Colxx>
-        </Row>
-      </Fragment>
-    )
-  }
+        <Colxx xxs='12' className='mb-4'>
+          <SalesChartCard month />
+        </Colxx>
+      </Row>
+    </Fragment>
+  )
 }
 export default injectIntl(Analytics)
