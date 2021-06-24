@@ -18,6 +18,7 @@ import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCa
 import OrderByAreaChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
 import { USER_URL } from 'src/constants'
 import OrderRevenueChartCard from 'src/containers/dashboards/OrderRevenueChartCard'
+import RevenueInsightChartCard from 'src/containers/dashboards/RevenueInsightChartCard'
 
 const Analytics = (props) => {
   const restaurantId = localStorage.getItem('restaurant_id')
@@ -36,17 +37,25 @@ const Analytics = (props) => {
     dataArr: [],
     labelsDataset: [],
   })
+  const [revenueInsight, setRevenueInsight] = useState({
+    labels: [],
+    dataArr: [],
+    labelsDataset: [],
+  })
 
   useEffect(() => {
     fetchAnalyticsData()
+    fetchRevenueInsight()
   }, [])
 
   useEffect(() => {
-    fetchOrderByTime()
+    // fetchOrderByTime()
   }, [statisticType])
 
   const fetchAnalyticsData = async () => {
     fetchOrderByTime()
+    fetchRevenueInsight()
+    // fetchOrderByArea()
   }
 
   const fetchOrderByTime = async () => {
@@ -116,12 +125,71 @@ const Analytics = (props) => {
     }
   }
 
+  const fetchRevenueInsight = async () => {
+    try {
+      let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
+      const { data } = await axios({
+        method: 'POST',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/revenue-insight`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          from: '2021-06-01',
+          to: '2021-06-30',
+        },
+      })
+      if (!data) return
+
+      const {
+        data: { revenueInsight = [] },
+      } = data
+
+      console.log(revenueInsight)
+
+      const labelMapping = {
+        actualRevenue: 'Doanh thu thực tế',
+        feeTotal: 'Tổng phí',
+        feePaid: 'Tổng phí phải trả',
+        feeBilling: 'Phí đã thanh toán',
+        allOrderTotalRevenue: 'Doanh thu tất cả đơn',
+        saleOrderTotalRevenue: 'Doanh thu đơn sale',
+        saleOnlineOrderTotalRevenue: 'Doanh thu đơn online',
+        saleCODOrderTotalRevenue: 'Doanh thu đơn COD',
+        posOrderTotalRevenue: 'Doanh thu đơn POS',
+      }
+
+      const labels = Object.keys(revenueInsight)
+        .filter((item) => Object.keys(labelMapping).includes(item))
+        .map((item) => {
+          console.log(item)
+          return labelMapping[item]
+        })
+      const dataArr = Object.values(revenueInsight)
+      const labelsDataset = Object.keys(revenueInsight)
+
+      setRevenueInsight({
+        labels,
+        dataArr,
+        labelsDataset,
+      })
+    } catch (error) {
+      console.log('Error in fetchOrderByTime')
+      console.error(error)
+    }
+  }
+
   const fetchOrderByArea = async () => {
     try {
-      // const { data } = await axios({
-      //   method: 'GET',
-      //   url: `${USER_URL}/${merchantId}/restaurant/{restaurantId}/order-statistics`,
-      // })
+      const { data } = await axios({
+        method: 'GET',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/statistic`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+
+      console.log(data)
     } catch (error) {
       console.log('Error in fetchOrderByArea')
       console.error(error)
@@ -154,6 +222,16 @@ const Analytics = (props) => {
           {/* <ConversionRatesChartCard /> */}
           <OrderRevenueChartCard
             {...orderRevenue}
+            handleTypeChange={handleTypeChange}
+          />
+        </Colxx>
+      </Row>
+
+      <Row>
+        <Colxx sm='12' md='12' className='mb-4'>
+          {/* <WebsiteVisitsChartCard /> */}
+          <RevenueInsightChartCard
+            {...revenueInsight}
             handleTypeChange={handleTypeChange}
           />
         </Colxx>

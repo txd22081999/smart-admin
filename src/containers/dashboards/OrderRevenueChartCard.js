@@ -306,7 +306,7 @@ const OrderRevenueChartCard = (props) => {
   }
 
   return (
-    <Card className='h-100 OrderByAreaChartCard'>
+    <Card className='h-100 OrderRevenueChartCard'>
       <CardBody>
         <CardTitle>
           <IntlMessages id='analytics.order-revenue' /> {' (triệu đồng)'}

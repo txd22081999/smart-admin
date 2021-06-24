@@ -169,4 +169,5 @@ module.exports = {
 
   'analytics.order-by-month': 'Tổng đơn hàng',
   'analytics.order-revenue': 'Doanh thu',
+  'analytics.revenue-insight': 'Chi tiết doanh thu',
 }

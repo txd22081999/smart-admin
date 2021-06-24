@@ -16,7 +16,7 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { BarChart } from '../../components/charts'
 import Select from 'react-select'
 
-import './OrderByMonthChartCard.scss'
+import './RevenueInsightChartCard.scss'
 
 const barChartData2 = {
   labels: ['a', 'b', 'c', 'd', 'e'],
@@ -123,41 +123,37 @@ const selectMonthOptions = [
   { label: 'Tháng 12', value: '12' },
 ]
 
-const OrderByAreaChartCard = (props) => {
+const RevenueInsightChartCard = (props) => {
   const { labels, data, dataArr, labelsDataset, options } = props
 
-  console.log(options)
-
+  console.log(props)
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const toggle = () => setDropdownOpen((prevState) => !prevState)
 
   let chartData = {
     labels: labels.map((item) => item.replace('-', `/`)),
+    // labels: 'hihi',
+    // labels: '',
     datasets: [
       {
-        label: labelsDataset[0],
-        data: dataArr[0],
-      },
-      {
-        label: labelsDataset[1],
-        data: dataArr[1],
-      },
-      {
-        label: labelsDataset[2],
-        data: dataArr[2],
+        // label: 'hihi',
+        data: dataArr.map((item) => parseFloat(item / 100000).toFixed(2)),
+        backgroundColor: 'rgb(0, 191, 250, 0.6)',
+        borderColor: 'rgb(0, 191, 250)',
+        borderWidth: 1,
       },
     ],
   }
 
-  chartData.datasets = chartData.datasets.map((item, index) => {
-    return {
-      ...item,
-      backgroundColor: BACKGROUND_COLORS[index],
-      borderColor: BORDER_COLORS[index],
-      borderWidth: 1,
-    }
-  })
+  // chartData.datasets = chartData.datasets.map((item, index) => {
+  //   return {
+  //     ...item,
+  //     backgroundColor: BACKGROUND_COLORS[index],
+  //     borderColor: BORDER_COLORS[index],
+  //     borderWidth: 1,
+  //   }
+  // })
 
   const onSelectChange = ({ value }) => {
     const { handleTypeChange } = props
@@ -165,20 +161,21 @@ const OrderByAreaChartCard = (props) => {
   }
 
   return (
-    <Card className='h-100 OrderByMonthChartCard'>
+    <Card className='h-100 RevenueInsightChartCard'>
       <CardBody>
         <CardTitle>
-          <IntlMessages id='analytics.order-by-month' />
+          <IntlMessages id='analytics.revenue-insight' />
+          {' (triệu đồng)'}
         </CardTitle>
 
         <div className='select-group-control'>
-          <Select
+          {/* <Select
             className='select-week-day my-react-select'
             classNamePrefix='my-select'
             value={selectOptions.filter((option) => option.value === 'week')}
             onChange={onSelectChange}
             options={selectOptions}
-          />
+          /> */}
 
           <Select
             classNamePrefix='my-select'
@@ -197,7 +194,22 @@ const OrderByAreaChartCard = (props) => {
             <BarChart
               //   data={barChartData}
               data={chartData}
-              options={options}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                  display: false,
+                },
+                // width: '400px',
+                // height: '400px',
+                tooltips: {
+                  callbacks: {
+                    label: function (tooltipItem) {
+                      return tooltipItem.yLabel
+                    },
+                  },
+                },
+              }}
             />
           )}
         </div>
@@ -206,4 +218,4 @@ const OrderByAreaChartCard = (props) => {
   )
 }
 
-export default OrderByAreaChartCard
+export default RevenueInsightChartCard
