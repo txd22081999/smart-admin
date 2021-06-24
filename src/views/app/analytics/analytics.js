@@ -129,7 +129,6 @@ const Analytics = (props) => {
   }
 
   const handleTypeChange = (value) => {
-    console.log(value)
     setStatisticType(value)
   }
 
