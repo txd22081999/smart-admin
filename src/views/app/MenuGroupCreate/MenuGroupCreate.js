@@ -86,7 +86,7 @@ const MenuGroupCreate = (props) => {
             <Button
               color='primary'
               className={`btn-shadow btn-multiple-state ${
-                props.loading ? 'show-spinner' : ''
+                props ? 'show-spinner' : ''
               }`}
               size='lg'
             >

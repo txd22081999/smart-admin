@@ -7,6 +7,9 @@ import {
   FormGroup,
   Button,
   CardBody,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -23,8 +26,9 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { USER_URL } from '../../constants/config'
 
 import './restaurant.scss'
+import './select.scss'
 
-const RestaurantSelect = (props) => {
+const RestaurantSelectItem = (props) => {
   const {
     restaurant: {
       area,
@@ -40,8 +44,6 @@ const RestaurantSelect = (props) => {
       coverImageUrl = `https://toplist.vn/images/800px/pho-bo-thai-can-347645.jpg`,
     },
   } = props
-
-  console.log(props)
 
   const onRestaurantSelect = () => {
     const { restaurant, setRestaurant } = props
@@ -112,127 +114,205 @@ class RestaurantSelection extends Component {
     this.state = {
       restaurantList: [],
       loading: true,
+      loadingPage: false,
+      totalRestaurant: 0,
+      pagination: {
+        max: 0,
+        active: 1,
+      },
     }
   }
 
   componentDidMount() {
-    const fetchRestaurants = async () => {
-      const { merchantUser } = this.props
-      // const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
-      // const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
-      const merchantId = localStorage.getItem('merchant_id')
-      const accessToken = localStorage.getItem('access_token')
-      const res = await axios({
-        url: `${USER_URL}/${merchantId}/restaurant`,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          page: 6,
-        },
-      })
+    this.fetchRestaurants()
+  }
 
-      this.setState({
-        loading: false,
-      })
+  fetchRestaurants = async (page = 1, active = 1) => {
+    const { merchantUser } = this.props
+    // const merchant_id = `62129e65-0d82-4b34-a63c-9a0439a1ba30`
+    // const access_token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoiNjIxMjllNjUtMGQ4Mi00YjM0LWE2M2MtOWEwNDM5YTFiYTMwIiwibWVyY2hhbnRVc2VybmFtZSI6Im1lcmNoYW50MTIzIiwiaWF0IjoxNjIwNTM1OTc2LCJleHAiOjE2MjE3NDU1NzZ9.50wmVLxEh4-ebLJhUcFePuxSjxk6s-EKoIGO1IZRti0`
+    const merchantId = localStorage.getItem('merchant_id')
+    const accessToken = localStorage.getItem('access_token')
+    const res = await axios({
+      url: `${USER_URL}/${merchantId}/restaurant`,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        page: page - 1,
+      },
+    })
 
-      const { status } = res
+    this.setState({
+      loading: false,
+      loadingPage: false,
+    })
 
-      if (status !== 200) {
-        console.log('Error in fetching restaurants')
-        return
-      }
+    const { status } = res
 
-      const {
-        data: { data },
-      } = res
-
-      if (!data) return
-
-      const { results = [] } = data
-      const newRestaurantList = results.map((item) => {
-        const {
-          address,
-          area,
-          areaId,
-          categories,
-          city,
-          cityId,
-          coverImageUrl,
-          verifiedImageUrl,
-          id,
-          isActive,
-          isBanned,
-          isVerified,
-          name,
-          phone,
-          position,
-          videoUrl,
-          openHours,
-          owner,
-          contractId,
-          posAppKey,
-        } = item
-
-        const restaurantItem = {
-          address,
-          area,
-          areaId,
-          categories,
-          city,
-          cityId,
-          coverImageUrl,
-          verifiedImageUrl,
-          id,
-          isActive,
-          isBanned,
-          isVerified,
-          name,
-          phone,
-          position,
-          videoUrl,
-          openHours,
-          owner,
-          contractId,
-          posAppKey,
-        }
-
-        return restaurantItem
-      })
-
-      this.setState({
-        restaurantList: newRestaurantList,
-      })
+    if (status !== 200) {
+      console.log('Error in fetching restaurants')
+      return
     }
 
-    fetchRestaurants()
+    const {
+      data: { data },
+    } = res
+
+    if (!data) return
+
+    const { results = [], size, total = 0 } = data
+
+    const newRestaurantList = results.map((item) => {
+      const {
+        address,
+        area,
+        areaId,
+        categories,
+        city,
+        cityId,
+        coverImageUrl,
+        verifiedImageUrl,
+        id,
+        isActive,
+        isBanned,
+        isVerified,
+        name,
+        phone,
+        position,
+        videoUrl,
+        openHours,
+        owner,
+        contractId,
+        posAppKey,
+      } = item
+
+      const restaurantItem = {
+        address,
+        area,
+        areaId,
+        categories,
+        city,
+        cityId,
+        coverImageUrl,
+        verifiedImageUrl,
+        id,
+        isActive,
+        isBanned,
+        isVerified,
+        name,
+        phone,
+        position,
+        videoUrl,
+        openHours,
+        owner,
+        contractId,
+        posAppKey,
+      }
+
+      return restaurantItem
+    })
+
+    this.setState({
+      restaurantList: newRestaurantList,
+      totalRestaurant: total < 10 ? `0${total}` : `${total}`,
+      pagination: {
+        max: Math.ceil(total / 10),
+        active,
+      },
+    })
+  }
+
+  onPageClick = async (page) => {
+    await this.setState((prevState) => {
+      return {
+        pagination: {
+          ...prevState.pagination,
+          active: page,
+        },
+        loadingPage: true,
+      }
+    })
+    this.fetchRestaurants(page, page)
+  }
+
+  onNextPageClick = () => {
+    const {
+      pagination: { active, max },
+    } = this.state
+    if (active === max) return
+    let newPage
+    this.setState(
+      (prevState) => {
+        newPage = prevState.pagination.active + 1
+        return {
+          ...prevState,
+          pagination: {
+            ...prevState.pagination,
+            active: newPage,
+          },
+          loadingPage: true,
+        }
+      },
+      () => {
+        this.fetchRestaurants(newPage, newPage)
+      }
+    )
+  }
+
+  onPreviousPageClick = () => {
+    const {
+      pagination: { active, max },
+    } = this.state
+    if (active === 1) return
+    let newPage
+    this.setState(
+      (prevState) => {
+        newPage = prevState.pagination.active - 1
+        return {
+          ...prevState,
+          pagination: {
+            ...prevState.pagination,
+            active: newPage,
+          },
+          loadingPage: true,
+        }
+      },
+      () => {
+        this.fetchRestaurants(newPage, newPage)
+      }
+    )
   }
 
   render() {
     // const { password, email } = this.state
     // const initialValues = { email, password }
     const { setRestaurant } = this.props
-    const { password, username, id: restaurantId, loading } = this.state
+    const {
+      password,
+      username,
+      id: restaurantId,
+      loading,
+      totalRestaurant,
+      restaurantList = [],
+      pagination,
+      loadingPage,
+    } = this.state
     const initialValues = { username, password }
 
-    const { restaurantList = [] } = this.state
-    const itemCount =
-      restaurantList.length < 10
-        ? `0${restaurantList.length}`
-        : `${restaurantList.length}`
-
-    if (true) {
+    if (loading) {
       return <div className='loading'></div>
     }
+    console.log(new Array(pagination.max))
 
     return (
       <div className='restaurant-container'>
-        <Row className='flex-1'>
-          <Colxx xxs='12' md='8' className='mx-auto my-auto'>
+        <Row className='flex-1' style={{ height: '100%' }}>
+          <Colxx xxs='12' md='8' className='mx-auto'>
             <Card>
               <h2 className='text-center mt-3 mb-0 font-weight-bold text-black'>
-                Chọn nhà hàng của bạn <span>({itemCount})</span>
+                Chọn nhà hàng của bạn <span>({totalRestaurant})</span>
               </h2>
 
               <Button
@@ -252,16 +332,47 @@ class RestaurantSelection extends Component {
 
               <div className='restaurant-wrapper'>
                 {/* <CardBody className='restaurant-card'> */}
-                <CardBody className='pt-1 pb-2'>
-                  {restaurantList.map((restaurant, index) => (
-                    <RestaurantSelect
-                      restaurant={restaurant}
-                      key={restaurant.id}
-                      setRestaurant={setRestaurant}
-                    />
-                  ))}
+                <CardBody className='pt-1 pb-2' style={{ height: '600px' }}>
+                  {loadingPage ? (
+                    <div className='loading'></div>
+                  ) : (
+                    restaurantList.map((restaurant, index) => (
+                      <RestaurantSelectItem
+                        restaurant={restaurant}
+                        key={restaurant.id}
+                        setRestaurant={setRestaurant}
+                      />
+                    ))
+                  )}
                 </CardBody>
               </div>
+
+              <Pagination
+                aria-label='Page navigation example'
+                onChange={(e) => console.log(e)}
+              >
+                <PaginationItem>
+                  <PaginationLink previous onClick={this.onPrevPageClick} />
+                </PaginationItem>
+                {Array.from(Array(pagination.max).keys()).map(
+                  (number, index) => {
+                    const page = number + 1
+                    return (
+                      <PaginationItem
+                        active={pagination.active === page}
+                        key={page}
+                      >
+                        <PaginationLink onClick={() => this.onPageClick(page)}>
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  }
+                )}
+                <PaginationItem>
+                  <PaginationLink next onClick={() => this.onNextPageClick()} />
+                </PaginationItem>
+              </Pagination>
             </Card>
           </Colxx>
         </Row>
