@@ -16,7 +16,7 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { BarChart } from '../../components/charts'
 import Select from 'react-select'
 
-import './OrderStatusChartCard.scss'
+import './OrderRevenuePieChartCard.scss'
 import Pie from 'src/components/charts/Pie'
 
 const barChartData2 = {
@@ -73,37 +73,6 @@ const barChartData2 = {
   ],
 }
 
-const BACKGROUND_COLOR_1 = [
-  'rgba(255, 99, 132, 0.6)',
-  'rgba(255, 159, 64, 0.6)',
-  'rgba(255, 205, 86, 0.6)',
-  'rgba(75, 192, 192, 0.6)',
-  'rgba(54, 162, 235, 0.6)',
-  'rgba(153, 102, 255, 0.6)',
-  'rgba(201, 203, 207, 0.6)',
-]
-
-const BORDER_COLOR_1 = [
-  'rgb(255, 99, 132)',
-  'rgb(255, 159, 64)',
-  'rgb(255, 205, 86)',
-  'rgb(75, 192, 192)',
-  'rgb(54, 162, 235)',
-  'rgb(153, 102, 255)',
-  'rgb(201, 203, 207)',
-]
-
-const BACKGROUND_COLORS = [
-  'rgba(255, 99, 132, 0.6)',
-  'rgba(255, 205, 86, 0.6)',
-  'rgba(75, 192, 192, 0.6)',
-]
-const BORDER_COLORS = [
-  'rgba(255, 99, 132)',
-  'rgba(255, 205, 86)',
-  'rgba(75, 192, 192)',
-]
-
 const selectOptions = [
   { label: 'Tuần này', value: 'week' },
   { label: 'Tháng này', value: 'day' },
@@ -124,7 +93,7 @@ const selectMonthOptions = [
   { label: 'Tháng 12', value: '12' },
 ]
 
-const OrderStatusChartCard = (props) => {
+const OrderRevenuePieChartCard = (props) => {
   const { labels, data, dataArr, labelsDataset, options } = props
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -161,10 +130,11 @@ const OrderStatusChartCard = (props) => {
   }
 
   return (
-    <Card className='h-100 OrderStatusChartCard'>
+    <Card className='h-100 OrderRevenuePieChartCard'>
       <CardBody>
         <CardTitle>
-          <IntlMessages id='analytics.complete-ratio' />
+          <IntlMessages id='analytics.revenue-by-order-type' />
+          {' (triệu đồng)'}
         </CardTitle>
 
         <div className='select-group-control'>
@@ -199,9 +169,15 @@ const OrderStatusChartCard = (props) => {
                     label: 'My First Dataset',
                     data: dataArr,
                     backgroundColor: [
-                      'rgb(54, 162, 235)',
                       'rgb(255, 99, 132)',
-                      // 'rgb(255, 205, 86)',
+                      'rgb(75, 192, 192)',
+                      'rgb(255, 205, 86)',
+                      'rgb(54, 162, 235)',
+                      '#F5BAAB',
+                      '#FC9944',
+                      '#6CFF00',
+                      '#A600FF',
+                      '#FF00B0',
                     ],
                     hoverOffset: 4,
                   },
@@ -215,4 +191,4 @@ const OrderStatusChartCard = (props) => {
   )
 }
 
-export default OrderStatusChartCard
+export default OrderRevenuePieChartCard

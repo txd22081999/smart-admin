@@ -16,93 +16,8 @@ import IntlMessages from '../../helpers/IntlMessages'
 import { BarChart } from '../../components/charts'
 import Select from 'react-select'
 
-import './OrderStatusChartCard.scss'
+import './OrderAreaChartCard.scss'
 import Pie from 'src/components/charts/Pie'
-
-const barChartData2 = {
-  labels: ['a', 'b', 'c', 'd', 'e'],
-  datasets: [
-    {
-      label: 'My First Dataset',
-      data: [65, 59, 80, 81, 56, 55, 40],
-      //   data: [400, 500, 600, 700, 900],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(201, 203, 207, 0.2)',
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(54, 162, 235)',
-        'rgb(153, 102, 255)',
-        'rgb(201, 203, 207)',
-      ],
-      borderWidth: 1,
-    },
-    {
-      label: 'My Second Dataset',
-      data: [55, 49, 20, 71, 86, 35, 30],
-      //   data: [400, 500, 600, 700, 900],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(201, 203, 207, 0.2)',
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(54, 162, 235)',
-        'rgb(153, 102, 255)',
-        'rgb(201, 203, 207)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-}
-
-const BACKGROUND_COLOR_1 = [
-  'rgba(255, 99, 132, 0.6)',
-  'rgba(255, 159, 64, 0.6)',
-  'rgba(255, 205, 86, 0.6)',
-  'rgba(75, 192, 192, 0.6)',
-  'rgba(54, 162, 235, 0.6)',
-  'rgba(153, 102, 255, 0.6)',
-  'rgba(201, 203, 207, 0.6)',
-]
-
-const BORDER_COLOR_1 = [
-  'rgb(255, 99, 132)',
-  'rgb(255, 159, 64)',
-  'rgb(255, 205, 86)',
-  'rgb(75, 192, 192)',
-  'rgb(54, 162, 235)',
-  'rgb(153, 102, 255)',
-  'rgb(201, 203, 207)',
-]
-
-const BACKGROUND_COLORS = [
-  'rgba(255, 99, 132, 0.6)',
-  'rgba(255, 205, 86, 0.6)',
-  'rgba(75, 192, 192, 0.6)',
-]
-const BORDER_COLORS = [
-  'rgba(255, 99, 132)',
-  'rgba(255, 205, 86)',
-  'rgba(75, 192, 192)',
-]
 
 const selectOptions = [
   { label: 'Tuần này', value: 'week' },
@@ -124,7 +39,7 @@ const selectMonthOptions = [
   { label: 'Tháng 12', value: '12' },
 ]
 
-const OrderStatusChartCard = (props) => {
+const OrderAreaChartCard = (props) => {
   const { labels, data, dataArr, labelsDataset, options } = props
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -161,10 +76,10 @@ const OrderStatusChartCard = (props) => {
   }
 
   return (
-    <Card className='h-100 OrderStatusChartCard'>
+    <Card className='h-100 OrderAreaChartCard'>
       <CardBody>
         <CardTitle>
-          <IntlMessages id='analytics.complete-ratio' />
+          <IntlMessages id='analytics.order-number-by-area' /> {' (%)'}
         </CardTitle>
 
         <div className='select-group-control'>
@@ -191,7 +106,7 @@ const OrderStatusChartCard = (props) => {
             <div className='chart-loading no-select '></div>
           ) : (
             <Pie
-              type='pie'
+              type='polarArea'
               data={{
                 labels,
                 datasets: [
@@ -199,15 +114,41 @@ const OrderStatusChartCard = (props) => {
                     label: 'My First Dataset',
                     data: dataArr,
                     backgroundColor: [
-                      'rgb(54, 162, 235)',
                       'rgb(255, 99, 132)',
-                      // 'rgb(255, 205, 86)',
+                      'rgb(75, 192, 192)',
+                      'rgb(255, 205, 86)',
+                      'rgb(54, 162, 235)',
+                      'rgb(201, 203, 207)',
+                      '#FC9944',
+                      '#6CFF00',
+                      '#A600FF',
+                      '#FF00B0',
                     ],
                     hoverOffset: 4,
                   },
                 ],
               }}
             />
+            // <BarChart
+            //   //   data={barChartData}
+            //   data={chartData}
+            //   options={{
+            //     responsive: true,
+            //     maintainAspectRatio: false,
+            //     legend: {
+            //       display: false,
+            //     },
+            //     // width: '400px',
+            //     // height: '400px',
+            //     tooltips: {
+            //       callbacks: {
+            //         label: function (tooltipItem) {
+            //           return tooltipItem.yLabel
+            //         },
+            //       },
+            //     },
+            //   }}
+            // />
           )}
         </div>
       </CardBody>
@@ -215,4 +156,4 @@ const OrderStatusChartCard = (props) => {
   )
 }
 
-export default OrderStatusChartCard
+export default OrderAreaChartCard

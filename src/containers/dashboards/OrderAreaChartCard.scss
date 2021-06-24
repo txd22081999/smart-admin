@@ -1,7 +1,7 @@
-.OrderStatusChartCard {
+.OrderAreaChartCard {
   $red: #e7523e;
   $blue: rgb(0, 191, 250);
-  $purple: #d228ff;
+  $green: #0ac259;
 
   .card-title {
     margin-bottom: 0;
@@ -29,18 +29,18 @@
     }
 
     .my-select__control {
-      border-color: $purple;
+      border-color: $green;
       border-radius: 50px;
       outline: none !important;
       box-shadow: none !important;
     }
 
     .my-select__single-value {
-      color: $purple;
+      color: $green;
     }
 
     .my-select__indicator {
-      color: $purple;
+      color: $green;
       padding: 0;
       padding-right: 10px;
     }

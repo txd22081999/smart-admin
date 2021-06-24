@@ -16,11 +16,13 @@ import WebsiteVisitsChartCard from '../../../containers/dashboards/WebsiteVisits
 import ConversionRatesChartCard from '../../../containers/dashboards/ConversionRatesChartCard'
 import OrderStockRadarChart from '../../../containers/dashboards/OrderStockRadarChart'
 import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCategoriesPolarArea'
-import OrderByAreaChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
+import OrderByMonthChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
 import { BASE_URL, USER_URL } from 'src/constants'
 import OrderRevenueChartCard from 'src/containers/dashboards/OrderRevenueChartCard'
 import RevenueInsightChartCard from 'src/containers/dashboards/RevenueInsightChartCard'
 import OrderStatusChartCard from 'src/containers/dashboards/OrderStatusChartCard'
+import OrderAreaChartCard from 'src/containers/dashboards/OrderAreaChartCard'
+import OrderCountChartCard from 'src/containers/dashboards/OrderRevenuePieChartCard'
 
 const ORDER_STATUS = {
   ORDERED: 'ORDERED',
@@ -52,13 +54,11 @@ const Analytics = (props) => {
     dataArr: [],
     labelsDataset: [],
   })
-
-  const [orderStatusStat, setOrderStatusStat] = useState({
+  const [orderCountInsight, setOrderCountInsight] = useState({
     labels: [],
     dataArr: [],
     labelsDataset: [],
   })
-
   const [ordersStatus, setOrderStatus] = useState({
     ordered: 0,
     confirmed: 0,
@@ -67,12 +67,14 @@ const Analytics = (props) => {
     cancelled: 0,
   })
 
+  const [orderByArea, setOrderByArea] = useState({ dataArr: [], labels: [] })
+
   useEffect(() => {
     fetchAnalyticsData()
   }, [])
 
   useEffect(() => {
-    // fetchOrderByTime()
+    fetchOrderByTime()
   }, [statisticType])
 
   const fetchAnalyticsData = async () => {
@@ -169,9 +171,9 @@ const Analytics = (props) => {
         data: { revenueInsight = {} },
       } = data
 
-      const labelMapping = {
+      const labelRevenueMapper = {
         actualRevenue: 'Doanh thu thực tế',
-        feeTotal: 'Phí phải trả',
+        feeTotal: 'Tổng chi phí',
         feePaid: 'Phí đã trả',
         feeBilling: 'Phí cần thanh toán',
         allOrderTotalRevenue: 'Doanh thu tất cả đơn',
@@ -181,27 +183,41 @@ const Analytics = (props) => {
         posOrderTotalRevenue: 'Doanh thu đơn POS',
       }
 
-      console.log(revenueInsight.saleOrderTotalRevenue)
-      console.log(revenueInsight.saleOnlineOrderTotalRevenue)
-      console.log(revenueInsight.saleCODOrderTotalRevenue)
+      const labelCountMapper = {
+        feeTotal: 'Tổng chi phi',
+        posOrderTotalRevenue: 'Doanh thu đơn POS',
+        saleOnlineOrderTotalRevenue: 'Doanh thu đơn Online',
+        saleCODOrderTotalRevenue: 'Doanh thu đơn COD',
+      }
 
-      const dataArr = []
-      const labels = Object.keys(revenueInsight)
-        .filter((item) => Object.keys(labelMapping).includes(item))
+      const dataArr1 = []
+      const labels1 = Object.keys(revenueInsight)
+        .filter((item) => Object.keys(labelRevenueMapper).includes(item))
         .map((item) => {
-          dataArr.push(revenueInsight[item])
-          return labelMapping[item]
+          dataArr1.push(revenueInsight[item])
+          return labelRevenueMapper[item]
         })
-      // const dataArr = Object.values(revenueInsight)
-      const labelsDataset = Object.keys(revenueInsight)
-
-      console.log(labels)
-      console.log(labelsDataset)
+      const labelsDataset1 = Object.keys(revenueInsight)
 
       setRevenueInsight({
-        labels,
-        dataArr,
-        labelsDataset,
+        labels: labels1,
+        dataArr: dataArr1,
+        labelsDataset: labelsDataset1,
+      })
+
+      const dataArr2 = []
+      const labels2 = Object.keys(revenueInsight)
+        .filter((item) => Object.keys(labelCountMapper).includes(item))
+        .map((item) => {
+          dataArr2.push(parseFloat(revenueInsight[item] / 100000).toFixed(2))
+          return labelRevenueMapper[item]
+        })
+      const labelsDataset2 = Object.keys(revenueInsight)
+
+      setOrderCountInsight({
+        labels: labels2,
+        dataArr: dataArr2,
+        labelsDataset: labelsDataset2,
       })
     } catch (error) {
       console.log('Error in fetchOrderByTime')
@@ -218,6 +234,30 @@ const Analytics = (props) => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+      })
+
+      const {
+        data: { statistic },
+      } = data
+
+      let numberArr = []
+      const dataArr = []
+      const labels = []
+
+      statistic.forEach(({ areaId, areaname, cityId, cityname, numorders }) => {
+        numberArr.push(parseInt(numorders))
+        labels.push(areaname)
+      })
+
+      const total = numberArr.reduce((a, b) => a + b, 0)
+
+      numberArr.forEach((item) => {
+        dataArr.push([parseFloat((item / total) * 100).toFixed(2)])
+      })
+
+      setOrderByArea({
+        dataArr,
+        labels,
       })
     } catch (error) {
       console.log('Error in fetchOrderByArea')
@@ -250,13 +290,8 @@ const Analytics = (props) => {
           data: { orders = [] },
         } = data
 
-        console.log(orders)
         orderArr = [...orderArr, ...orders]
       })
-
-      console.log(orderArr)
-
-      // orderArr.filter(order => order.status )
 
       const cancelledOrders = []
       const confirmedOrders = []
@@ -291,13 +326,6 @@ const Analytics = (props) => {
           }
         }
       })
-
-      console.log(cancelledOrders)
-      console.log(confirmedOrders)
-      console.log(readyOrders)
-      console.log(completedeOrders)
-      console.log(orderedOrders)
-
       setOrderStatus({
         ordered: orderedOrders.length,
         confirmed: completedeOrders.length,
@@ -305,35 +333,6 @@ const Analytics = (props) => {
         completed: completedeOrders.length,
         cancelled: cancelledOrders.length,
       })
-
-      // const labels = Object.keys(revenueInsight)
-      //   .filter((item) => Object.keys(labelMapping).includes(item))
-      //   .map((item) => {
-      //     return labelMapping[item]
-      //   })
-      // const dataArr = Object.values(revenueInsight)
-      // const labelsDataset = Object.keys(revenueInsight)
-
-      // setRevenueInsight({
-      //   labels,
-      //   dataArr,
-      //   labelsDataset,
-      // })
-
-      // const labels = Object.keys(revenueInsight)
-      //   .filter((item) => Object.keys(labelMapping).includes(item))
-      //   .map((item) => {
-      //     console.log(item)
-      //     return labelMapping[item]
-      //   })
-      // const dataArr = Object.values(revenueInsight)
-      // const labelsDataset = Object.keys(revenueInsight)
-
-      // setRevenueInsight({
-      //   labels,
-      //   dataArr,
-      //   labelsDataset,
-      // })
     } catch (error) {
       console.log('Error in fetchAllOrders')
       console.error(error)
@@ -346,6 +345,14 @@ const Analytics = (props) => {
 
   const { messages } = props.intl
 
+  const getDataArr = () => {
+    const { completed, cancelled } = ordersStatus
+    const total = completed + cancelled
+    const completedRatio = (completed / total) * 100
+    const cancelledRatio = (cancelled / total) * 100
+    return [completedRatio, cancelledRatio]
+  }
+
   return (
     <Fragment>
       <Row>
@@ -357,7 +364,7 @@ const Analytics = (props) => {
       <Row>
         <Colxx sm='12' md='6' className='mb-4'>
           {/* <WebsiteVisitsChartCard /> */}
-          <OrderByAreaChartCard
+          <OrderByMonthChartCard
             {...orderCountByMonth}
             handleTypeChange={handleTypeChange}
           />
@@ -383,11 +390,25 @@ const Analytics = (props) => {
 
       <Row>
         <Colxx sm='12' md='6' className='mb-4'>
-          {/* <WebsiteVisitsChartCard /> */}
           <OrderStatusChartCard
-            labels={Object.keys(ordersStatus)}
-            dataArr={Object.values(ordersStatus)}
-            labelsDataset={Object.keys(ordersStatus)}
+            labels={['Hoàn thành đơn (%)', 'Hủy đơn (%)']}
+            dataArr={getDataArr()}
+            labelsDataset={['completed', 'cancelled']}
+            handleTypeChange={handleTypeChange}
+          />
+        </Colxx>
+        <Colxx sm='12' md='6' className='mb-4'>
+          <OrderAreaChartCard
+            {...orderByArea}
+            handleTypeChange={handleTypeChange}
+          />
+        </Colxx>
+      </Row>
+
+      <Row>
+        <Colxx sm='12' md='6' className='mb-4'>
+          <OrderCountChartCard
+            {...orderCountInsight}
             handleTypeChange={handleTypeChange}
           />
         </Colxx>
@@ -416,7 +437,7 @@ const Analytics = (props) => {
           </Colxx>
         </Row> */}
 
-      <Row>
+      {/* <Row>
         <Colxx xxs='12' className='mb-4'>
           <SalesChartCard day />
         </Colxx>
@@ -424,7 +445,7 @@ const Analytics = (props) => {
         <Colxx xxs='12' className='mb-4'>
           <SalesChartCard month />
         </Colxx>
-      </Row>
+      </Row> */}
     </Fragment>
   )
 }

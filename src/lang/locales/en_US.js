@@ -170,5 +170,7 @@ module.exports = {
   'analytics.order-by-month': 'Tổng đơn hàng',
   'analytics.order-revenue': 'Doanh thu',
   'analytics.revenue-insight': 'Chi tiết doanh thu',
-  'analytics.complete-ratio': 'Tỷ lệ hoàn thành đơn',
+  'analytics.complete-ratio': 'Tỉ lệ hoàn thành đơn',
+  'analytics.order-number-by-area': 'Tỉ lệ đơn theo khu vực',
+  'analytics.revenue-by-order-type': 'Doanh thu theo loại đơn',
 }

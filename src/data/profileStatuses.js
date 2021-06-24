@@ -7,23 +7,23 @@ const data = [
   },
   {
     title: 'Thông tin hình ảnh',
-    total: 3,
-    status: 2,
+    total: 4,
+    status: 3,
   },
   {
-    title: 'Danh sách món',
-    total: 8,
+    title: 'Xác thực nhà hàng',
+    total: 1,
     status: 1,
   },
   {
-    title: 'Liên kết Paypal',
+    title: 'Liên kết thanh toán online',
     total: 1,
     status: 0,
   },
   {
-    title: 'Số Hotline',
-    total: 1,
-    status: 1,
+    title: 'Món đặc trung',
+    total: 3,
+    status: 2,
   },
   // {
   //   title: 'Legal Documents',
