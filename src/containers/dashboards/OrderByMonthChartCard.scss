@@ -1,0 +1,45 @@
+.OrderByAreaChartCard {
+  $red: #e7523e;
+
+  .card-title {
+    margin-bottom: 0;
+  }
+
+  .select-group-control {
+    display: flex;
+    margin-left: auto;
+    width: 100%;
+    margin-bottom: 10px;
+
+    .select-week-day {
+      margin-left: auto;
+      width: 100px;
+    }
+
+    .select-month {
+      margin-left: 15px;
+      width: 100px;
+    }
+
+    .my-select__indicator-separator {
+      display: none;
+    }
+
+    .my-select__control {
+      border-color: $red;
+      border-radius: 50px;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .my-select__single-value {
+      color: $red;
+    }
+
+    .my-select__indicator {
+      color: $red;
+      padding: 0;
+      padding-right: 10px;
+    }
+  }
+}

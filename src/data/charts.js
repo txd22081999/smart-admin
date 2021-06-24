@@ -113,26 +113,6 @@ export const scatterChartData = {
   ],
 }
 
-export const barChartData = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-  datasets: [
-    {
-      label: 'Cakes',
-      borderColor: colors.themeColor1,
-      backgroundColor: colors.themeColor1_10,
-      data: [456, 479, 324, 569, 702, 600],
-      borderWidth: 2,
-    },
-    {
-      label: 'Desserts',
-      borderColor: colors.themeColor2,
-      backgroundColor: colors.themeColor2_10,
-      data: [364, 504, 605, 400, 345, 320],
-      borderWidth: 2,
-    },
-  ],
-}
-
 export const radarChartData = {
   datasets: [
     {

@@ -15,7 +15,7 @@ import WebsiteVisitsChartCard from '../../../containers/dashboards/WebsiteVisits
 import ConversionRatesChartCard from '../../../containers/dashboards/ConversionRatesChartCard'
 import OrderStockRadarChart from '../../../containers/dashboards/OrderStockRadarChart'
 import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCategoriesPolarArea'
-import OrderByAreaChartCard from '../../../containers/dashboards/OrderByAreaChartCard'
+import OrderByAreaChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
 import { USER_URL } from 'src/constants'
 
 const Analytics = (props) => {
@@ -23,6 +23,8 @@ const Analytics = (props) => {
   const merchantId = localStorage.getItem('merchant_id')
   const accessToken = localStorage.getItem('access_token')
 
+  const [statisticType, setStatisticType] = useState('week')
+  const [statisticMonth, setStatisticMonth] = useState('week')
   const [orderCountByTime, setOrderCountByTimeData] = useState({
     labels: [],
     dataArr: [],
@@ -32,6 +34,10 @@ const Analytics = (props) => {
   useEffect(() => {
     fetchAnalyticsData()
   }, [])
+
+  useEffect(() => {
+    fetchOrderByTime()
+  }, [statisticType])
 
   const fetchAnalyticsData = async () => {
     fetchOrderByTime()
@@ -49,7 +55,7 @@ const Analytics = (props) => {
         data: {
           from: '2021-06-01',
           to: '2021-06-30',
-          groupByInterval: 'week',
+          groupByInterval: statisticType,
         },
       })
       if (!data) return
@@ -68,7 +74,6 @@ const Analytics = (props) => {
       const saleRevenue = []
       const allRevenue = []
 
-      console.log(data)
       statistics.forEach((item) => {
         const {
           columnName,
@@ -121,7 +126,13 @@ const Analytics = (props) => {
     }
   }
 
+  const handleTypeChange = (value) => {
+    console.log(value)
+    setStatisticType(value)
+  }
+
   const { messages } = props.intl
+
   return (
     <Fragment>
       <Row>
@@ -133,7 +144,10 @@ const Analytics = (props) => {
       <Row>
         <Colxx sm='12' md='6' className='mb-4'>
           {/* <WebsiteVisitsChartCard /> */}
-          <OrderByAreaChartCard {...orderCountByTime} />
+          <OrderByAreaChartCard
+            {...orderCountByTime}
+            handleTypeChange={handleTypeChange}
+          />
         </Colxx>
         <Colxx sm='12' md='6' className='mb-4'>
           <ConversionRatesChartCard />
