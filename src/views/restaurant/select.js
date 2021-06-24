@@ -128,6 +128,9 @@ class RestaurantSelection extends Component {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        params: {
+          page: 6,
+        },
       })
 
       this.setState({
@@ -219,7 +222,7 @@ class RestaurantSelection extends Component {
         ? `0${restaurantList.length}`
         : `${restaurantList.length}`
 
-    if (loading) {
+    if (true) {
       return <div className='loading'></div>
     }
 
