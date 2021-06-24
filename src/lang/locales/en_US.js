@@ -167,5 +167,6 @@ module.exports = {
     'Tích hợp thanh toán online cho nhà hàng với Paypal ngay.',
   'paypal.link-button': 'Xác nhận liên kết',
 
-  'analytics.order-by-month': 'Số đơn hàng theo tháng',
+  'analytics.order-by-month': 'Tổng đơn hàng',
+  'analytics.order-revenue': 'Doanh thu',
 }

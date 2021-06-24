@@ -17,6 +17,7 @@ import OrderStockRadarChart from '../../../containers/dashboards/OrderStockRadar
 import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCategoriesPolarArea'
 import OrderByAreaChartCard from '../../../containers/dashboards/OrderByMonthChartCard'
 import { USER_URL } from 'src/constants'
+import OrderRevenueChartCard from 'src/containers/dashboards/OrderRevenueChartCard'
 
 const Analytics = (props) => {
   const restaurantId = localStorage.getItem('restaurant_id')
@@ -25,7 +26,12 @@ const Analytics = (props) => {
 
   const [statisticType, setStatisticType] = useState('week')
   const [statisticMonth, setStatisticMonth] = useState('week')
-  const [orderCountByTime, setOrderCountByTimeData] = useState({
+  const [orderCountByMonth, setOrderCountByMonthData] = useState({
+    labels: [],
+    dataArr: [],
+    labelsDataset: [],
+  })
+  const [orderRevenue, setOrderRevenue] = useState({
     labels: [],
     dataArr: [],
     labelsDataset: [],
@@ -94,18 +100,14 @@ const Analytics = (props) => {
         allRevenue.push(allOrderTotalRevenue)
       })
 
-      // console.log(labels)
-      // console.log(posCount)
-      // console.log(saleCount)
-      // console.log(allCount)
-
-      // console.log(posRevenue)
-      // console.log(saleRevenue)
-      // console.log(allRevenue)
-
-      setOrderCountByTimeData({
+      setOrderCountByMonthData({
         labels,
         dataArr: [posCount, saleCount, allCount],
+        labelsDataset: ['POS', 'Sale', 'All'],
+      })
+      setOrderRevenue({
+        labels,
+        dataArr: [posRevenue, saleRevenue, allRevenue],
         labelsDataset: ['POS', 'Sale', 'All'],
       })
     } catch (error) {
@@ -145,12 +147,16 @@ const Analytics = (props) => {
         <Colxx sm='12' md='6' className='mb-4'>
           {/* <WebsiteVisitsChartCard /> */}
           <OrderByAreaChartCard
-            {...orderCountByTime}
+            {...orderCountByMonth}
             handleTypeChange={handleTypeChange}
           />
         </Colxx>
         <Colxx sm='12' md='6' className='mb-4'>
-          <ConversionRatesChartCard />
+          {/* <ConversionRatesChartCard /> */}
+          <OrderRevenueChartCard
+            {...orderRevenue}
+            handleTypeChange={handleTypeChange}
+          />
         </Colxx>
       </Row>
 
