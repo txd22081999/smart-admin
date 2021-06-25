@@ -78,10 +78,83 @@ const Analytics = (props) => {
   }, [statisticType])
 
   const fetchAnalyticsData = async () => {
-    // fetchOrderByTime()
-    // fetchRevenueInsight()
-    // fetchOrderByArea()
+    fetchOrderByTime()
+    fetchRevenueInsight()
+    fetchOrderByArea()
     fetchAllOrder()
+    fetchTopDishes()
+  }
+
+  const fetchTopDishes = async () => {
+    try {
+      let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
+      let time
+
+      const { data } = await axios({
+        method: 'POST',
+        url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu-insight`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          from: '2021-06-01',
+          to: '2021-06-30',
+          sortBy: 'totalOrder',
+          limit: 5,
+        },
+      })
+      if (!data) return
+
+      console.log(data)
+
+      // const {
+      //   data: { statistics = [] },
+      // } = data
+
+      // const labels = statistics.map((item) => item.columnName)
+
+      // const posCount = []
+      // const saleCount = []
+      // const allCount = []
+
+      // const posRevenue = []
+      // const saleRevenue = []
+      // const allRevenue = []
+
+      // statistics.forEach((item) => {
+      //   const {
+      //     columnName,
+      //     allOrderCount,
+      //     allOrderTotalRevenue,
+      //     posOrderCount,
+      //     posOrderTotalRevenue,
+      //     saleOrderCount,
+      //     saleOrderTotalRevenue,
+      //   } = item
+
+      //   posCount.push(posOrderCount)
+      //   saleCount.push(saleOrderCount)
+      //   allCount.push(allOrderCount)
+
+      //   posRevenue.push(posOrderTotalRevenue)
+      //   saleRevenue.push(saleOrderTotalRevenue)
+      //   allRevenue.push(allOrderTotalRevenue)
+      // })
+
+      // setOrderCountByMonthData({
+      //   labels,
+      //   dataArr: [posCount, saleCount, allCount],
+      //   labelsDataset: ['POS', 'Sale', 'All'],
+      // })
+      // setOrderRevenue({
+      //   labels,
+      //   dataArr: [posRevenue, saleRevenue, allRevenue],
+      //   labelsDataset: ['POS', 'Sale', 'All'],
+      // })
+    } catch (error) {
+      console.log('Error in fetchTopDishes')
+      console.error(error)
+    }
   }
 
   const fetchOrderByTime = async () => {

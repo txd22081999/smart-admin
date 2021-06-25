@@ -342,7 +342,7 @@ class Sidebar extends Component {
     // ></span>
     if (item.id === 'orders') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='emojione-monotone:pot-of-food'
@@ -353,12 +353,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.id === 'topping') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='emojione-monotone:tropical-drink'
@@ -369,12 +369,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.id === 'payment') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='bi:cash-coin'
@@ -385,12 +385,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.id === 'analytics') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='ant-design:area-chart-outlined'
@@ -401,12 +401,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.id === 'map') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='carbon:location'
@@ -417,12 +417,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.id === 'staffs') {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <NavLink to={item.to} data-flag={item.id}>
           <span
             class='iconify'
             data-icon='clarity:employee-group-line'
@@ -433,12 +433,12 @@ class Sidebar extends Component {
           <span style={{ marginTop: 5 }}>
             <IntlMessages id={item.label} />
           </span>
-        </a>
+        </NavLink>
       )
     }
     if (item.newWindow) {
       return (
-        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+        <a href={item.to} rel='noopener noreferrer'>
           <i className={item.icon} />
           <IntlMessages id={item.label} />
         </a>
