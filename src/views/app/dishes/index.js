@@ -22,16 +22,7 @@ const DishesMenu = ({ match }) => (
         path={`${match.url}/`}
         render={(props) => <Dishes {...props} />}
       />
-      <Route
-        exact
-        path={`${match.url}/create/topping-item`}
-        render={(props) => <ToppingItemCreate {...props} />}
-      />
-      <Route
-        exact
-        path={`${match.url}/create/topping-group`}
-        render={(props) => <ToppingGroupCreate {...props} />}
-      />
+
       <Route
         exact
         path={`${match.url}/create/menu-item`}
@@ -42,11 +33,7 @@ const DishesMenu = ({ match }) => (
         path={`${match.url}/create`}
         render={(props) => <MenuCreate {...props} />}
       />
-      <Route
-        exact
-        path={`${match.url}/select-topping`}
-        render={(props) => <SelectTopping {...props} />}
-      />
+
       <Route
         path={`${match.url}/:id`}
         render={(props) => <MenuInfo {...props} />}

@@ -18,7 +18,7 @@ const ToppingsRoute = ({ match }) => (
         path={`${match.url}/`}
         render={(props) => <ToppingList {...props} />}
       />
-      {/* <Route
+      <Route
         exact
         path={`${match.url}/create/topping-item`}
         render={(props) => <ToppingItemCreate {...props} />}
@@ -27,6 +27,16 @@ const ToppingsRoute = ({ match }) => (
         exact
         path={`${match.url}/create/topping-group`}
         render={(props) => <ToppingGroupCreate {...props} />}
+      />
+      <Route
+        exact
+        path={`${match.url}/select-topping`}
+        render={(props) => <SelectTopping {...props} />}
+      />
+      {/* <Route
+        exact
+        path={`${match.url}/create/topping-item`}
+        render={(props) => <ToppingItemCreate {...props} />}
       />
       <Route
         exact

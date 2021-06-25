@@ -397,36 +397,6 @@ const MenuInfo = (props) => {
               <IntlMessages id='menu.menu-create-btn' />
             </span>
           </button>
-
-          <button
-            type='button'
-            className='btn-shadow btn btn-primary mr-3 font-weight-600'
-            onClick={onToppingGroupCreateClick}
-          >
-            <span>
-              <IntlMessages id='menu.topping-group-create' />
-            </span>
-          </button>
-
-          <button
-            type='button'
-            className='btn-shadow btn btn-primary mr-3 font-weight-600'
-            onClick={onToppingItemCreateClick}
-          >
-            <span>
-              <IntlMessages id='menu.topping-item-create' />
-            </span>
-          </button>
-
-          <button
-            type='button'
-            className='btn-shadow btn btn-primary font-weight-600'
-            onClick={onSetupToppingClick}
-          >
-            <span>
-              <IntlMessages id='menu.select-topping' />
-            </span>
-          </button>
         </div>
       </div>
 

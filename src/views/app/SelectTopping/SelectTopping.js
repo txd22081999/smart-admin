@@ -9,6 +9,7 @@ import ReactSelect from 'react-select'
 
 import {
   getMenuItems,
+  getMenus,
   getToppingItems,
   setToppingByMenuItems,
   updateToppingWithMenuItems,
@@ -20,7 +21,7 @@ const SelectTopping = (props) => {
     getToppingItems,
     getMenuItems,
     setToppingByMenuItems,
-    loading,
+    loading: fetchLoading,
     authUser,
     restaurantMenu: {
       toppingGroups = [],
@@ -33,12 +34,18 @@ const SelectTopping = (props) => {
     updateToppingWithMenuItems,
   } = props
 
+  const {
+    restaurant: { id: restaurantId = localStorage.getItem('restaurant_id') },
+  } = restaurantInfo
+  const merchantId = localStorage.getItem('merchant_id')
+
   const [toppingItemsOption, setToppingItemsOption] = useState([])
   const [menuItemsOption, setMenuItemsOption] = useState([])
   const [formInfo, setFormInfo] = useState({
     menuItem: {},
     toppingItems: [],
   })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // const {
@@ -48,15 +55,22 @@ const SelectTopping = (props) => {
     //   },
     // } = authUser
     // const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
-    const merchantId = localStorage.getItem('merchant_id')
-    const {
-      restaurant: { id: restaurantId },
-    } = restaurantInfo
-    const menuId = menus[0].id || ''
-    console.log(merchantId, restaurantId, menuId)
-    getToppingItems({ merchantId, restaurantId, menuId })
-    getMenuItems({ merchantId, restaurantId, menuId })
+
+    if (menus.length === 0) {
+      setLoading(true)
+      const { getMenus } = props
+      getMenus(merchantId, restaurantId)
+    }
   }, [])
+
+  useEffect(() => {
+    if (menus.length > 0) {
+      const menuId = menus[0].id
+      getToppingItems({ merchantId, restaurantId, menuId })
+      getMenuItems({ merchantId, restaurantId, menuId })
+      setLoading(false)
+    }
+  }, [menus])
 
   useEffect(() => {
     if (toppingItemsOption.length > 0) return
@@ -339,6 +353,7 @@ const mapStateToProps = ({ authUser, restaurantInfo, restaurantMenu }) => {
 }
 
 export default connect(mapStateToProps, {
+  getMenus,
   getToppingItems,
   getMenuItems,
   setToppingByMenuItems,

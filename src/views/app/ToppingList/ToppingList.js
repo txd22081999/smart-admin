@@ -273,6 +273,18 @@ const ToppingList = (props) => {
     }
   }
 
+  const onToppingGroupCreateClick = () => {
+    history.push('/app/toppings/create/topping-group')
+  }
+
+  const onToppingItemCreateClick = () => {
+    history.push('/app/toppings/create/topping-item')
+  }
+
+  const onSetupToppingClick = () => {
+    history.push('/app/toppings/select-topping')
+  }
+
   if (loadingToppingItems || fetchLoading) {
     return <div className='loading' />
   }
@@ -281,9 +293,46 @@ const ToppingList = (props) => {
     <Fragment>
       <Row>
         <Colxx xxs='12'>
-          <Breadcrumb heading='menu.toppings' match={props.match} />
+          <div className='d-flex'>
+            <Breadcrumb heading='menu.toppings' match={props.match} />
+
+            <div style={{ display: 'block', marginLeft: 'auto' }}>
+              <button
+                type='button'
+                className='btn-shadow btn btn-primary mr-3 font-weight-600'
+                onClick={onToppingGroupCreateClick}
+              >
+                <span>
+                  <IntlMessages id='menu.topping-group-create' />
+                </span>
+              </button>
+
+              <button
+                type='button'
+                className='btn-shadow btn btn-primary mr-3 font-weight-600'
+                onClick={onToppingItemCreateClick}
+              >
+                <span>
+                  <IntlMessages id='menu.topping-item-create' />
+                </span>
+              </button>
+
+              <button
+                type='button'
+                className='btn-shadow btn btn-primary font-weight-600'
+                onClick={onSetupToppingClick}
+              >
+                <span>
+                  <IntlMessages id='menu.select-topping' />
+                </span>
+              </button>
+            </div>
+          </div>
           <Separator className='mb-5' />
         </Colxx>
+      </Row>
+      <Row>
+        <Colxx md='12'></Colxx>
       </Row>
       <Row>
         <Colxx xxs='12' className='mb-4'>
