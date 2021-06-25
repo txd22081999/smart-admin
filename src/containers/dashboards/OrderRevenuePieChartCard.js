@@ -138,13 +138,13 @@ const OrderRevenuePieChartCard = (props) => {
         </CardTitle>
 
         <div className='select-group-control'>
-          <Select
+          {/* <Select
             className='select-week-day my-react-select'
             classNamePrefix='my-select'
             value={selectOptions.filter((option) => option.value === 'week')}
             onChange={onSelectChange}
             options={selectOptions}
-          />
+          /> */}
 
           <Select
             classNamePrefix='my-select'

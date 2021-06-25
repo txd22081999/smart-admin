@@ -48,14 +48,6 @@ const SelectTopping = (props) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // const {
-    //   user: { id: merchantId } = {
-    //     id: '2487f7ec-2f25-4692-a2d5-97a7a471ebbd',
-    //     username: 'merchant123',
-    //   },
-    // } = authUser
-    // const merchantId = '2487f7ec-2f25-4692-a2d5-97a7a471ebbd'
-
     if (menus.length === 0) {
       setLoading(true)
       const { getMenus } = props

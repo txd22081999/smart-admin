@@ -329,6 +329,133 @@ class Sidebar extends Component {
     return false
   }
 
+  getIcon = (item) => {
+    //   <span
+    //   style={{ marginBottom: -2, cursor: 'pointer' }}
+    //   class='iconify'
+    //   data-icon='bi:shop'
+    //   data-inline='false'
+    //   data-width='22'
+    //   data-height='22'
+    //   color='#aaaaaa'
+    //   id='selectRestaurant'
+    // ></span>
+    if (item.id === 'orders') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='emojione-monotone:pot-of-food'
+            data-inline='false'
+            data-width='37'
+            data-height='37'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.id === 'topping') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='emojione-monotone:tropical-drink'
+            data-inline='false'
+            data-width='37'
+            data-height='37'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.id === 'payment') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='bi:cash-coin'
+            data-inline='false'
+            data-width='37'
+            data-height='37'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.id === 'analytics') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='ant-design:area-chart-outlined'
+            data-inline='false'
+            data-width='39'
+            data-height='39'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.id === 'map') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='carbon:location'
+            data-inline='false'
+            data-width='37'
+            data-height='37'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.id === 'staffs') {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <span
+            class='iconify'
+            data-icon='clarity:employee-group-line'
+            data-inline='false'
+            data-width='37'
+            data-height='37'
+          ></span>
+          <span style={{ marginTop: 5 }}>
+            <IntlMessages id={item.label} />
+          </span>
+        </a>
+      )
+    }
+    if (item.newWindow) {
+      return (
+        <a href={item.to} rel='noopener noreferrer' target='_blank'>
+          <i className={item.icon} />
+          <IntlMessages id={item.label} />
+        </a>
+      )
+    } else {
+      return (
+        <NavLink
+          to={item.to}
+          // onClick={(e) => this.openSubMenu(e, item)}
+          data-flag={item.id}
+        >
+          <i className={item.icon} /> <IntlMessages id={item.label} />
+        </NavLink>
+      )
+    }
+  }
+
   render() {
     const { selectedParentMenu, viewingParentMenu, collapsedMenus } = this.state
     return (
@@ -353,25 +480,7 @@ class Sidebar extends Component {
                             viewingParentMenu === item.id,
                         })}
                       >
-                        {item.newWindow ? (
-                          <a
-                            href={item.to}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                          >
-                            <i className={item.icon} />
-                            <IntlMessages id={item.label} />
-                          </a>
-                        ) : (
-                          <NavLink
-                            to={item.to}
-                            // onClick={(e) => this.openSubMenu(e, item)}
-                            data-flag={item.id}
-                          >
-                            <i className={item.icon} />{' '}
-                            <IntlMessages id={item.label} />
-                          </NavLink>
-                        )}
+                        {this.getIcon(item)}
                       </NavItem>
                     )
                   })}

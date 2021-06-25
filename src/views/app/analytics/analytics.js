@@ -78,15 +78,27 @@ const Analytics = (props) => {
   }, [statisticType])
 
   const fetchAnalyticsData = async () => {
-    fetchOrderByTime()
-    fetchRevenueInsight()
-    fetchOrderByArea()
+    // fetchOrderByTime()
+    // fetchRevenueInsight()
+    // fetchOrderByArea()
     fetchAllOrder()
   }
 
   const fetchOrderByTime = async () => {
     try {
       let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
+      let time
+      if (statisticType === 'week') {
+        time = {
+          from: '2021-06-01',
+          to: '2021-06-30',
+        }
+      } else {
+        time = {
+          from: '2021-06-21',
+          to: '2021-06-27',
+        }
+      }
       const { data } = await axios({
         method: 'POST',
         url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/order-statistics`,
@@ -94,8 +106,9 @@ const Analytics = (props) => {
           Authorization: `Bearer ${accessToken}`,
         },
         data: {
-          from: '2021-06-01',
-          to: '2021-06-30',
+          // from: '2021-06-01',
+          // to: '2021-06-30',
+          ...time,
           groupByInterval: statisticType,
         },
       })

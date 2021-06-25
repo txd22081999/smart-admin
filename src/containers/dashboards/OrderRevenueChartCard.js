@@ -22,8 +22,8 @@ import { ThemeColors } from 'src/helpers/ThemeColors'
 import { chartTooltip } from 'src/components/charts/util'
 
 const selectOptions = [
-  { label: 'Tuần này', value: 'week' },
-  { label: 'Tháng này', value: 'day' },
+  { label: 'Tháng này', value: 'week' },
+  { label: 'Tuần này', value: 'day' },
 ]
 
 const selectMonthOptions = [

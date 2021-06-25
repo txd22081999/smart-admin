@@ -83,7 +83,7 @@ const OrderAreaChartCard = (props) => {
         </CardTitle>
 
         <div className='select-group-control'>
-          <Select
+          {/* <Select
             className='select-week-day my-react-select'
             classNamePrefix='my-select'
             value={selectOptions.filter((option) => option.value === 'week')}
@@ -97,7 +97,7 @@ const OrderAreaChartCard = (props) => {
             value={selectMonthOptions.filter((option) => option.value === '6')}
             onChange={onSelectChange}
             options={selectMonthOptions}
-          />
+          /> */}
         </div>
 
         <div className='chart-container'>

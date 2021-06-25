@@ -65,8 +65,9 @@ const data = [
     // ],
   },
   {
-    id: 'anylytics',
-    icon: 'iconsminds-monitor-analytics',
+    id: 'analytics',
+    // icon: 'iconsminds-monitor-analytics',
+    icon: 'iconsminds-bar-chart-4',
     label: 'menu.analytics',
     to: '/app/analytics',
     // subs: [
