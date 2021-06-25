@@ -44,6 +44,7 @@ class ListPageHeading extends Component {
 
   render() {
     const { messages } = this.props.intl
+
     const {
       displayMode,
       changeDisplayMode,
@@ -65,6 +66,9 @@ class ListPageHeading extends Component {
       heading,
       displayCreate = true,
       toggleDisplayByCategory,
+      onDeleteItems,
+      onDeactiveItems,
+      onActiveItems,
     } = this.props
 
     const { displayOptionsIsOpen, dropdownSplitOpen } = this.state
@@ -128,11 +132,16 @@ class ListPageHeading extends Component {
                     className='dropdown-toggle-split btn-lg'
                   />
                   <DropdownMenu right>
-                    <DropdownItem>
+                    <DropdownItem onClick={(e) => onDeactiveItems()}>
+                      Ẩn
+                    </DropdownItem>
+                    <DropdownItem onClick={(e) => onActiveItems()}>
+                      Kích hoạt
+                    </DropdownItem>
+                    <DropdownItem onClick={(e) => onDeleteItems()}>
                       {/* <IntlMessages id='pages.delete' /> */}
                       Xóa
                     </DropdownItem>
-                    <DropdownItem color='red'>Ẩn</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>

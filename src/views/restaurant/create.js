@@ -499,7 +499,14 @@ class CreateRestaurant extends Component {
                         size='lg'
                         onClick={() => this.onMerchantCreate()}
                       >
-                        <IntlMessages id='restaurant.create-button' />
+                        <span className='spinner d-inline-block'>
+                          <span className='bounce1' />
+                          <span className='bounce2' />
+                          <span className='bounce3' />
+                        </span>
+                        <span className='label'>
+                          <IntlMessages id='restaurant.create-button' />
+                        </span>
                       </Button>
                     </div>
                   </Form>

@@ -30,7 +30,10 @@ const DataListView = ({
           <div className='pl-2 d-flex flex-grow-1 min-width-zero'>
             <div
               className='card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center'
-              style={{ padding: '1.75rem 0.75rem' }}
+              style={{
+                padding: '1.75rem 0.75rem',
+                opacity: product.isActive ? 1 : 0.4,
+              }}
             >
               {isTopping ? (
                 <div

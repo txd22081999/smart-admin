@@ -270,7 +270,7 @@ const Analytics = (props) => {
       let restaurantId = `6587f789-8c76-4a2e-9924-c14fc30629ef` // Fixed
       let orderArr = []
       const totalPage = new Array(3)
-      console.log(totalPage.length)
+
       await Bluebird.map(totalPage, async () => {
         const { data } = await axios({
           method: 'GET',

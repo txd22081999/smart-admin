@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Card, CardBody, Row, Button } from 'reactstrap'
+import Bluebird from 'bluebird'
+import axios from 'axios'
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import MenuItem from '../MenuItem'
 import {
@@ -17,6 +19,8 @@ import IntlMessages from 'src/helpers/IntlMessages'
 import { findMenuGroupById } from '../dishes/utils'
 
 import './MenuInfo.scss'
+import { USER_URL } from 'src/constants'
+import { NotificationManager } from 'src/components/common/react-notifications'
 
 const DataList = React.lazy(() =>
   import(/* webpackChunkName: "product-data-list" */ './data-list')
@@ -101,6 +105,8 @@ const MenuInfo = (props) => {
   const [showCreateItem, setShowCreateItem] = useState(false)
   const [tableData, setTableData] = useState({ data: [] })
   const [showByCategory, setShowByCategory] = useState(false)
+  const [selectedItems, setSelectedItems] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const {
     location: { pathname },
@@ -115,7 +121,7 @@ const MenuInfo = (props) => {
       menus,
       menu,
       menuGroup,
-      loading,
+      loading: fetchLoading,
       error,
       menuItems,
       loadingMenuGroups,
@@ -141,6 +147,10 @@ const MenuInfo = (props) => {
       getMenuItems({ merchantId, restaurantId, menuId })
     }
   }, [])
+
+  // useEffect(() => {
+  //   console.log('RERENDER')
+  // }, [menuItems])
 
   useEffect(() => {
     if (
@@ -226,7 +236,158 @@ const MenuInfo = (props) => {
     return 'Thực đơn'
   }
 
-  if (loading) {
+  const onSelect = (ids) => {
+    console.log('received', ids)
+    setSelectedItems(ids)
+  }
+
+  const onDeleteItems = async () => {
+    console.log('DELETE')
+    console.log(selectedItems)
+    try {
+      setLoading(true)
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'DELETE',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        if (!data) return
+
+        console.log(data)
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.filter(
+            (item) => !selectedItems.includes(item.id)
+          ),
+        }
+      })
+      NotificationManager.success(
+        `Deleted ${selectedItems.length} items!`,
+        'Success',
+        3000
+      )
+      // getMenuItems({ merchantId, restaurantId, menuId })
+    } catch (error) {
+      console.log('Error in Delete Menu Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDeactivateItems = async () => {
+    console.log('DEACTIVE')
+    console.log(selectedItems)
+    try {
+      setLoading(true)
+
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'PATCH',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            isActive: false,
+          },
+        })
+        if (!data) return
+
+        console.log(data)
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            const activeStatus = selectedItems.includes(item.id)
+              ? false
+              : item.isActive
+            return {
+              ...item,
+              isActive: activeStatus,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Deactivated ${selectedItems.length} items!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Deactivate Menu Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onActivateItems = async () => {
+    console.log('ACTIVE')
+    console.log(selectedItems)
+    try {
+      setLoading(true)
+
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'PATCH',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            isActive: true,
+          },
+        })
+        if (!data) return
+
+        console.log(data)
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            const activeStatus = selectedItems.includes(item.id)
+              ? true
+              : item.isActive
+            return {
+              ...item,
+              isActive: activeStatus,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Activated ${selectedItems.length} items!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Activate Menu Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading || fetchLoading) {
     // return <p>Loading</p>
     return <div className='loading'></div>
   }
@@ -332,7 +493,11 @@ const MenuInfo = (props) => {
             <DataList
               history={history}
               data={tableData}
+              onSelect={onSelect}
               toggleDisplayByCategory={toggleDisplayByCategory}
+              onDeleteItems={onDeleteItems}
+              onDeactiveItems={onDeactivateItems}
+              onActiveItems={onActivateItems}
             />
           </Colxx>
         </Row>

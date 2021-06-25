@@ -179,12 +179,15 @@ class DataListPages extends Component {
       })
     }
 
+    const { onSelect } = this.props
     let selectedItems = this.state.selectedItems
+
     if (selectedItems.includes(id)) {
       selectedItems = selectedItems.filter((x) => x !== id)
     } else {
       selectedItems.push(id)
     }
+    onSelect(selectedItems)
     this.setState({
       selectedItems,
     })
@@ -288,7 +291,13 @@ class DataListPages extends Component {
       modalOpen,
       categories,
     } = this.state
-    const { match, toggleDisplayByCategory } = this.props
+    const {
+      match,
+      toggleDisplayByCategory,
+      onDeactiveItems,
+      onDeleteItems,
+      onActiveItems,
+    } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
 
@@ -318,6 +327,9 @@ class DataListPages extends Component {
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
             toggleDisplayByCategory={toggleDisplayByCategory}
+            onDeleteItems={onDeleteItems}
+            onDeactiveItems={onDeactiveItems}
+            onActiveItems={onActiveItems}
           />
           <AddNewModal
             modalOpen={modalOpen}
