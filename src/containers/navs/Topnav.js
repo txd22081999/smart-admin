@@ -245,7 +245,7 @@ class TopNav extends Component {
     } = this.props
     const { messages } = this.props.intl
     const {
-      restaurant: { name: restaurantName = '' },
+      restaurant: { name: restaurantName = '', coverImageUrl },
     } = restaurantInfo
 
     const { tooltipOpen } = this.state
@@ -392,7 +392,7 @@ class TopNav extends Component {
                     style={{ width: '40px', height: '40px' }}
                     alt='Profile'
                     src={
-                      profileImg ||
+                      coverImageUrl ||
                       'https://cdn.daynauan.info.vn/wp-content/uploads/2019/11/com-chien-ca-man.jpg'
                     }
                   />
