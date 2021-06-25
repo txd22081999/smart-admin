@@ -139,18 +139,12 @@ const MenuInfo = (props) => {
     // setMenu(menuId)
     // getMenuGroup({ merchantId, restaurantId, menuId })
     if (menuGroup.length === 0) {
-      console.log({ merchantId, restaurantId, menuId })
       getMenuGroup({ merchantId, restaurantId, menuId })
     }
     if (menuItems.length === 0) {
-      console.log({ merchantId, restaurantId, menuId })
       getMenuItems({ merchantId, restaurantId, menuId })
     }
   }, [])
-
-  // useEffect(() => {
-  //   console.log('RERENDER')
-  // }, [menuItems])
 
   useEffect(() => {
     if (
@@ -199,22 +193,18 @@ const MenuInfo = (props) => {
   }
 
   const onMenuGroupCreateClick = () => {
-    console.log(props)
     setShowCreateGroup(true)
   }
 
   const onMenuItemCreateClick = () => {
-    console.log('Creat item')
     history.push('/app/dishes/create/menu-item')
   }
 
   const onToppingGroupCreateClick = () => {
-    console.log('Creat topping group')
     history.push('/app/dishes/create/topping-group')
   }
 
   const onToppingItemCreateClick = () => {
-    console.log('Creat topping item')
     history.push('/app/dishes/create/topping-item')
   }
 
@@ -223,8 +213,7 @@ const MenuInfo = (props) => {
   }
 
   const onMenuGroupCreate = (values) => {
-    console.log('Creat group')
-    console.log({ merchantId, restaurantId, menuId, data: values })
+    // console.log({ merchantId, restaurantId, menuId, data: values })
     createMenuGroup({ merchantId, restaurantId, menuId, data: values })
   }
 
@@ -237,28 +226,23 @@ const MenuInfo = (props) => {
   }
 
   const onSelect = (ids) => {
-    console.log('received', ids)
     setSelectedItems(ids)
   }
 
   const onDeleteItems = async () => {
-    console.log('DELETE')
-    console.log(selectedItems)
     try {
       setLoading(true)
       const accessToken = localStorage.getItem('access_token')
 
-      await Bluebird.map(selectedItems, async (menuItemId) => {
+      await Bluebird.map(selectedItems, async (toppingItemId) => {
         const { data } = await axios({
           method: 'DELETE',
-          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${toppingItemId}`,
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
         if (!data) return
-
-        console.log(data)
       })
 
       setTableData((prevState) => {
@@ -284,17 +268,15 @@ const MenuInfo = (props) => {
   }
 
   const onDeactivateItems = async () => {
-    console.log('DEACTIVE')
-    console.log(selectedItems)
     try {
       setLoading(true)
 
       const accessToken = localStorage.getItem('access_token')
 
-      await Bluebird.map(selectedItems, async (menuItemId) => {
+      await Bluebird.map(selectedItems, async (toppingItemId) => {
         const { data } = await axios({
           method: 'PATCH',
-          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${toppingItemId}`,
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -303,8 +285,6 @@ const MenuInfo = (props) => {
           },
         })
         if (!data) return
-
-        console.log(data)
       })
 
       setTableData((prevState) => {
@@ -336,17 +316,15 @@ const MenuInfo = (props) => {
   }
 
   const onActivateItems = async () => {
-    console.log('ACTIVE')
-    console.log(selectedItems)
     try {
       setLoading(true)
 
       const accessToken = localStorage.getItem('access_token')
 
-      await Bluebird.map(selectedItems, async (menuItemId) => {
+      await Bluebird.map(selectedItems, async (toppingItemId) => {
         const { data } = await axios({
           method: 'PATCH',
-          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${menuItemId}`,
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/menu-item/${toppingItemId}`,
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -355,8 +333,6 @@ const MenuInfo = (props) => {
           },
         })
         if (!data) return
-
-        console.log(data)
       })
 
       setTableData((prevState) => {

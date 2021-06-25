@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Row } from 'reactstrap'
 import IntlMessages from '../../../helpers/IntlMessages'
-
+import Bluebird from 'bluebird'
+import axios from 'axios'
 import {
   getMenus,
   getMenu,
@@ -15,69 +16,71 @@ import {
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import Breadcrumb from '../../../containers/navs/Breadcrumb'
 import { findMenuGroupById as findToppingGroupById } from '../dishes/utils'
+import { NotificationManager } from 'src/components/common/react-notifications'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { USER_URL } from 'src/constants'
 
 const DataList = React.lazy(() =>
   import(/* webpackChunkName: "product-data-list" */ './data-list')
 )
 
-class ToppingList extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      tableData: {
-        data: [],
-      },
-    }
-  }
+const ToppingList = (props) => {
+  const [tableData, setTableData] = useState({ data: [] })
+  const [selectedItems, setSelectedItems] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  componentDidMount() {
-    const {
-      history,
-      // authUser: {
-      //   user: { id: merchantId }
-      // },
-      getToppingItems,
-      getToppingGroup,
-      restaurantInfo: {
-        restaurant: {
-          // id: restaurantId = `8a9beb82-7c3f-45a5-883b-9d96a794d1f2`,
-          id: restaurantId = localStorage.getItem('restaurant_id'),
-        },
-      },
-      restaurantMenu: { menus, loading, error, menu, menuItems = [] },
-      getMenu,
-      getMenuItems,
-      getMenuGroup,
-    } = this.props
+  const {
+    restaurantMenu: {
+      menus,
+      loading: fetchLoading,
+      error,
+      menu,
+      menuItems = [],
+      menuGroup = [],
+      toppingItems = [],
+      toppingGroups = [],
+      loadingToppingItems,
+    },
+    location: { pathname },
+    restaurantInfo,
+    history,
+  } = props
 
+  const merchantId = localStorage.getItem('merchant_id')
+  const restaurantId =
+    restaurantInfo.restaurant.id || localStorage.getItem('restaurant_id')
+
+  useEffect(() => {
     const merchantId = localStorage.getItem('merchant_id')
-    const menuId = menus[0]?.id || `93e90bca-09f6-4cf2-9915-883fccb14276`
 
-    getMenu(merchantId, restaurantId)
-    // getMenuGroup({ merchantId, restaurantId, menuId })
-    // getMenuItems({ merchantId, restaurantId, menuId })
-    getToppingItems({ merchantId, restaurantId, menuId })
-    getToppingGroup({ merchantId, restaurantId, menuId })
-  }
+    if (menus.length === 0) {
+      const { getMenus } = props
+      getMenus(merchantId, restaurantId)
+    }
+  }, [])
 
-  componentDidUpdate() {
-    const {
-      restaurantMenu: {
-        menus,
-        loading,
-        error,
-        menu,
-        menuItems = [],
-        menuGroup = [],
-        toppingItems = [],
-        toppingGroups = [],
-      },
-    } = this.props
+  useEffect(() => {
+    if (menus.length === 0) return
+    const { getToppingItems, getToppingGroup } = props
+    const menuId = menus[0].id
+    if (toppingItems.length === 0) {
+      getToppingItems({ merchantId, restaurantId, menuId })
+    }
+    if (toppingGroups.length === 0) {
+      getToppingGroup({ merchantId, restaurantId, menuId })
+    }
+  }, [menus])
 
+  useEffect(() => {
     const pageSize = 10
+    if (toppingItems.length !== 0 && toppingGroups.length !== 0) {
+      setLoading(false)
+    }
+
     if (
       toppingItems.length !== 0 &&
-      this.state.tableData.data.length === 0 &&
+      tableData.data.length === 0 &&
       toppingGroups.length > 0
     ) {
       const newToppingItems = toppingItems.map(
@@ -125,48 +128,180 @@ class ToppingList extends Component {
         data: newToppingItems,
       }
 
-      this.setState({
-        tableData: newTableData,
+      setTableData(newTableData)
+    }
+  }, [toppingItems, toppingGroups])
+
+  const onSelect = (ids) => {
+    setSelectedItems(ids)
+  }
+
+  const onDeleteItems = async () => {
+    const menuId = menus[0].id
+    try {
+      setLoading(true)
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'DELETE',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        if (!data) return
       })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.filter(
+            (item) => !selectedItems.includes(item.id)
+          ),
+        }
+      })
+      NotificationManager.success(
+        `Deleted ${selectedItems.length} topping items!`,
+        'Success',
+        3000
+      )
+      // getMenuItems({ merchantId, restaurantId, menuId })
+    } catch (error) {
+      console.log('Error in Delete Topping Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
 
-  render() {
-    const { history, getMenu, restaurantMenu } = this.props
-    const {
-      loadingToppingItems,
-      menuItems = [],
-      toppingItems = [],
-    } = restaurantMenu
+  const onDeactivateItems = async () => {
+    const menuId = menus[0].id
+    try {
+      setLoading(true)
 
-    const { tableData = {} } = this.state
+      const accessToken = localStorage.getItem('access_token')
 
-    if (loadingToppingItems) {
-      return <div className='loading' />
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'PATCH',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            isActive: false,
+          },
+        })
+        if (!data) return
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            const activeStatus = selectedItems.includes(item.id)
+              ? false
+              : item.isActive
+            return {
+              ...item,
+              isActive: activeStatus,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Deactivated ${selectedItems.length} topping items!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Deactivate Topping Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
     }
-
-    return (
-      <Fragment>
-        <Row>
-          <Colxx xxs='12'>
-            <Breadcrumb heading='menu.toppings' match={this.props.match} />
-            <Separator className='mb-5' />
-          </Colxx>
-        </Row>
-        <Row>
-          <Colxx xxs='12' className='mb-4'>
-            {tableData.data.length > 0 && (
-              <DataList
-                history={history}
-                data={tableData}
-                subData={menuItems}
-              />
-            )}
-          </Colxx>
-        </Row>
-      </Fragment>
-    )
   }
+
+  const onActivateItems = async () => {
+    const menuId = menus[0].id
+    try {
+      setLoading(true)
+
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (menuItemId) => {
+        const { data } = await axios({
+          method: 'PATCH',
+          url: `${USER_URL}/${merchantId}/restaurant/${restaurantId}/menu/${menuId}/topping-item/${menuItemId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            isActive: true,
+          },
+        })
+        if (!data) return
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            const activeStatus = selectedItems.includes(item.id)
+              ? true
+              : item.isActive
+            return {
+              ...item,
+              isActive: activeStatus,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Activated ${selectedItems.length} topping items!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Activate Topping Items')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loadingToppingItems || fetchLoading) {
+    return <div className='loading' />
+  }
+
+  return (
+    <Fragment>
+      <Row>
+        <Colxx xxs='12'>
+          <Breadcrumb heading='menu.toppings' match={props.match} />
+          <Separator className='mb-5' />
+        </Colxx>
+      </Row>
+      <Row>
+        <Colxx xxs='12' className='mb-4'>
+          {tableData.data.length > 0 && (
+            <DataList
+              history={history}
+              data={tableData}
+              subData={menuItems}
+              onSelect={onSelect}
+              onDeleteItems={onDeleteItems}
+              onDeactiveItems={onDeactivateItems}
+              onActiveItems={onActivateItems}
+            />
+          )}
+        </Colxx>
+      </Row>
+    </Fragment>
+  )
 }
 
 // export default Dishes
@@ -180,6 +315,7 @@ const mapStateToProps = ({ authUser, restaurantInfo, restaurantMenu }) => {
 }
 
 export default connect(mapStateToProps, {
+  getMenus,
   getMenu,
   getMenuItems,
   getMenuGroup,

@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { Row } from 'reactstrap'
-
 import axios from 'axios'
+import isEqual from 'lodash.isequal'
 
 import { servicePath } from '../../../constants/defaultValues'
-
 import DataListView from '../../../containers/pages/DataListView'
 import Pagination from '../../../containers/pages/Pagination'
 import ContextMenuContainer from '../../../containers/pages/ContextMenuContainer'
@@ -169,6 +168,8 @@ class DataListPages extends Component {
     } else {
       selectedItems.push(id)
     }
+    const { onSelect } = this.props
+    onSelect(selectedItems)
     this.setState({
       selectedItems,
     })
@@ -184,6 +185,7 @@ class DataListPages extends Component {
         })
       )
       selectedItems = Array.from(new Set(selectedItems))
+      onSelect(selectedItems)
       this.setState({
         selectedItems,
       })
@@ -200,27 +202,31 @@ class DataListPages extends Component {
     return -1
   }
   handleChangeSelectAll = (isToggle) => {
+    const { onSelect } = this.props
     if (this.state.selectedItems.length >= this.state.items.length) {
       if (isToggle) {
         this.setState({
           selectedItems: [],
         })
+        onSelect([])
       }
     } else {
+      const newSelectedItems = this.state.items.map((x) => x.id)
       this.setState({
-        selectedItems: this.state.items.map((x) => x.id),
+        selectedItems: newSelectedItems,
       })
+      onSelect(newSelectedItems)
     }
     document.activeElement.blur()
     return false
   }
 
-  dataListRender() {
+  dataListRender(itemArr) {
     const { selectedPageSize, currentPage, selectedOrderOption, search } =
       this.state
 
     const { data = {} } = this.props
-    let items = data.data
+    let items = itemArr || data.data
 
     if (search) {
       items = items.filter((item) => {
@@ -235,41 +241,6 @@ class DataListPages extends Component {
       totalItemCount: data.totalItem,
       isLoading: true,
     })
-
-    //Fetch dishes data
-    // setTimeout(() => {
-    //   //   fs.readFile('./mockData.json', { encoding: 'utf-8' }, (data, err) => {
-    //   //     console.log(data)
-    //   //     console.log(err)
-    //   //   })
-    //   const data = mockData
-    //   // console.log(data)
-    //   this.setState({
-    //     totalPage: data.totalPage,
-    //     items: data.data,
-    //     selectedItems: [],
-    //     totalItemCount: data.totalItem,
-    //     isLoading: true,
-    //   })
-    // }, 1000)
-
-    // axios
-    //   .get(
-    //     `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-    //   )
-    //   .then((res) => {
-    //     return res.data
-    //   })
-    //   .then((data) => {
-    //     console.log(data)
-    //     this.setState({
-    //       totalPage: data.totalPage,
-    //       items: data.data,
-    //       selectedItems: [],
-    //       totalItemCount: data.totalItem,
-    //       isLoading: true,
-    //     })
-    //   })
   }
 
   onContextMenuClick = (e, data, target) => {
@@ -288,6 +259,20 @@ class DataListPages extends Component {
     return true
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      data: { data: prevData },
+    } = this.props
+    const {
+      data: { data: nextData },
+    } = nextProps
+    if (!isEqual(prevData, nextData)) {
+      this.dataListRender(nextData)
+      return true
+    }
+    return true
+  }
+
   render() {
     const {
       currentPage,
@@ -302,7 +287,13 @@ class DataListPages extends Component {
       modalOpen,
       categories,
     } = this.state
-    const { match, subData = [] } = this.props
+    const {
+      match,
+      subData = [],
+      onDeleteItems,
+      onActiveItems,
+      onDeactiveItems,
+    } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
 
@@ -330,6 +321,9 @@ class DataListPages extends Component {
             orderOptions={orderOptions}
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
+            onDeleteItems={onDeleteItems}
+            onDeactiveItems={onDeactiveItems}
+            onActiveItems={onActiveItems}
           />
           <AddNewModal
             modalOpen={modalOpen}

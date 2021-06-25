@@ -58,6 +58,7 @@ const getMenuAsync = async (merchantId, restaurantId) => {
 }
 
 function* getMenus({ payload }) {
+  console.log(payload)
   const { merchantId, restaurantId } = payload
   try {
     const response = yield call(getMenuAsync, merchantId, restaurantId)
