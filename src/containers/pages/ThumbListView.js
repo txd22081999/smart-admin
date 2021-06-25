@@ -21,7 +21,10 @@ const ThumbListView = ({
             active: isSelect,
           })}
         >
-          <div className='d-flex flex-row'>
+          <div
+            className='d-flex flex-row'
+            style={{ opacity: product.isActive ? 1 : 0.4 }}
+          >
             <NavLink to={`?p=${product.id}`} className='d-flex'>
               <img
                 alt={product.title}

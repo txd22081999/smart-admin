@@ -23,6 +23,7 @@ const ImageListView = ({ product, isSelect, collect, onCheckItem }) => {
           className={classnames({
             active: isSelect,
           })}
+          style={{ opacity: product.isActive ? 1 : 0.4 }}
         >
           <div className='position-relative'>
             <NavLink to={`?p=${product.id}`} className='w-40 w-sm-100'>
