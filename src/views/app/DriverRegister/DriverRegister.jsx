@@ -216,7 +216,7 @@ const DriverRegister = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='dateOfBirth'
+                name='IDNumber'
                 type='number'
                 validate={validateIDNumber}
               />
@@ -265,13 +265,13 @@ const DriverRegister = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='merchantIdPaypal'
+                name='merchantIdInPaypal'
                 type='text'
                 validate={validateMerchantIdPaypal}
               />
-              {errors.merchantIdPaypal && touched.merchantIdPaypal && (
+              {errors.merchantIdInPaypal && touched.merchantIdInPaypal && (
                 <div className='invalid-feedback d-block'>
-                  {errors.merchantIdPaypal}
+                  {errors.merchantIdInPaypal}
                 </div>
               )}
             </FormGroup>
@@ -282,13 +282,13 @@ const DriverRegister = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='identityCardImage'
+                name='identityCardImageUrl'
                 type='text'
                 // validate={validateLicense}
               />
-              {errors.identityCardImage && touched.identityCardImage && (
+              {errors.identityCardImageUrl && touched.identityCardImageUrl && (
                 <div className='invalid-feedback d-block'>
-                  {errors.identityCardImage}
+                  {errors.identityCardImageUrl}
                 </div>
               )}
             </FormGroup>
@@ -299,15 +299,16 @@ const DriverRegister = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='driverLicense'
+                name='driverLicenseImageUrl'
                 type='text'
                 // validate={validateLicense}
               />
-              {errors.driverLicense && touched.driverLicense && (
-                <div className='invalid-feedback d-block'>
-                  {errors.driverLicense}
-                </div>
-              )}
+              {errors.driverLicenseImageUrl &&
+                touched.driverLicenseImageUrl && (
+                  <div className='invalid-feedback d-block'>
+                    {errors.driverLicenseImageUrl}
+                  </div>
+                )}
             </FormGroup>
 
             <FormGroup className='form-group has-float-label'>
@@ -316,15 +317,16 @@ const DriverRegister = (props) => {
               </Label>
               <Field
                 className='form-control'
-                name='vehicleCert'
+                name='vehicleRegistrationCertificateImageUrl'
                 type='text'
                 // validate={validateLicense}
               />
-              {errors.vehicleCert && touched.vehicleCert && (
-                <div className='invalid-feedback d-block'>
-                  {errors.vehicleCert}
-                </div>
-              )}
+              {errors.vehicleRegistrationCertificateImageUrl &&
+                touched.vehicleRegistrationCertificateImageUrl && (
+                  <div className='invalid-feedback d-block'>
+                    {errors.vehicleRegistrationCertificateImageUrl}
+                  </div>
+                )}
             </FormGroup>
 
             <Button
