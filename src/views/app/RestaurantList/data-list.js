@@ -288,9 +288,17 @@ class DataListPages extends Component {
       modalOpen,
       categories,
     } = this.state
-    const { match, currentPage: currentPageProp, onVerifyItems } = this.props
+    const {
+      match,
+      currentPage: currentPageProp,
+      onVerifyItems,
+      onGenKeyItems,
+      onRemoveDeviceItems,
+    } = this.props
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
+
+    console.log(items)
 
     return !this.state.isLoading ? (
       <div className='loading' />
@@ -317,6 +325,8 @@ class DataListPages extends Component {
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
             onVerifyItems={onVerifyItems}
+            onGenKeyItems={onGenKeyItems}
+            onRemoveDeviceItems={onRemoveDeviceItems}
           />
           <AddNewModal
             modalOpen={modalOpen}

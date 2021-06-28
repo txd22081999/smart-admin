@@ -70,6 +70,8 @@ class ListPageHeading extends Component {
       onDeactiveItems,
       onActiveItems,
       onVerifyItems,
+      onGenKeyItems,
+      onRemoveDeviceItems,
     } = this.props
 
     const { displayOptionsIsOpen, dropdownSplitOpen } = this.state
@@ -81,6 +83,7 @@ class ListPageHeading extends Component {
               <h1>
                 <IntlMessages id='menu.restaurant-list' />
               </h1>
+              <Separator className='mb-3' />
 
               <div className='text-zero top-right-button-container'>
                 {/* {displayCreate ? (
@@ -134,6 +137,12 @@ class ListPageHeading extends Component {
                   <DropdownMenu right>
                     <DropdownItem onClick={(e) => onVerifyItems()}>
                       Xác thực
+                    </DropdownItem>
+                    <DropdownItem onClick={(e) => onGenKeyItems()}>
+                      Tạo POS Key
+                    </DropdownItem>
+                    <DropdownItem onClick={(e) => onRemoveDeviceItems()}>
+                      Xóa thiết bị
                     </DropdownItem>
                     <DropdownItem
                     // onClick={(e) => onActiveItems()}

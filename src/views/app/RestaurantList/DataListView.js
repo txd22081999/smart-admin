@@ -18,6 +18,9 @@ const DataListView = ({
   if (!restaurant) {
     return <div className='loading'></div>
   }
+
+  const hasPosKey = restaurant.posAppKey !== null
+
   return (
     <Colxx xxs='12' className={clsx('mb-3')}>
       <ContextMenuTrigger id='menu_id' data={restaurant.id} collect={collect}>
@@ -38,7 +41,7 @@ const DataListView = ({
               <NavLink
                 to={`?p=${restaurant.id}`}
                 className='w-sm-100'
-                style={{ width: '30%' }}
+                style={{ width: '25%' }}
               >
                 <p className='list-item-heading mb-1 truncate'>
                   {restaurant.name}
@@ -58,12 +61,41 @@ const DataListView = ({
               </p>
               <p
                 className='mb-1 text-muted text-md-small w-sm-100'
-                style={{ width: '15%' }}
+                style={{ width: '5%' }}
               >
                 {restaurant.contractId}
               </p>
 
-              <div className='w-sm-100' style={{ width: '10%' }}>
+              <div
+                className='w-sm-100'
+                style={{ width: '10%', textAlign: 'center' }}
+              >
+                {hasPosKey && (
+                  <Badge color='warning' pill>
+                    POS Key
+                  </Badge>
+                )}
+              </div>
+
+              <div
+                className='w-sm-100'
+                style={{ width: '10%', textAlign: 'center' }}
+              >
+                {restaurant.hasDevice ? (
+                  <Badge color='warning' pill>
+                    Có TB
+                  </Badge>
+                ) : (
+                  <Badge color='danger' pill>
+                    Không TB
+                  </Badge>
+                )}
+              </div>
+
+              <div
+                className='w-sm-100'
+                style={{ width: '10%', textAlign: 'center' }}
+              >
                 <Badge
                   color={restaurant.isVerified ? 'primary' : 'danger'}
                   pill

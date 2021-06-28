@@ -26,6 +26,7 @@ const RestaurantList = (props) => {
   })
   const [tableData, setTableData] = useState({ data: [] })
   const [loading, setLoading] = useState(true)
+  const [loadingTable, setLoadingTable] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -105,7 +106,7 @@ const RestaurantList = (props) => {
 
   const onVerifyItems = async () => {
     try {
-      // setLoading(true)
+      setLoadingTable(true)
       const accessToken = localStorage.getItem('access_token')
 
       await Bluebird.map(selectedItems, async (restaurantId) => {
@@ -143,10 +144,104 @@ const RestaurantList = (props) => {
         3000
       )
     } catch (error) {
-      console.log('Error in Deactivate Menu Items')
+      console.log('Error in Verify restaurant')
       console.error(error)
     } finally {
-      // setLoading(false)
+      setLoadingTable(false)
+    }
+  }
+
+  const onGenKeyItems = async () => {
+    try {
+      setLoadingTable(true)
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (restaurantId) => {
+        const { data } = await axios({
+          method: 'POST',
+          url: `${ADMIN_URL}/generate-pos-key`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            restaurantId,
+          },
+        })
+        if (!data) return
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            // const isVerified = selectedItems.includes(item.id)
+            //   ? false
+            //   : item.isVerified
+            return {
+              ...item,
+              // isVerified,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Generated POS Key for ${selectedItems.length} restaurants!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Generate POS Key')
+      console.error(error)
+    } finally {
+      setLoadingTable(false)
+    }
+  }
+
+  const onRemoveDeviceItems = async () => {
+    try {
+      setLoadingTable(true)
+      const accessToken = localStorage.getItem('access_token')
+
+      await Bluebird.map(selectedItems, async (restaurantId) => {
+        const { data } = await axios({
+          method: 'POST',
+          url: `${ADMIN_URL}/remove-pos-device`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            restaurantId,
+          },
+        })
+        if (!data) return
+      })
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          data: prevState.data.map((item) => {
+            // const isVerified = selectedItems.includes(item.id)
+            //   ? false
+            //   : item.isVerified
+            return {
+              ...item,
+              // isVerified,
+            }
+          }),
+        }
+      })
+
+      NotificationManager.success(
+        `Removed POS device for ${selectedItems.length} restaurants!`,
+        'Success',
+        3000
+      )
+    } catch (error) {
+      console.log('Error in Generate POS Key')
+      console.error(error)
+    } finally {
+      setLoadingTable(false)
     }
   }
 
@@ -156,9 +251,9 @@ const RestaurantList = (props) => {
 
   return (
     <div className='RestaurantList p-4'>
-      <h4 className='pb-2'>
+      {/* <h4 className='pb-2'>
         <IntlMessages id='menu.restaurant-list' />
-      </h4>
+      </h4> */}
 
       {tableData.data.length === 0 ? (
         <p>Hiện tại chưa có nhà hàng nào tồn tại!</p>
@@ -170,8 +265,11 @@ const RestaurantList = (props) => {
               data={tableData}
               onChangePage={onChangePage}
               currentPage={currentPage}
+              isLoading={loadingTable}
               onSelect={onSelect}
               onVerifyItems={onVerifyItems}
+              onGenKeyItems={onGenKeyItems}
+              onRemoveDeviceItems={onRemoveDeviceItems}
               // onSelect={onSelect}
               // toggleDisplayByCategory={toggleDisplayByCategory}
               // onDeleteItems={onDeleteItems}
