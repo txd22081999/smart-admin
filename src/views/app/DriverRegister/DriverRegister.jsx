@@ -27,11 +27,11 @@ const DriverRegister = (props) => {
     dateOfBirth: '2021-05-30',
     IDNumber: '053168469',
     licensePlate: '59-Z1 011.01',
-    avatar: 'somelink.jpg',
+    avatar: 'anh-dai-dien.png',
     merchantIdInPaypal: 'DD64LQSRDC2UN',
-    identityCardImageUrl: 'somelink.jpg',
-    driverLicenseImageUrl: 'somelink.jpg',
-    vehicleRegistrationCertificateImageUrl: 'somelink.jpg',
+    identityCardImageUrl: 'CMND.png',
+    driverLicenseImageUrl: 'bang-lai-xe.png',
+    vehicleRegistrationCertificateImageUrl: 'giay-dang-ky-xe.jpg',
   }
 
   const validateRestaurantId = (value) => {

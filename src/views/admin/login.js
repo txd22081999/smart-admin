@@ -13,9 +13,10 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // email: 'demo@foa.com',
-      username: 'admin123',
-      password: '123123',
+      // username: 'admin123',
+      // password: '123123',
+      username: '',
+      password: '',
     }
   }
 
@@ -111,7 +112,7 @@ class Login extends Component {
                   <Form className='av-tooltip tooltip-label-bottom'>
                     <FormGroup className='form-group has-float-label'>
                       <Label>
-                        <IntlMessages id='user.username' />
+                        <IntlMessages id='admin.username' />
                       </Label>
                       <Field
                         className='form-control'
@@ -144,13 +145,13 @@ class Login extends Component {
                     </FormGroup>
                     <div className='d-flex justify-content-between align-items-center'>
                       <div className='d-flex'>
-                        <NavLink to={`/merchant/register`} className='mr-3'>
+                        {/* <NavLink to={`/merchant/register`} className='mr-3'>
                           <IntlMessages id='user.register' />
                         </NavLink>
 
                         <NavLink to={`/merchant/forgot-password`}>
                           <IntlMessages id='user.forgot-password-question' />
-                        </NavLink>
+                        </NavLink> */}
                       </div>
 
                       <Button

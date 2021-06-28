@@ -6,13 +6,13 @@ class Main extends Component {
     console.log('Main')
     const accessToken = localStorage.getItem('access_token')
     // const merchantId = localStorage.getItem('merchant_id')
+    console.log(accessToken)
 
-    return <Redirect to='/app' />
-    if (accessToken) {
-      return <Redirect to='/app' />
-    }
+    // if (accessToken !== '') {
+    //   return <Redirect to='/app' />
+    // }
 
-    return <Redirect to='/admin' />
+    return <Redirect to='/admin/login' />
   }
 }
 export default Main

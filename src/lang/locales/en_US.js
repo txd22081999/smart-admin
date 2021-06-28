@@ -187,6 +187,8 @@ module.exports = {
 
   'back-button': 'Trở lại',
 
+  'admin.username': 'Tên tài khoản',
+
   // Driver
   'driver.email': 'Email',
   'driver.name': 'Họ tên',

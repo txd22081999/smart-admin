@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import MerchantLayout from '../../layout/MerchantLayout'
+import localStorage from 'redux-persist/es/storage'
+import AdminLayout from '../../layout/AdminLayout'
 
 const Login = React.lazy(() =>
   import(/* webpackChunkName: "user-login" */ './login')
@@ -17,10 +18,9 @@ const ResetPassword = React.lazy(() =>
 
 const Admin = ({ match }) => {
   return (
-    <MerchantLayout>
+    <AdminLayout>
       <Suspense fallback={<div className='loading' />}>
         <Switch>
-          {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/login`} /> */}
           <Route
             // path={`${match.url}/merchant/login`}
             path={`${match.url}/login`}
@@ -42,7 +42,7 @@ const Admin = ({ match }) => {
           {/* <Redirect to='/error' /> */}
         </Switch>
       </Suspense>
-    </MerchantLayout>
+    </AdminLayout>
   )
 }
 
