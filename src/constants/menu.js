@@ -26,31 +26,31 @@ const data = [
     ],
   },
   {
-    id: 'dishes',
+    id: 'restaurant',
     icon: 'iconsminds-chef-hat',
-    label: 'menu.dishes',
-    to: '/app/dishes',
-    subs: [
-      {
-        icon: 'simple-icon-paper-plane',
-        label: 'menu.second',
-        to: '/app/dishes/dishes',
-      },
-    ],
-  },
-  {
-    id: 'topping',
-    icon: 'bx bx-drink',
-    label: 'menu.topping',
-    to: '/app/toppings',
+    label: 'menu.restaurant',
+    to: '/app/restaurant',
     // subs: [
     //   {
     //     icon: 'simple-icon-paper-plane',
     //     label: 'menu.second',
-    //     to: '/app/dishes/dishes',
+    //     to: '/app/restaurant/restaurant',
     //   },
     // ],
   },
+  // {
+  //   id: 'topping',
+  //   icon: 'bx bx-drink',
+  //   label: 'menu.topping',
+  //   to: '/app/toppings',
+  //   // subs: [
+  //   //   {
+  //   //     icon: 'simple-icon-paper-plane',
+  //   //     label: 'menu.second',
+  //   //     to: '/app/dishes/dishes',
+  //   //   },
+  //   // ],
+  // },
   {
     id: 'staffs',
     icon: 'iconsminds-user',
@@ -64,56 +64,69 @@ const data = [
     //   },
     // ],
   },
+  // {
+  //   id: 'analytics',
+  //   // icon: 'iconsminds-monitor-analytics',
+  //   icon: 'iconsminds-bar-chart-4',
+  //   label: 'menu.analytics',
+  //   to: '/app/analytics',
+  //   // subs: [
+  //   //   {
+  //   //     icon: 'simple-icon-paper-plane',
+  //   //     label: 'menu.second',
+  //   //     to: '/app/anylitics/anylitics',
+  //   //   },
+  //   // ],
+  // },
+  // {
+  //   id: 'orders',
+  //   icon: 'bx bx-cookie',
+  //   label: 'menu.orders',
+  //   to: '/app/orders',
+  //   // subs: [
+  //   //   {
+  //   //     icon: 'simple-icon-paper-plane',
+  //   //     label: 'menu.second',
+  //   //     to: '/app/anylitics/anylitics',
+  //   //   },
+  //   // ],
+  // },
+  // {
+  //   id: 'payment',
+  //   icon: 'iconsminds-billing',
+  //   label: 'menu.payment',
+  //   to: '/app/payment',
+  //   // subs: [
+  //   //   {
+  //   //     icon: 'simple-icon-paper-plane',
+  //   //     label: 'menu.second',
+  //   //     to: '/app/anylitics/anylitics',
+  //   //   },
+  //   // ],
+  // },
+  // {
+  //   id: 'map',
+  //   icon: 'iconsminds-map-marker-2',
+  //   label: 'menu.map',
+  //   to: '/app/map',
+  //   // subs: [
+  //   //   {
+  //   //     icon: 'simple-icon-paper-plane',
+  //   //     label: 'menu.second',
+  //   //     to: '/app/anylitics/anylitics',
+  //   //   },
+  //   // ],
+  // },
   {
-    id: 'analytics',
-    // icon: 'iconsminds-monitor-analytics',
-    icon: 'iconsminds-bar-chart-4',
-    label: 'menu.analytics',
-    to: '/app/analytics',
+    id: 'drivers',
+    icon: 'iconsminds-user',
+    label: 'menu.drivers',
+    to: '/app/drivers',
     // subs: [
     //   {
     //     icon: 'simple-icon-paper-plane',
     //     label: 'menu.second',
-    //     to: '/app/anylitics/anylitics',
-    //   },
-    // ],
-  },
-  {
-    id: 'orders',
-    icon: 'bx bx-cookie',
-    label: 'menu.orders',
-    to: '/app/orders',
-    // subs: [
-    //   {
-    //     icon: 'simple-icon-paper-plane',
-    //     label: 'menu.second',
-    //     to: '/app/anylitics/anylitics',
-    //   },
-    // ],
-  },
-  {
-    id: 'payment',
-    icon: 'iconsminds-billing',
-    label: 'menu.payment',
-    to: '/app/payment',
-    // subs: [
-    //   {
-    //     icon: 'simple-icon-paper-plane',
-    //     label: 'menu.second',
-    //     to: '/app/anylitics/anylitics',
-    //   },
-    // ],
-  },
-  {
-    id: 'map',
-    icon: 'iconsminds-map-marker-2',
-    label: 'menu.map',
-    to: '/app/map',
-    // subs: [
-    //   {
-    //     icon: 'simple-icon-paper-plane',
-    //     label: 'menu.second',
-    //     to: '/app/anylitics/anylitics',
+    //     to: '/app/dishes/dishes',
     //   },
     // ],
   },

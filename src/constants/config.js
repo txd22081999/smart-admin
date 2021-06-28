@@ -5,6 +5,7 @@ const HOST = 'https://apigway.herokuapp.com'
 // export const BASE_URL = `${HOST}:${PORT}`
 export const BASE_URL = `${HOST}`
 export const USER_URL = `${BASE_URL}/user/merchant`
+export const ADMIN_URL = `${BASE_URL}/user/admin`
 export const GEOCODE_URL = `${BASE_URL}/geocode`
 
 const merchantId = 'a8148703-2a9b-44bc-9ba0-85d497712ac5'

@@ -159,9 +159,18 @@ module.exports = {
   'menu.create-title': 'Tạo menu mới',
   'menu.menu-name': 'Tên menu',
   'menu.index': 'Chỉ số',
+  'menu.drivers': 'Drivers',
+  'menu.driver-register': 'Đăng ký tài xế',
+  'menu.restaurant-list': 'Danh sách nhà hàng',
 
   'menu.toppings': 'Toppings',
   'menu.topping-data-list': 'Danh sách topping',
+
+  'menu.restaurant': 'Nhà hàng',
+  'menu.restaurant-id': 'ID của nhà hàng',
+  'menu.verify-restaurant-heading': 'Xác thực nhà hàng',
+  'menu.verify-btn': 'Gửi',
+  'menu.send-btn': 'Gửi',
 
   'paypal.link-paypal': 'Liên kết Paypal',
   'paypal.link-text':
@@ -176,4 +185,21 @@ module.exports = {
   'analytics.revenue-by-order-type': 'Doanh thu theo loại đơn',
 
   'back-button': 'Trở lại',
+
+  // Driver
+  'driver.email': 'Email',
+  'driver.name': 'Họ tên',
+  'driver.password': 'Mật khẩu',
+  'driver.city': 'Thành phố',
+  'driver.dateOfBirth': 'Ngày sinh',
+  'driver.ID-number': 'Số ID',
+  'driver.license-plate': 'Biển số xe',
+  'driver.avatar': 'Hình đại diện',
+  'driver.merchant-id-paypal': 'ID Paypal nhãn hàng',
+  'driver.identity-card-image': 'Ảnh chứng minh nhân dân',
+  'driver.id-driver-license': 'Ảnh giấy phép lái xe',
+  'driver.vehicle-cert': 'Ảnh chứng nhận lái xe',
+  'driver.register-btn': 'Đăng ký',
+  'drivers.register-driver': 'Đăng ký tài xế',
+  'driver.register-driver': 'Đăng ký tài xế',
 }

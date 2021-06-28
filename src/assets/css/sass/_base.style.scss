@@ -96,6 +96,7 @@ $success-color: #3e884f;
 $warning-color: #b69329;
 $error-color: #c43d4b;
 $orange-color: #ff6b35;
+$purple-color: #922d88;
 
 /* 01.Base */
 html {
@@ -153,7 +154,7 @@ body {
 }
 
 .fixed-background {
-  background: url('/assets/img/food-background.jpeg') no-repeat center center
+  background: url('/assets/img/admin-background.jpeg') no-repeat center center
     fixed;
   background-size: cover;
   width: 100%;
@@ -292,6 +293,9 @@ hr {
 
 .text-orange {
   color: $orange-color;
+}
+.text-purple {
+  color: $purple-color;
 }
 
 .text-black {
@@ -5982,7 +5986,7 @@ input:-webkit-autofill {
 
   .image-side {
     width: 40%;
-    background: url('/assets/img/food-background.jpeg') no-repeat center top;
+    background: url('/assets/img/admin-background.jpeg') no-repeat center top;
     background-size: cover;
     padding: 80px 40px;
 

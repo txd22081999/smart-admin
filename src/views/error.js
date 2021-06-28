@@ -30,7 +30,7 @@ class Error extends Component {
                     <NavLink to={`/`} className='white'>
                       {/* <span className="logo-single" /> */}
                       <div className='site-logo font-weight-bold text-black'>
-                        Smart<span className='text-orange'>Merchant</span>
+                        Smart<span className='text-purple'>Admin</span>
                       </div>
                     </NavLink>
                     <CardTitle className='mb-4'>

@@ -25,6 +25,9 @@ const ViewApp = React.lazy(() =>
 const ViewUserMerchant = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/merchant')
 )
+const ViewAdmin = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/admin')
+)
 const ViewUserRestaurant = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/restaurant')
 )
@@ -88,6 +91,10 @@ class App extends Component {
                     path='/app'
                     authUser={authUser}
                     component={ViewApp}
+                  />
+                  <Route
+                    path='/admin'
+                    render={(props) => <ViewAdmin {...props} />}
                   />
                   <Route
                     path='/merchant'

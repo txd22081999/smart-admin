@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 
 import AppLayout from '../../layout/AppLayout'
 
+const Driver = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './driver')
+)
+
 const Home = React.lazy(() =>
   import(/* webpackChunkName: "viwes-gogo" */ './home')
 )
@@ -38,6 +42,10 @@ const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './blank-page')
 )
 
+const Restaurant = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ '../restaurant')
+)
+
 class App extends Component {
   render() {
     const { match, authUser } = this.props
@@ -61,6 +69,16 @@ class App extends Component {
                   to={`${match.url}/home`}
                 />
               )} */}
+
+              <Route
+                path={`${match.url}/drivers`}
+                render={(props) => <Driver {...props} />}
+              />
+
+              <Route
+                path={`${match.url}/restaurant`}
+                render={(props) => <Restaurant {...props} />}
+              />
 
               <Route
                 path={`${match.url}/home`}

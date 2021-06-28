@@ -107,6 +107,11 @@ export const UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR =
   'UPDATE_TOPPING_WITH_MENU_ITEMS_ERROR'
 // export const SET_MENU_ITEMS_BY_TOPPING = 'SET_MENU_ITEMS_BY_TOPPING'
 
+// VERIFY RESTAURANT
+export const VERIFY_RESTAURANT = 'VERIFY_RESTAURANT'
+export const VERIFY_RESTAURANT_SUCCESS = 'VERIFY_RESTAURANT_SUCCESS'
+export const VERIFY_RESTAURANT_ERROR = 'VERIFY_RESTAURANT_ERROR'
+
 export * from './menu2/actions'
 export * from './settings/actions'
 export * from './auth/actions'

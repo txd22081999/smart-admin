@@ -6,6 +6,9 @@ import {
   CREATE_RESTAURANT,
   CREATE_RESTAURANT_SUCCESS,
   CREATE_RESTAURANT_ERROR,
+  VERIFY_RESTAURANT,
+  VERIFY_RESTAURANT_SUCCESS,
+  VERIFY_RESTAURANT_ERROR,
 } from '../actions'
 
 export const getRestaurant = (merchantId, restaurantId) => ({
@@ -40,5 +43,20 @@ export const createRestaurantSuccess = (restaurant) => ({
 
 export const createRestaurantError = (error) => ({
   type: CREATE_RESTAURANT_ERROR,
+  payload: { message: error },
+})
+
+export const verifyRestaurant = (restaurantId) => ({
+  type: VERIFY_RESTAURANT,
+  payload: { restaurantId },
+})
+
+export const verifyRestaurantSuccess = (posAppKey) => ({
+  type: VERIFY_RESTAURANT_SUCCESS,
+  payload: { posAppKey },
+})
+
+export const verifyRestaurantError = (error) => ({
+  type: VERIFY_RESTAURANT_ERROR,
   payload: { message: error },
 })

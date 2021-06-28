@@ -20,7 +20,7 @@ import {
 } from './actions'
 
 import axios from 'axios'
-import { USER_URL } from '../../constants/config'
+import { ADMIN_URL, USER_URL } from '../../constants/config'
 import { getErrorMessage } from '../utils'
 import { NotificationManager } from 'src/components/common/react-notifications'
 
@@ -33,7 +33,7 @@ const loginWithUsernamePasswordAsync = async (username, password) => {
     let response
     response = await axios({
       method: 'post',
-      url: `${USER_URL}/login`,
+      url: `${ADMIN_URL}/login`,
       data: {
         username,
         password,
@@ -68,7 +68,7 @@ function* loginWithUsernamePassword({ payload }) {
     localStorage.setItem('access_token', access_token)
     localStorage.setItem('merchant_id', user.id)
     yield put(loginUserSuccess(user))
-    history.push('/restaurant')
+    history.push('/app')
   } catch (error) {
     // yield put(loginUserError(error))
     console.log(error)
@@ -131,7 +131,7 @@ export function* watchLogoutUser() {
 // }
 
 const logoutAsync = async (history) => {
-  history.push('/merchant')
+  history.push('/admin/login')
 }
 
 function* logout({ payload }) {

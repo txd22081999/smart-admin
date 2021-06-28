@@ -7,6 +7,9 @@ import {
   CREATE_RESTAURANT_SUCCESS,
   CREATE_RESTAURANT_ERROR,
   GET_RESTAURANT_SUCCESS,
+  VERIFY_RESTAURANT,
+  VERIFY_RESTAURANT_SUCCESS,
+  VERIFY_RESTAURANT_ERROR,
 } from '../actions'
 
 const localData = localStorage.getItem('persist:root')
@@ -17,6 +20,8 @@ const localData = localStorage.getItem('persist:root')
 const INIT_STATE = {
   restaurant: {},
   loading: false,
+  posAppKey: '',
+  loadingVerify: false,
   error: '',
 }
 
@@ -57,6 +62,15 @@ export default (state = INIT_STATE, { payload, type }) => {
         ...state,
         restaurant: payload.restaurant,
       }
+    }
+    case VERIFY_RESTAURANT: {
+      return { ...state, loadingVerify: true }
+    }
+    case VERIFY_RESTAURANT_SUCCESS: {
+      return { ...state, loadingVerify: false, posAppKey: payload.posAppKey }
+    }
+    case VERIFY_RESTAURANT_ERROR: {
+      return { ...state, loadingVerify: false, error: payload.message }
     }
     default:
       return { ...state }
