@@ -162,6 +162,7 @@ module.exports = {
   'menu.drivers': 'Drivers',
   'menu.driver-register': 'Đăng ký tài xế',
   'menu.restaurant-list': 'Danh sách nhà hàng',
+  'menu.register-btn': 'Đăng ký',
 
   'menu.toppings': 'Toppings',
   'menu.topping-data-list': 'Danh sách topping',

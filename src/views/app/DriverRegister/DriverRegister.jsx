@@ -9,12 +9,18 @@ import ReactSelect from 'react-select'
 import { verifyRestaurant } from '../../../redux/actions'
 
 import './DriverRegister.scss'
+import axios from 'axios'
+import { DRIVER_URL } from 'src/constants'
+import { NotificationManager } from 'src/components/common/react-notifications'
 
 const DriverRegister = (props) => {
-  const { dispatch } = props
+  const { dispatch, fetchLoading } = props
+
+  const [loading, setLoading] = useState(false)
+
   const initialValues = {
-    name: 'Nguyen Van A',
-    email: 'van-nguyen-driver@gmail.com',
+    name: 'Nguyen Van An',
+    email: 'an-nguyen-driver@gmail.com',
     password: '123123',
     phoneNumber: '0123456789',
     city: 'TPHCM',
@@ -36,10 +42,41 @@ const DriverRegister = (props) => {
     return error
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { verifyRestaurant } = props
     const { restaurantId } = values
-    verifyRestaurant(restaurantId)
+    // verifyRestaurant(restaurantId)
+    console.log(values)
+    if (!values || Object.values(values).includes('')) {
+      return
+    }
+    let res
+    try {
+      setLoading(true)
+
+      const accessToken = localStorage.getItem('access_token')
+      res = await axios({
+        method: 'POST',
+        url: `${DRIVER_URL}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          ...values,
+          phoneNumber: `${values.phoneNumber}`,
+        },
+      })
+
+      const { data } = res
+      if (!data) return
+      console.log(data)
+      NotificationManager.success('Driver account created!', 'Success', 3000)
+    } catch (error) {
+      const msg = error.response.data.message
+      NotificationManager.error(msg, 'Error', 3000)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const validateEmail = (value) => {
@@ -98,8 +135,16 @@ const DriverRegister = (props) => {
     return error
   }
 
+  const onSubmit = async (values) => {
+    console.log(values)
+  }
+
+  if (fetchLoading) {
+    return <div className='loading'></div>
+  }
+
   return (
-    <div className='p-4'>
+    <div className='DriverRegister p-4'>
       <h4 className='pb-2'>
         <IntlMessages id='driver.register-driver' />
       </h4>
@@ -329,24 +374,27 @@ const DriverRegister = (props) => {
                 )}
             </FormGroup>
 
-            <Button
-              color='primary'
-              className={`btn-shadow btn-multiple-state mr-3 ${
-                props.loading ? 'show-spinner' : ''
-              }`}
-              size='lg'
-              type='submit'
-              //   onClick={handleSend}
-            >
-              <span className='spinner d-inline-block'>
-                <span className='bounce1' />
-                <span className='bounce2' />
-                <span className='bounce3' />
-              </span>
-              <span className='label'>
-                <IntlMessages id='menu.register-btn' />
-              </span>
-            </Button>
+            <div style={{ width: '100%' }}>
+              <Button
+                color='primary'
+                className={`btn-shadow btn-multiple-state mr-3 d-block ml-auto ${
+                  loading ? 'show-spinner' : ''
+                }`}
+                disabled={loading}
+                size='lg'
+                type='submit'
+                // onClick={onSubmit}
+              >
+                <span className='spinner d-inline-block'>
+                  <span className='bounce1' />
+                  <span className='bounce2' />
+                  <span className='bounce3' />
+                </span>
+                <span className='label'>
+                  <IntlMessages id='menu.register-btn' />
+                </span>
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
