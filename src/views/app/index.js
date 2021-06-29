@@ -57,7 +57,11 @@ class App extends Component {
             <Switch>
               {/* <Redirect exact from={`${match.url}/`} to={`/merchant`} /> */}
 
-              <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
+              <Redirect
+                exact
+                from={`${match.url}/`}
+                to={`${match.url}/restaurant`}
+              />
 
               {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/home`} />
               {!authUser.user ? (

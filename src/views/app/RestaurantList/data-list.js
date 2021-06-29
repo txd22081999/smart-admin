@@ -105,7 +105,7 @@ class DataListPages extends Component {
 
   toggleModal = () => {
     const { history } = this.props
-    history.push(`/app/dishes/create`)
+    // history.push(`/app/dishes/create`)
     // this.setState({
     //   modalOpen: !this.state.modalOpen,
     // })

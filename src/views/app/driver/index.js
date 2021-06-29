@@ -15,7 +15,7 @@ const DriverRegister = React.lazy(() =>
 const DriverMenu = ({ match }) => (
   <Suspense fallback={<div className='loading' />}>
     <Switch>
-      <Redirect exact from={`${match.url}/`} to={`${match.url}/create`} />
+      {/* <Redirect exact from={`${match.url}/`} to={`${match.url}/create`} /> */}
       <Route
         exact
         path={`${match.url}/`}

@@ -112,6 +112,9 @@ export const VERIFY_RESTAURANT = 'VERIFY_RESTAURANT'
 export const VERIFY_RESTAURANT_SUCCESS = 'VERIFY_RESTAURANT_SUCCESS'
 export const VERIFY_RESTAURANT_ERROR = 'VERIFY_RESTAURANT_ERROR'
 
+// RESTAURANT
+export const UPDATE_RESTAURANTS = 'UPDATE_RESTAURANTS'
+
 export * from './menu2/actions'
 export * from './settings/actions'
 export * from './auth/actions'

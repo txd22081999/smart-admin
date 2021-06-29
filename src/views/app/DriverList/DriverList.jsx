@@ -21,9 +21,7 @@ const PAGE_SIZE = 10
 
 const DriverList = (props) => {
   const { dispatch, history } = props
-  const [formInfo, setFormInfo] = useState({
-    restaurantId: '5b866b5f-d32a-440a-b230-ac0dd7ff9157',
-  })
+
   const [tableData, setTableData] = useState({ data: [] })
   const [loading, setLoading] = useState(true)
   const [loadingTable, setLoadingTable] = useState(false)
@@ -31,10 +29,8 @@ const DriverList = (props) => {
   const [selectedItems, setSelectedItems] = useState([])
 
   useEffect(() => {
-    fetchAllRestaurants(currentPage)
+    fetchAllDrivers(currentPage)
   }, [])
-
-  const initialValues = { restaurantId: '5b866b5f-d32a-440a-b230-ac0dd7ff9157' }
 
   const validateRestaurantId = (value) => {
     let error
@@ -50,28 +46,36 @@ const DriverList = (props) => {
     verifyRestaurant(restaurantId)
   }
 
-  const fetchAllRestaurants = async (page = 1) => {
+  const fetchAllDrivers = async (
+    page = 1,
+    size = 10,
+    from = '2021-06-01',
+    to = '2021-06-30'
+  ) => {
     try {
       setLoading(true)
 
       const accessToken = localStorage.getItem('access_token')
       const { data } = await axios({
         method: 'GET',
-        url: `${ADMIN_URL}/restaurant`,
+        url: `${ADMIN_URL}/list-driver`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
-          page: page - 1,
+          page: page,
           size: PAGE_SIZE,
+          from,
+          to,
           // q: '',
         },
       })
 
       if (!data) return
 
-      const { data: dataList } = data
-      getTableFromData(dataList, page)
+      console.log(data)
+      // const { data: drivers } = data
+      // getTableFromData(drivers, page)
     } catch (error) {
       console.log('Error in fetching all restaurants list')
       console.error(error)
@@ -81,15 +85,15 @@ const DriverList = (props) => {
   }
 
   const getTableFromData = (dataList, currentPage = 1) => {
-    const { results = [], size, total } = dataList
+    const { drivers = [], size, total } = dataList
     console.log(currentPage)
     const newTableData = {
       status: true,
-      totalItem: total,
+      totalItem: total || drivers.length,
       totalPage: Math.ceil(total / PAGE_SIZE),
       pageSize: PAGE_SIZE,
       currentPage,
-      data: results,
+      data: drivers,
     }
 
     setTableData(newTableData)
@@ -97,7 +101,8 @@ const DriverList = (props) => {
 
   const onChangePage = async (page) => {
     setCurrentPage(page)
-    await fetchAllRestaurants(page)
+    // await fetchAllRestaurants(page)
+    await fetchAllDrivers(page)
   }
 
   const onSelect = (ids) => {
@@ -279,54 +284,6 @@ const DriverList = (props) => {
           </Colxx>
         </Row>
       )}
-      {/* <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({
-          errors,
-          touched,
-          values,
-          handleSubmit,
-          handleChange,
-          handleBlur,
-        }) => (
-          <Form className='av-tooltip tooltip-label-bottom'>
-            <FormGroup className='form-group has-float-label'>
-              <Label>
-                <IntlMessages id='menu.restaurant-id' />
-              </Label>
-              <Field
-                className='form-control'
-                name='restaurantId'
-                type='text'
-                validate={validateRestaurantId}
-              />
-              {errors.restaurantId && touched.restaurantId && (
-                <div className='invalid-feedback d-block'>
-                  {errors.restaurantId}
-                </div>
-              )}
-            </FormGroup>
-
-            <Button
-              color='primary'
-              className={`btn-shadow btn-multiple-state mr-3 ${
-                props.loading ? 'show-spinner' : ''
-              }`}
-              size='lg'
-              type='submit'
-              //   onClick={handleSend}
-            >
-              <span className='spinner d-inline-block'>
-                <span className='bounce1' />
-                <span className='bounce2' />
-                <span className='bounce3' />
-              </span>
-              <span className='label'>
-                <IntlMessages id='menu.send-btn' />
-              </span>
-            </Button>
-          </Form>
-        )}
-      </Formik> */}
     </div>
   )
 }

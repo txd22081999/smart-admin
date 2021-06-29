@@ -8,7 +8,7 @@ import { Button, FormGroup, Label, Row, Col } from 'reactstrap'
 import { Colxx, Separator } from '../../../components/common/CustomBootstrap'
 import IntlMessages from 'src/helpers/IntlMessages'
 import ReactSelect from 'react-select'
-import { verifyRestaurant } from '../../../redux/actions'
+import { verifyRestaurant, updateRestaurants } from '../../../redux/actions'
 
 import DataList from './data-list'
 import axios from 'axios'
@@ -20,10 +20,7 @@ import { NotificationManager } from 'src/components/common/react-notifications'
 const PAGE_SIZE = 10
 
 const RestaurantList = (props) => {
-  const { dispatch, history } = props
-  const [formInfo, setFormInfo] = useState({
-    restaurantId: '5b866b5f-d32a-440a-b230-ac0dd7ff9157',
-  })
+  const { dispatch, history, updateRestaurants, restaurantInfo } = props
   const [tableData, setTableData] = useState({ data: [] })
   const [loading, setLoading] = useState(true)
   const [loadingTable, setLoadingTable] = useState(false)
@@ -31,7 +28,18 @@ const RestaurantList = (props) => {
   const [selectedItems, setSelectedItems] = useState([])
 
   useEffect(() => {
-    fetchAllRestaurants(currentPage)
+    console.log(restaurantInfo.restaurants.length)
+    console.log(restaurantInfo)
+    if (restaurantInfo.restaurants.length === 0) {
+      console.log('FETCH')
+      fetchAllRestaurants(currentPage)
+    } else {
+      setLoading(false)
+      getTableFromData({
+        results: restaurantInfo.restaurants,
+        total: restaurantInfo.restaurants.length,
+      })
+    }
   }, [])
 
   const initialValues = { restaurantId: '5b866b5f-d32a-440a-b230-ac0dd7ff9157' }
@@ -82,6 +90,7 @@ const RestaurantList = (props) => {
 
   const getTableFromData = (dataList, currentPage = 1) => {
     const { results = [], size, total } = dataList
+    updateRestaurants(results, total)
     console.log(currentPage)
     const newTableData = {
       status: true,
@@ -332,11 +341,12 @@ const RestaurantList = (props) => {
 }
 
 // export default RestaurantVerify
-const mapStateToProps = ({ authUser, restaurantInfo, restaurantMenu }) => {
-  return {}
+const mapStateToProps = ({ restaurantInfo }) => {
+  return { restaurantInfo }
 }
 // export default MenuInfo
 
 export default connect(mapStateToProps, {
   verifyRestaurant,
+  updateRestaurants,
 })(RestaurantList)

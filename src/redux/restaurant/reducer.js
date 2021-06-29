@@ -10,6 +10,7 @@ import {
   VERIFY_RESTAURANT,
   VERIFY_RESTAURANT_SUCCESS,
   VERIFY_RESTAURANT_ERROR,
+  UPDATE_RESTAURANTS,
 } from '../actions'
 
 const localData = localStorage.getItem('persist:root')
@@ -18,11 +19,13 @@ const localData = localStorage.getItem('persist:root')
 // console.log(JSON.parse(localData))
 
 const INIT_STATE = {
+  restaurants: [],
   restaurant: {},
   loading: false,
   posAppKey: '',
   loadingVerify: false,
   error: '',
+  totalRestaurants: 0,
 }
 
 export default (state = INIT_STATE, { payload, type }) => {
@@ -71,6 +74,14 @@ export default (state = INIT_STATE, { payload, type }) => {
     }
     case VERIFY_RESTAURANT_ERROR: {
       return { ...state, loadingVerify: false, error: payload.message }
+    }
+    case UPDATE_RESTAURANTS: {
+      console.log(payload)
+      return {
+        ...state,
+        restaurants: payload.restaurantList,
+        totalRestaurants: payload.total,
+      }
     }
     default:
       return { ...state }

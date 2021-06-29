@@ -61,7 +61,7 @@ const MapsUi = (props) => {
     const merchantId = localStorage.getItem('merchant_id')
 
     getRestaurant(merchantId, restaurantId)
-    listenNotification()
+    // listenNotification()
   }, [])
 
   const { position } = restaurant

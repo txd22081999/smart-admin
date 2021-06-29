@@ -39,7 +39,7 @@ const DataListView = ({
               }}
             >
               <NavLink
-                to={`?p=${restaurant.id}`}
+                to={`/app/restaurant/item/${restaurant.restaurantId}`}
                 className='w-sm-100'
                 style={{ width: '25%' }}
               >

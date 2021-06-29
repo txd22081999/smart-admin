@@ -12,19 +12,19 @@ const data = [
   //     },
   //   ],
   // },
-  {
-    id: 'home',
-    icon: 'iconsminds-home-1',
-    label: 'menu.home',
-    to: '/app/home',
-    subs: [
-      {
-        icon: 'simple-icon-paper-plane',
-        label: 'menu.home',
-        to: '/app/home/sub-home',
-      },
-    ],
-  },
+  // {
+  //   id: 'home',
+  //   icon: 'iconsminds-home-1',
+  //   label: 'menu.home',
+  //   to: '/app/home',
+  //   subs: [
+  //     {
+  //       icon: 'simple-icon-paper-plane',
+  //       label: 'menu.home',
+  //       to: '/app/home/sub-home',
+  //     },
+  //   ],
+  // },
   {
     id: 'restaurant',
     icon: 'iconsminds-chef-hat',

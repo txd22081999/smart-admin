@@ -9,6 +9,7 @@ import {
   VERIFY_RESTAURANT,
   VERIFY_RESTAURANT_SUCCESS,
   VERIFY_RESTAURANT_ERROR,
+  UPDATE_RESTAURANTS,
 } from '../actions'
 
 export const getRestaurant = (merchantId, restaurantId) => ({
@@ -59,4 +60,9 @@ export const verifyRestaurantSuccess = (posAppKey) => ({
 export const verifyRestaurantError = (error) => ({
   type: VERIFY_RESTAURANT_ERROR,
   payload: { message: error },
+})
+
+export const updateRestaurants = (restaurantList, total = 0) => ({
+  type: UPDATE_RESTAURANTS,
+  payload: { restaurantList, total },
 })
