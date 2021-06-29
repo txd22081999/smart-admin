@@ -174,8 +174,16 @@ const RestaurantDetail = (props) => {
 
   console.log(restaurantDetail)
 
-  const { name, isActive, isBanned, image, posAppKey, phone, address } =
-    restaurantDetail
+  const {
+    name,
+    isActive,
+    isBanned,
+    image,
+    phone,
+    address,
+    contractId,
+    merchant,
+  } = restaurantDetail
 
   return (
     <div className='RestaurantDetail'>
@@ -187,6 +195,8 @@ const RestaurantDetail = (props) => {
               <div className='img-container mb-4'>
                 <img src={image} alt='restaurant' />
               </div>
+              <p>Số hợp đồng: {contractId}</p>
+              <p>Chủ sở hữu: {merchant.fullName}</p>
               <p>Địa chỉ: {address}</p>
               <p className='mb-4'>Số điện thoại: {phone}</p>
               <p>{verified ? 'Đã xác thực' : 'Chưa xác thực'}</p>
