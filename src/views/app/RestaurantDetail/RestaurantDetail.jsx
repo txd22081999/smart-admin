@@ -142,7 +142,7 @@ const RestaurantDetail = (props) => {
 
       const { data } = await axios({
         method: 'POST',
-        url: `${ADMIN_URL}/remove-pos-device`,
+        url: `${ADMIN_URL}/verify-restaurant`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -227,7 +227,7 @@ const RestaurantDetail = (props) => {
                   </Button>
                 )}
 
-                {!hasDevice && (
+                {hasDevice && (
                   <Button
                     color='primary'
                     className={`btn-shadow btn-multiple-state mr-3 ${

@@ -200,7 +200,7 @@ class ListPageHeading extends Component {
                 </span>
 
                 <div className='d-block d-md-inline-block pt-1'>
-                  <UncontrolledDropdown className='mr-1 float-md-left btn-group mb-1'>
+                  {/* <UncontrolledDropdown className='mr-1 float-md-left btn-group mb-1'>
                     <DropdownToggle caret color='outline-dark' size='xs'>
                       <IntlMessages id='pages.orderby' />
                       {selectedOrderOption.label}
@@ -217,7 +217,7 @@ class ListPageHeading extends Component {
                         )
                       })}
                     </DropdownMenu>
-                  </UncontrolledDropdown>
+                  </UncontrolledDropdown> */}
                   <div className='search-sm d-inline-block float-md-left mr-1 mb-1 align-top'>
                     <input
                       type='text'
@@ -228,7 +228,7 @@ class ListPageHeading extends Component {
                     />
                   </div>
                 </div>
-                <div className='float-md-right pt-1'>
+                <div className='float-md-right pt-1 mr-2'>
                   <span className='text-muted text-small mr-1'>{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>
                   <UncontrolledDropdown className='d-inline-block'>
                     <DropdownToggle caret color='outline-dark' size='xs'>
