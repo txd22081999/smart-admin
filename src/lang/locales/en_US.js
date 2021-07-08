@@ -202,7 +202,7 @@ module.exports = {
   'driver.merchant-id-paypal': 'ID Paypal nhãn hàng',
   'driver.identity-card-image': 'Chứng minh nhân dân',
   'driver.id-driver-license': 'Giấy phép lái xe',
-  'driver.vehicle-cert': 'Chứng nhận sở hữu phương tiện',
+  'driver.vehicle-cert': 'Giấy đăng ký phương tiện',
   'driver.register-btn': 'Đăng ký',
   'drivers.register-driver': 'Đăng ký tài xế',
   'driver.register-driver': 'Đăng ký tài xế',

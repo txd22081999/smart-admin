@@ -33,15 +33,24 @@ const DriverRegister = (props) => {
   const [loading, setLoading] = useState(false)
 
   const initialValues = {
-    name: 'Nguyen Van An',
-    email: 'an-nguyen-driver@gmail.com',
-    password: '123456Ab',
-    phoneNumber: '0943123456',
-    city: 'TPHCM',
-    dateOfBirth: '2021-05-30',
-    IDNumber: '053168469',
-    licensePlate: '59-Z1 011.01',
-    merchantIdInPaypal: 'DD64LQSRDC2UN',
+    name: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+    city: '',
+    dateOfBirth: '',
+    IDNumber: '',
+    licensePlate: '',
+    merchantIdInPaypal: '',
+    // name: 'Nguyen Van An',
+    // email: 'an-nguyen-driver@gmail.com',
+    // password: '123456Ab',
+    // phoneNumber: '0943123456',
+    // city: 'TPHCM',
+    // dateOfBirth: '2021-05-30',
+    // IDNumber: '053168469',
+    // licensePlate: '59-Z1 011.01',
+    // merchantIdInPaypal: 'DD64LQSRDC2UN',
   }
 
   useEffect(() => {
@@ -313,6 +322,15 @@ const DriverRegister = (props) => {
               )}
             </FormGroup>
 
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
+                <IntlMessages id='driver.identity-card-image' />
+              </span>
+              <div className='driver.avatar'>
+                <UploadImage onImageChange={onIdentityImgChange} limit={1} />
+              </div>
+            </div>
+
             <FormGroup className='form-group has-float-label'>
               <Label>
                 <IntlMessages id='driver.city' />
@@ -352,29 +370,12 @@ const DriverRegister = (props) => {
               <Field
                 className='form-control'
                 name='IDNumber'
-                type='number'
+                type='text'
                 validate={validateIDNumber}
               />
               {errors.IDNumber && touched.IDNumber && (
                 <div className='invalid-feedback d-block'>
                   {errors.IDNumber}
-                </div>
-              )}
-            </FormGroup>
-
-            <FormGroup className='form-group has-float-label'>
-              <Label>
-                <IntlMessages id='driver.license-plate' />
-              </Label>
-              <Field
-                className='form-control'
-                name='licensePlate'
-                type='text'
-                validate={validateLicense}
-              />
-              {errors.licensePlate && touched.licensePlate && (
-                <div className='invalid-feedback d-block'>
-                  {errors.licensePlate}
                 </div>
               )}
             </FormGroup>
@@ -398,15 +399,6 @@ const DriverRegister = (props) => {
 
             <div className='img-upload-container'>
               <span className='upload-img-label'>
-                <IntlMessages id='driver.identity-card-image' />
-              </span>
-              <div className='driver.avatar'>
-                <UploadImage onImageChange={onIdentityImgChange} limit={1} />
-              </div>
-            </div>
-
-            <div className='img-upload-container'>
-              <span className='upload-img-label'>
                 <IntlMessages id='driver.id-driver-license' />
               </span>
               <div className='driver.avatar'>
@@ -421,6 +413,23 @@ const DriverRegister = (props) => {
                 <UploadImage onImageChange={onCertImgChange} limit={1} />
               </div>
             </div>
+
+            <FormGroup className='form-group has-float-label'>
+              <Label>
+                <IntlMessages id='driver.license-plate' />
+              </Label>
+              <Field
+                className='form-control'
+                name='licensePlate'
+                type='text'
+                validate={validateLicense}
+              />
+              {errors.licensePlate && touched.licensePlate && (
+                <div className='invalid-feedback d-block'>
+                  {errors.licensePlate}
+                </div>
+              )}
+            </FormGroup>
 
             <div style={{ width: '100%' }}>
               <Button

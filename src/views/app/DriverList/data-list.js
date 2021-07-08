@@ -62,7 +62,7 @@ class DataListPages extends Component {
         { label: 'Món tráng miệng', value: 'Món tráng miệng', key: 3 },
       ],
 
-      selectedOrderOption: { column: 'title', label: 'Tên món' },
+      selectedOrderOption: { column: 'createdAt', label: 'Ngày tạo' },
       dropdownSplitOpen: false,
       modalOpen: false,
       currentPage: 1,
