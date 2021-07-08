@@ -110,7 +110,7 @@ class DataListPages extends Component {
 
   toggleModal = () => {
     const { history } = this.props
-    history.push(`/app/dishes/create`)
+    history.push(`/app/drivers/create`)
     // this.setState({
     //   modalOpen: !this.state.modalOpen,
     // })
@@ -250,7 +250,9 @@ class DataListPages extends Component {
     const { data = {} } = this.props
     let items = data.data
     if (search) {
-      items = items.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+      items = items.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      )
     }
     this.setState({
       totalPage: data.totalPage,
@@ -311,10 +313,6 @@ class DataListPages extends Component {
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
 
-
-
-  
-
     return !this.state.isLoading ? (
       <div className='loading' />
     ) : (
@@ -343,7 +341,7 @@ class DataListPages extends Component {
             onGenKeyItems={onGenKeyItems}
             onRemoveDeviceItems={onRemoveDeviceItems}
           />
-           <div
+          <div
             style={{ width: '110px', marginBottom: '15px', marginLeft: 'auto' }}
           >
             <Select

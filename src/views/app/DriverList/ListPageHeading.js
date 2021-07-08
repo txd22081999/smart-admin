@@ -86,26 +86,15 @@ class ListPageHeading extends Component {
               <Separator className='mb-3' />
 
               <div className='text-zero top-right-button-container'>
-                {/* {displayCreate ? (
-                  <Button
-                    color='primary'
-                    size='lg'
-                    className='top-right-button mr-2'
-                    onClick={() => toggleModal()}
-                  >
-                    <IntlMessages id='pages.add-new' />
-                  </Button>
-                ) : (
-                  <Button
-                    color='primary'
-                    size='lg'
-                    className='top-right-button mr-2'
-                    onClick={() => toggleDisplayByCategory()}
-                  >
-                    Theo nhóm
-                  </Button>
-                )} */}
-{/* 
+                <Button
+                  color='primary'
+                  size='lg'
+                  className='top-right-button ml-2 mr-2'
+                  onClick={() => toggleModal()}
+                >
+                  <IntlMessages id='pages.add-new' />
+                </Button>
+                {/* 
                 <ButtonDropdown
                   isOpen={dropdownSplitOpen}
                   toggle={this.toggleSplit}

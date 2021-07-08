@@ -31,14 +31,14 @@ const DriverList = (props) => {
   const [currentMonth, setCurrentMonth] = useState(7)
 
   useEffect(() => {
-    fetchAllDrivers({page: currentPage})
+    fetchAllDrivers({ page: currentPage })
   }, [])
 
   useEffect(() => {
     const month = currentMonth < 10 ? `0${currentMonth}` : `${currentMonth}`
     const from = `2021-${month}-01`
     const to = `2021-${month}-30`
-    fetchAllDrivers({page: currentPage, from, to})
+    fetchAllDrivers({ page: currentPage, from, to })
   }, [currentMonth])
 
   const validateRestaurantId = (value) => {
@@ -59,7 +59,7 @@ const DriverList = (props) => {
     page = 1,
     size = 10,
     from = '2021-06-01',
-    to = '2021-06-30'
+    to = '2021-06-30',
   }) => {
     try {
       setLoading(true)
@@ -111,7 +111,7 @@ const DriverList = (props) => {
     const to = `2021-${month}-30`
     setCurrentPage(page)
     // await fetchAllRestaurants(page)
-    fetchAllDrivers({page: currentPage, from, to})
+    fetchAllDrivers({ page: currentPage, from, to })
   }
 
   const onSelect = (ids) => {
@@ -273,31 +273,29 @@ const DriverList = (props) => {
         <IntlMessages id='menu.restaurant-list' />
       </h4> */}
 
-     
-        <Row>
-          <Colxx xxs='12' className='mb-4'>
-            <DataList
-              history={history}
-              data={tableData}
-              onChangePage={onChangePage}
-              currentPage={currentPage}
-              isLoading={loadingTable}
-              onSelect={onSelect}
-              onVerifyItems={onVerifyItems}
-              onGenKeyItems={onGenKeyItems}
-              onRemoveDeviceItems={onRemoveDeviceItems}
-              // onSelect={onSelect}
-              // toggleDisplayByCategory={toggleDisplayByCategory}
-              // onDeleteItems={onDeleteItems}
-              // onDeactiveItems={onDeactivateItems}
-              // onActiveItems={onActivateItems}
-              onTimeSelect={onTimeSelect}
-              time={currentMonth}
-              totalPage={Math.ceil(totalDriver/10)}
-            />
-          </Colxx>
-        </Row>
-      
+      <Row>
+        <Colxx xxs='12' className='mb-4'>
+          <DataList
+            history={history}
+            data={tableData}
+            onChangePage={onChangePage}
+            currentPage={currentPage}
+            isLoading={loadingTable}
+            onSelect={onSelect}
+            onVerifyItems={onVerifyItems}
+            onGenKeyItems={onGenKeyItems}
+            onRemoveDeviceItems={onRemoveDeviceItems}
+            // onSelect={onSelect}
+            // toggleDisplayByCategory={toggleDisplayByCategory}
+            // onDeleteItems={onDeleteItems}
+            // onDeactiveItems={onDeactivateItems}
+            // onActiveItems={onActivateItems}
+            onTimeSelect={onTimeSelect}
+            time={currentMonth}
+            totalPage={Math.ceil(totalDriver / 10)}
+          />
+        </Colxx>
+      </Row>
     </div>
   )
 }

@@ -1,37 +1,71 @@
-import React, { useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Field, Formik, useFormik, Form } from 'formik'
 import { NavLink } from 'react-router-dom'
 import { Button, FormGroup, Label } from 'reactstrap'
-import IntlMessages from 'src/helpers/IntlMessages'
+import axios from 'axios'
 import ReactSelect from 'react-select'
+
+import IntlMessages from 'src/helpers/IntlMessages'
 import { verifyRestaurant } from '../../../redux/actions'
+import UploadImage from '../../../components/common/UploadImage'
+import { NotificationManager } from 'src/components/common/react-notifications'
+import { DRIVER_URL } from 'src/constants'
 
 import './DriverRegister.scss'
-import axios from 'axios'
-import { DRIVER_URL } from 'src/constants'
-import { NotificationManager } from 'src/components/common/react-notifications'
+import { PASSWORD_REGEX, uploadFile } from 'src/helpers/Utils'
 
 const DriverRegister = (props) => {
   const { dispatch, fetchLoading } = props
 
+  const [avatarImg, setAvatarImg] = useState(null)
+  const [identityImg, setIdentityImg] = useState(null)
+  const [licenseImg, setLicenseImg] = useState(null)
+  const [certImg, setCertImg] = useState(null)
+
+  const [avatarImgUrl, setAvatarImgUrl] = useState('')
+  const [identityImgUrl, setIdentityImgUrl] = useState('')
+  const [licenseImgUrl, setLicenseImgUrl] = useState('')
+  const [certImgUrl, setCertImgUrl] = useState('')
+
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageLoading, setImageLoading] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const initialValues = {
     name: 'Nguyen Van An',
     email: 'an-nguyen-driver@gmail.com',
-    password: '123123',
-    phoneNumber: '0123456789',
+    password: '123456Ab',
+    phoneNumber: '0943123456',
     city: 'TPHCM',
     dateOfBirth: '2021-05-30',
     IDNumber: '053168469',
     licensePlate: '59-Z1 011.01',
-    avatar: 'anh-dai-dien.png',
     merchantIdInPaypal: 'DD64LQSRDC2UN',
-    identityCardImageUrl: 'CMND.png',
-    driverLicenseImageUrl: 'bang-lai-xe.png',
-    vehicleRegistrationCertificateImageUrl: 'giay-dang-ky-xe.jpg',
+  }
+
+  useEffect(() => {
+    console.log('Did mount')
+  }, [])
+
+  const onAvatarImgChange = (value) => {
+    const { file } = value[0]
+    setAvatarImg(file)
+  }
+
+  const onIdentityImgChange = (value) => {
+    const { file } = value[0]
+    setIdentityImg(file)
+  }
+
+  const onLicenseImgChange = (value) => {
+    const { file } = value[0]
+    setLicenseImg(file)
+  }
+
+  const onCertImgChange = (value) => {
+    const { file } = value[0]
+    setCertImg(file)
   }
 
   const validateRestaurantId = (value) => {
@@ -40,43 +74,6 @@ const DriverRegister = (props) => {
       error = `Please enter restaurant's ID`
     }
     return error
-  }
-
-  const handleSubmit = async (values) => {
-    const { verifyRestaurant } = props
-    const { restaurantId } = values
-    // verifyRestaurant(restaurantId)
-    console.log(values)
-    if (!values || Object.values(values).includes('')) {
-      return
-    }
-    let res
-    try {
-      setLoading(true)
-
-      const accessToken = localStorage.getItem('access_token')
-      res = await axios({
-        method: 'POST',
-        url: `${DRIVER_URL}`,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        data: {
-          ...values,
-          phoneNumber: `${values.phoneNumber}`,
-        },
-      })
-
-      const { data } = res
-      if (!data) return
-      console.log(data)
-      NotificationManager.success('Driver account created!', 'Success', 3000)
-    } catch (error) {
-      const msg = error.response.data.message
-      NotificationManager.error(msg, 'Error', 3000)
-    } finally {
-      setLoading(false)
-    }
   }
 
   const validateEmail = (value) => {
@@ -90,7 +87,10 @@ const DriverRegister = (props) => {
   const validatePassword = (value) => {
     let error
     if (!value) {
-      error = `Please enter driver's password`
+      error = 'Please enter your password'
+    } else if (!new RegExp(PASSWORD_REGEX).test(value)) {
+      error =
+        'Password must contain at least 8 character with 1 capital letter, 1 normal letter and 1 number character'
     }
     return error
   }
@@ -135,8 +135,85 @@ const DriverRegister = (props) => {
     return error
   }
 
-  const onSubmit = async (values) => {
+  const handleUpload = async () => {
+    try {
+      setImageLoading(true)
+      if (!avatarImgUrl) {
+        const avatarUrl = await uploadFile(avatarImg)
+        setAvatarImgUrl(avatarUrl)
+      }
+      if (!certImgUrl) {
+        const certUrl = await uploadFile(certImg)
+        setCertImgUrl(certUrl)
+      }
+
+      if (!licenseImgUrl) {
+        const licenseUrl = await uploadFile(licenseImg)
+        setLicenseImgUrl(licenseUrl)
+      }
+
+      if (!identityImgUrl) {
+        const identityUrl = await uploadFile(identityImg)
+        setIdentityImgUrl(identityUrl)
+      }
+
+      setImageLoading(false)
+    } catch (error) {
+      console.log('Error in upload image!')
+      console.error(error)
+    }
+  }
+
+  const handleSubmit = async (values) => {
+    const { history } = props
+    // verifyRestaurant(restaurantId)
     console.log(values)
+    if (!values || Object.values(values).includes('')) {
+      return
+    }
+    if ([avatarImg, identityImg, licenseImg, certImg].includes(null)) {
+      NotificationManager.error(
+        'Please upload all images that are required!',
+        'Error',
+        3000
+      )
+      return
+    }
+    let res
+    try {
+      setLoading(true)
+
+      await handleUpload()
+
+      const accessToken = localStorage.getItem('access_token')
+      res = await axios({
+        method: 'POST',
+        url: `${DRIVER_URL}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          ...values,
+          phoneNumber: `${values.phoneNumber}`,
+          avatar: avatarImgUrl,
+          identityCardImageUrl: identityImgUrl,
+          driverLicenseImageUrl: licenseImgUrl,
+          vehicleRegistrationCertificateImageUrl: certImgUrl,
+        },
+      })
+
+      const { data } = res
+      if (!data) return
+      console.log(data)
+      NotificationManager.success('Driver account created!', 'Success', 3000)
+
+      history.push('/app/drivers')
+    } catch (error) {
+      const msg = error.response.data.message
+      NotificationManager.error(msg, 'Error', 5000)
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (fetchLoading) {
@@ -206,9 +283,22 @@ const DriverRegister = (props) => {
               )}
             </FormGroup>
 
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
+                <IntlMessages id='driver.avatar' />
+              </span>
+              <div className='driver.avatar'>
+                <UploadImage
+                  onImageChange={onAvatarImgChange}
+                  limit={1}
+                  onChange={() => {}}
+                />
+              </div>
+            </div>
+
             <FormGroup className='form-group has-float-label'>
               <Label>
-                <IntlMessages id='driver.email' />
+                <IntlMessages id='driver.phone-number' />
               </Label>
               <Field
                 className='form-control'
@@ -291,21 +381,6 @@ const DriverRegister = (props) => {
 
             <FormGroup className='form-group has-float-label'>
               <Label>
-                <IntlMessages id='driver.avatar' />
-              </Label>
-              <Field
-                className='form-control'
-                name='avatar'
-                type='text'
-                // validate={validateLicense}
-              />
-              {errors.avatar && touched.avatar && (
-                <div className='invalid-feedback d-block'>{errors.avatar}</div>
-              )}
-            </FormGroup>
-
-            <FormGroup className='form-group has-float-label'>
-              <Label>
                 <IntlMessages id='driver.merchant-id-paypal' />
               </Label>
               <Field
@@ -321,58 +396,31 @@ const DriverRegister = (props) => {
               )}
             </FormGroup>
 
-            <FormGroup className='form-group has-float-label'>
-              <Label>
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
                 <IntlMessages id='driver.identity-card-image' />
-              </Label>
-              <Field
-                className='form-control'
-                name='identityCardImageUrl'
-                type='text'
-                // validate={validateLicense}
-              />
-              {errors.identityCardImageUrl && touched.identityCardImageUrl && (
-                <div className='invalid-feedback d-block'>
-                  {errors.identityCardImageUrl}
-                </div>
-              )}
-            </FormGroup>
+              </span>
+              <div className='driver.avatar'>
+                <UploadImage onImageChange={onIdentityImgChange} limit={1} />
+              </div>
+            </div>
 
-            <FormGroup className='form-group has-float-label'>
-              <Label>
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
                 <IntlMessages id='driver.id-driver-license' />
-              </Label>
-              <Field
-                className='form-control'
-                name='driverLicenseImageUrl'
-                type='text'
-                // validate={validateLicense}
-              />
-              {errors.driverLicenseImageUrl &&
-                touched.driverLicenseImageUrl && (
-                  <div className='invalid-feedback d-block'>
-                    {errors.driverLicenseImageUrl}
-                  </div>
-                )}
-            </FormGroup>
-
-            <FormGroup className='form-group has-float-label'>
-              <Label>
+              </span>
+              <div className='driver.avatar'>
+                <UploadImage onImageChange={onLicenseImgChange} limit={1} />
+              </div>
+            </div>
+            <div className='img-upload-container'>
+              <span className='upload-img-label'>
                 <IntlMessages id='driver.vehicle-cert' />
-              </Label>
-              <Field
-                className='form-control'
-                name='vehicleRegistrationCertificateImageUrl'
-                type='text'
-                // validate={validateLicense}
-              />
-              {errors.vehicleRegistrationCertificateImageUrl &&
-                touched.vehicleRegistrationCertificateImageUrl && (
-                  <div className='invalid-feedback d-block'>
-                    {errors.vehicleRegistrationCertificateImageUrl}
-                  </div>
-                )}
-            </FormGroup>
+              </span>
+              <div className='driver.avatar'>
+                <UploadImage onImageChange={onCertImgChange} limit={1} />
+              </div>
+            </div>
 
             <div style={{ width: '100%' }}>
               <Button

@@ -14,7 +14,6 @@ const UploadImage = (props) => {
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex)
     setImages(imageList)
     onImageChange(imageList, addUpdateIndex)
   }
@@ -90,6 +89,7 @@ const UploadImage = (props) => {
                     onMouseLeave={onMouseLeave}
                   >
                     <button
+                      type='button'
                       className='mr-2'
                       // onMouseOver={() => console.log('HIHI')}
                       onClick={() => {
