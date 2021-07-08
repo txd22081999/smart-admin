@@ -159,10 +159,11 @@ module.exports = {
   'menu.create-title': 'Tạo menu mới',
   'menu.menu-name': 'Tên menu',
   'menu.index': 'Chỉ số',
-  'menu.drivers': 'Drivers',
+  'menu.drivers': 'Tài xế',
   'menu.driver-register': 'Đăng ký tài xế',
   'menu.restaurant-list': 'Danh sách nhà hàng',
   'menu.register-btn': 'Đăng ký',
+  'menu.driver-list': 'Danh sách tài xế',
 
   'menu.toppings': 'Toppings',
   'menu.topping-data-list': 'Danh sách topping',

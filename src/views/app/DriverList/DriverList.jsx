@@ -27,10 +27,19 @@ const DriverList = (props) => {
   const [loadingTable, setLoadingTable] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState([])
+  const [totalDriver, setTotalDriver] = useState(0)
+  const [currentMonth, setCurrentMonth] = useState(7)
 
   useEffect(() => {
-    fetchAllDrivers(currentPage)
+    fetchAllDrivers({page: currentPage})
   }, [])
+
+  useEffect(() => {
+    const month = currentMonth < 10 ? `0${currentMonth}` : `${currentMonth}`
+    const from = `2021-${month}-01`
+    const to = `2021-${month}-30`
+    fetchAllDrivers({page: currentPage, from, to})
+  }, [currentMonth])
 
   const validateRestaurantId = (value) => {
     let error
@@ -46,12 +55,12 @@ const DriverList = (props) => {
     verifyRestaurant(restaurantId)
   }
 
-  const fetchAllDrivers = async (
+  const fetchAllDrivers = async ({
     page = 1,
     size = 10,
     from = '2021-06-01',
     to = '2021-06-30'
-  ) => {
+  }) => {
     try {
       setLoading(true)
 
@@ -72,10 +81,7 @@ const DriverList = (props) => {
       })
 
       if (!data) return
-
-      console.log(data)
-      // const { data: drivers } = data
-      // getTableFromData(drivers, page)
+      getTableFromData(data.data)
     } catch (error) {
       console.log('Error in fetching all restaurants list')
       console.error(error)
@@ -86,7 +92,7 @@ const DriverList = (props) => {
 
   const getTableFromData = (dataList, currentPage = 1) => {
     const { drivers = [], size, total } = dataList
-    console.log(currentPage)
+    setTotalDriver(total)
     const newTableData = {
       status: true,
       totalItem: total || drivers.length,
@@ -100,9 +106,12 @@ const DriverList = (props) => {
   }
 
   const onChangePage = async (page) => {
+    const month = currentMonth < 10 ? `0${currentMonth}` : `${currentMonth}`
+    const from = `2021-${month}-01`
+    const to = `2021-${month}-30`
     setCurrentPage(page)
     // await fetchAllRestaurants(page)
-    await fetchAllDrivers(page)
+    fetchAllDrivers({page: currentPage, from, to})
   }
 
   const onSelect = (ids) => {
@@ -250,6 +259,10 @@ const DriverList = (props) => {
     }
   }
 
+  const onTimeSelect = (month) => {
+    setCurrentMonth(month)
+  }
+
   if (loading) {
     return <div className='loading'></div>
   }
@@ -260,9 +273,7 @@ const DriverList = (props) => {
         <IntlMessages id='menu.restaurant-list' />
       </h4> */}
 
-      {tableData.data.length === 0 ? (
-        <p>Hiện tại chưa có tài xế nào nào tồn tại!</p>
-      ) : (
+     
         <Row>
           <Colxx xxs='12' className='mb-4'>
             <DataList
@@ -280,10 +291,13 @@ const DriverList = (props) => {
               // onDeleteItems={onDeleteItems}
               // onDeactiveItems={onDeactivateItems}
               // onActiveItems={onActivateItems}
+              onTimeSelect={onTimeSelect}
+              time={currentMonth}
+              totalPage={Math.ceil(totalDriver/10)}
             />
           </Colxx>
         </Row>
-      )}
+      
     </div>
   )
 }

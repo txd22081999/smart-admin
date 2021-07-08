@@ -7,7 +7,7 @@ import { Colxx } from '../../../components/common/CustomBootstrap'
 import clsx from 'clsx'
 
 const DataListView = ({
-  product: restaurant,
+  product: driver,
   isSelect,
   collect,
   onCheckItem,
@@ -15,17 +15,17 @@ const DataListView = ({
   large,
   isTopping,
 }) => {
-  if (!restaurant) {
+  if (!driver) {
     return <div className='loading'></div>
   }
 
-  const hasPosKey = restaurant.posAppKey !== null
+  const isBanned = driver.isVerified
 
   return (
     <Colxx xxs='12' className={clsx('mb-3')}>
-      <ContextMenuTrigger id='menu_id' data={restaurant.id} collect={collect}>
+      <ContextMenuTrigger id='menu_id' data={driver.id} collect={collect}>
         <Card
-          onClick={(event) => onCheckItem(event, restaurant.restaurantId)}
+          // onClick={(event) => onCheckItem(event, driver.restaurantId)}
           className={classnames('d-flex flex-row', {
             active: isSelect,
           })}
@@ -39,82 +39,75 @@ const DataListView = ({
               }}
             >
               <NavLink
-                to={`?p=${restaurant.id}`}
+                to={`/app/drivers/${driver.id}`}
                 className='w-sm-100'
                 style={{ width: '25%' }}
               >
                 <p className='list-item-heading mb-1 truncate'>
-                  {restaurant.name}
+                  {driver.name}
                 </p>
               </NavLink>
               <p
                 className='mb-1 text-muted text-md-small w-sm-100'
                 style={{ width: '15%' }}
               >
-                {restaurant.merchant.fullName}
-              </p>
-              <p
-                className='mb-1 text-muted text-md-small w-sm-100'
-                style={{ width: '25%' }}
-              >
-                {restaurant.address}
-              </p>
-              <p
-                className='mb-1 text-muted text-md-small w-sm-100'
-                style={{ width: '5%' }}
-              >
-                {restaurant.contractId}
+                {driver.phoneNumber}
               </p>
 
+              <p
+                className='mb-1 text-muted text-md-small w-sm-100'
+                style={{ width: '15%' }}
+              >
+                {driver.city}
+              </p>
+
+
+        
               <div
                 className='w-sm-100'
                 style={{ width: '10%', textAlign: 'center' }}
               >
-                {hasPosKey && (
+                {driver.isActive && (
                   <Badge color='warning' pill>
-                    POS Key
+                    Đang hoạt động
                   </Badge>
                 )}
               </div>
-
-              <div
-                className='w-sm-100'
-                style={{ width: '10%', textAlign: 'center' }}
-              >
-                {restaurant.hasDevice ? (
-                  <Badge color='warning' pill>
-                    Có TB
-                  </Badge>
-                ) : (
-                  <Badge color='danger' pill>
-                    Không TB
-                  </Badge>
-                )}
-              </div>
-
               <div
                 className='w-sm-100'
                 style={{ width: '10%', textAlign: 'center' }}
               >
                 <Badge
-                  color={restaurant.isVerified ? 'primary' : 'danger'}
+                  color={driver.isVerified ? 'primary' : 'danger'}
                   pill
                 >
-                  {restaurant.isVerified ? 'Đã xác thực' : 'Chưa xác thực'}
+                  {driver.isVerified ? 'Đã xác thực' : 'Chưa xác thực'}
                 </Badge>
               </div>
+
+              <div
+                className='w-sm-100'
+                style={{ width: '10%', textAlign: 'center' }}
+              >
+                {driver.isBanned && (
+                  <Badge color='danger' pill>
+                    Bị cấm
+                  </Badge>
+                )}
+              </div>
+
             </div>
             {/* <div>Hello</div> */}
-            <div className='custom-control custom-checkbox pl-1 align-self-center pr-4'>
+            {/* <div className='custom-control custom-checkbox pl-1 align-self-center pr-4'>
               <CustomInput
                 className='item-check mb-0'
                 type='checkbox'
-                id={`check_${restaurant.restaurantId}`}
+                id={`check_${driver.restaurantId}`}
                 checked={isSelect}
                 onChange={() => {}}
                 label=''
               />
-            </div>
+            </div> */}
           </div>
         </Card>
       </ContextMenuTrigger>

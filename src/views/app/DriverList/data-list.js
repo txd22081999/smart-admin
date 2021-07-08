@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Row } from 'reactstrap'
 
 import axios from 'axios'
-
+import Select from 'react-select'
 import { servicePath } from '../../../constants/defaultValues'
 
 import DataListView from './DataListView'
@@ -87,13 +87,18 @@ class DataListPages extends Component {
     })
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (!isEqual(this.props, nextProps)) {
-      // console.log('Updated')
-      // this.dataListRender()
-      return true
+  componentDidUpdate(prevProps) {
+    const {
+      data: { data: newData },
+    } = this.props
+    const {
+      data: { data: prevData },
+      prevPage,
+    } = prevProps
+
+    if (!isEqual(newData, prevData)) {
+      this.dataListRender()
     }
-    return true
   }
 
   componentWillUnmount() {
@@ -245,9 +250,7 @@ class DataListPages extends Component {
     const { data = {} } = this.props
     let items = data.data
     if (search) {
-      console.log(items)
-      console.log(search)
-      items = items.filter((item) => `${item.contractId}`.includes(search))
+      items = items.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
     }
     this.setState({
       totalPage: data.totalPage,
@@ -274,6 +277,16 @@ class DataListPages extends Component {
     return true
   }
 
+  onTimeSelect = ({ value }) => {
+    this.props.onTimeSelect(value)
+  }
+
+  timeOptions = [
+    { value: 6, label: 'Tháng 6' },
+    { value: 7, label: 'Tháng 7' },
+    { value: 8, label: 'Tháng 8' },
+  ]
+
   render() {
     const {
       currentPage,
@@ -298,7 +311,9 @@ class DataListPages extends Component {
     const startIndex = (currentPage - 1) * selectedPageSize
     const endIndex = currentPage * selectedPageSize
 
-    console.log(items)
+
+
+  
 
     return !this.state.isLoading ? (
       <div className='loading' />
@@ -328,6 +343,25 @@ class DataListPages extends Component {
             onGenKeyItems={onGenKeyItems}
             onRemoveDeviceItems={onRemoveDeviceItems}
           />
+           <div
+            style={{ width: '110px', marginBottom: '15px', marginLeft: 'auto' }}
+          >
+            <Select
+              className={`react-select`}
+              placeholder={'Chọn tháng'}
+              classNamePrefix='react-select-active-state'
+              options={this.timeOptions}
+              value={this.timeOptions.find(
+                (option) => option.value === this.props.time
+              )}
+              styles={{
+                // Fixes the overlapping problem of the component
+                menu: (provided) => ({ ...provided, zIndex: 9999 }),
+              }}
+              onChange={this.onTimeSelect}
+              // onBlur={handleBlur}
+            />
+          </div>
           <AddNewModal
             modalOpen={modalOpen}
             toggleModal={this.toggleModal}
@@ -375,7 +409,7 @@ class DataListPages extends Component {
             })}{' '}
             <Pagination
               currentPage={currentPageProp || this.state.currentPage}
-              totalPage={this.state.totalPage}
+              totalPage={this.props.totalPage || this.state.totalPage}
               onChangePage={(i) => this.onChangePage(i)}
             />
             <ContextMenuContainer

@@ -81,7 +81,7 @@ class ListPageHeading extends Component {
           <Colxx xxs='12'>
             <div className='mb-2'>
               <h1>
-                <IntlMessages id='menu.restaurant-list' />
+                <IntlMessages id='menu.driver-list' />
               </h1>
               <Separator className='mb-3' />
 
@@ -105,7 +105,7 @@ class ListPageHeading extends Component {
                     Theo nhóm
                   </Button>
                 )} */}
-
+{/* 
                 <ButtonDropdown
                   isOpen={dropdownSplitOpen}
                   toggle={this.toggleSplit}
@@ -138,19 +138,13 @@ class ListPageHeading extends Component {
                     <DropdownItem onClick={(e) => onVerifyItems()}>
                       Xác thực
                     </DropdownItem>
-                    <DropdownItem onClick={(e) => onGenKeyItems()}>
-                      Tạo POS Key
-                    </DropdownItem>
-                    <DropdownItem onClick={(e) => onRemoveDeviceItems()}>
-                      Xóa thiết bị
-                    </DropdownItem>
                     <DropdownItem
                     // onClick={(e) => onActiveItems()}
                     >
                       Cấm
                     </DropdownItem>
                   </DropdownMenu>
-                </ButtonDropdown>
+                </ButtonDropdown> */}
               </div>
               {/* <Breadcrumb match={match} /> */}
             </div>
@@ -223,7 +217,7 @@ class ListPageHeading extends Component {
                       type='text'
                       name='keyword'
                       id='search'
-                      placeholder={'Số hợp đồng'}
+                      placeholder={'Tên'}
                       onKeyPress={(e) => onSearchKey(e)}
                     />
                   </div>
